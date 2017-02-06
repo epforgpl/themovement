@@ -1,6 +1,9 @@
 /vendor/*
 /config/app.php
 
+/composer.phar
+/composer.lock
+
 /tmp/cache/models/*
 !/tmp/cache/models/empty
 /tmp/cache/persistent/*
