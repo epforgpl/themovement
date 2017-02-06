@@ -1,0 +1,9 @@
+<?php return  Array(0 =>  new Less_Tree_Comment('/*
+body { 
+	background: url(/img/home_bg.jpg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+*/',false,198, Array('entryPath' => '/Users/daniel/Code/themovement/webroot/less/','entryUri' => '','rootpath' => '/Users/daniel/Code/themovement/webroot/less/','currentDirectory' => '/Users/daniel/Code/themovement/webroot/less/','currentUri' => 'home.less','filename' => '/Users/daniel/Code/themovement/webroot/less/home.less','uri_root' => '',)),); ?>
