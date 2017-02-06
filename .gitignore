@@ -15,5 +15,7 @@
 /tmp/tests/*
 !/tmp/tests/empty
 
+/webroot/css/lessphp_*
+
 /logs/*
 !/logs/empty
