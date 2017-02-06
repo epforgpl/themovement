@@ -42,25 +42,30 @@ body {
 		}
 	}
 	
-	.navbar-collapse {
-		.menu {
-			li {
-				a {
-					color: #213040;
-					display: block;
-					font-size: 16px;
-					font-weight: 800;
-					line-height: 32px;
-					text-transform: uppercase;
-					opacity: .9;
-					padding-bottom: 17.5px;
-				    padding-top: 23.5px;
-					&:hover {
-						opacity: 1;
-					}
+	.menu {
+		li {
+			a {
+				color: #213040;
+				display: block;
+				font-size: 16px;
+				font-weight: 800;
+				line-height: 32px;
+				text-transform: uppercase;
+				opacity: .9;
+				padding-bottom: 17.5px;
+			    padding-top: 23.5px;
+				&:hover {
+					opacity: 1;
+				}
+				.glyphicon {
+					position: relative;
+					top: 2px;
 				}
 			}
 		}
+	}
+	
+	.navbar-collapse {
 		&.in, &.collapsing {
 			.menu {
 				li {
@@ -170,6 +175,11 @@ body {
 #body-main {
 	padding-top: 0;
 	padding-bottom: 0;
+	
+	.message.alert {
+		text-align: center;
+		margin: 10px 0;
+	}
 }
 
 @media (min-width: @screen-sm-min) {

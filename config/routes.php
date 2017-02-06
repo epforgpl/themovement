@@ -49,12 +49,12 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-
-    /**
-     * ...and connect the rest of 'Pages' controller's URLs.
-     */
-    $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+    $routes->connect('/', ['controller' => 'Pages', 'action' => 'home']);
+    foreach( ['about', 'contact'] as $page )
+	    $routes->connect($page, ['controller' => 'Pages', 'action' => $page]);
+	    
+	$routes->connect('/login', ['controller' => 'Users', 'action' => 'login']);
+	$routes->connect('/signup', ['controller' => 'Users', 'action' => 'add']);
 
     $routes->connect('/topics/:slug', [
     	'controller' => 'Topics', 
@@ -73,6 +73,14 @@ Router::scope('/', function (RouteBuilder $routes) {
 		// 'slug' => 'init|start|loadChapter',
 		'pass' => ['slug']		
 	]);
+	
+	$routes->connect(
+	    '/people', ['controller' => 'Users']
+	);
+	
+	$routes->connect(
+	    '/people/:action/*', ['controller' => 'Users']
+	);
 
     /**
      * Connect catchall routes for all controllers.
