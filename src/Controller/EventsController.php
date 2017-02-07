@@ -10,7 +10,7 @@ class EventsController extends AppController
     {
 		
 		$items = TableRegistry::get('Events')->find('all', [
-			'fields' => ['id', 'slug', 'name', 'begin_date', 'begin_time', 'end_date', 'end_time'],
+			'fields' => ['id', 'slug', 'img', 'name', 'begin_date', 'begin_time', 'end_date', 'end_time'],
 			'conditions' => [],
 			'order' => [
 				'id' => 'ASC',

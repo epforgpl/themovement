@@ -10,7 +10,7 @@
 		<div class="block block-item-header">
 			<div class="row">
 				<div class="col-md-8">
-					<div class="block-col-img" style="background-image: url(/resources/<?= $item->id ?>-block.jpg);"></div>
+					<div class="block-col-img" style="background-image: url(<? if( $item->img ) { ?>/resources/<?= $item->id ?>-block.jpg<? } else { ?>/img/event-default.svg<? } ?>);"></div>
 				</div>
 				<div class="col-md-4">
 					
