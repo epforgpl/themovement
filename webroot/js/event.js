@@ -7,4 +7,11 @@ $(document).ready(function(){
 		
 	});
 	
+	$('#btn-register-cancel').click(function(event){
+		
+		event.preventDefault();
+		$('#register-div').slideUp();
+		
+	});	
+	
 });

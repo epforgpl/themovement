@@ -116,11 +116,80 @@
 	}
 }
 
-#register-div {
-	.form-group {
-		margin-top: 17px;
-		margin-bottom: 17px;
+.block-registration {
+	
+	&.block-minimal {
+		background: inherit;
+		box-shadow: inherit;
 	}
+	
+	.form_inner {
+		margin: 15px 0 -15px;
+	}
+	
+	.banner {
+		line-height: 20px;
+		text-align: center;
+	}
+	
+	.alert {
+		margin: 0 0 0 0;
+	}
+	
+	fieldset {
+		margin: 0 0 0 0;
+	}
+	
+	input.form-control {
+		background-color: #ffffff;
+		padding: 0 8px;
+	}
+	
+	textarea.form-control {
+		background-color: #FFF;
+		padding: 0 8px;
+	}
+	
+	.buttons {
+		text-align: center;
+		padding: 15px 0;
+		.btn {
+			margin: 0 5px;
+			padding-left: 30px;
+			padding-right: 30px;
+		}
+		
+		.buttons-primary {
+			margin: 15px 0;
+		}
+		
+		.buttons-secondary {
+			margin: 15px 0;
+			font-size: 14px;
+		}
+	}
+	
+	.buttons-small {
+		text-align: center;
+		padding: 20px 0;
+	}
+	
+	label {
+		font-size: 13px;
+		font-weight: 600;
+		margin-bottom: 2px;
+		margin-left: 1px;
+	}
+	
+	.help-block {
+		font-size: 13px;
+	}
+	
+	.form-group {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+	
 }
 
 @media (min-width: @screen-xs-min) {

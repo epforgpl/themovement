@@ -43,80 +43,107 @@
 <div class="row" id="register-div" style="display: none;">
 	<div class="col-md-12">
 		
-		<div class="block block-minimal">
-				
-			<p>You are about to register for <strong><?= $item->name ?></strong>. The price for the event is <strong>20 PLN</strong>. Please fill out the form below and press the "Submit and Pay" button. In the next step you will be required to pay the registration fee via PayPal.</p>
+		<div class="block block-registration block-minimal">
+			
+			<header class="text-center"><h2>You are about to register</h2></header>
+			
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<p class="banner">The price for the event is <strong>20 PLN</strong>. Please fill out the form below and press the "Submit and Pay" button. In the next step you will be required to pay the registration fee via PayPal.</p>
+				</div>
+			</div>
 			
 			<form class="form-vertical" action="/events/register" method="post">
 				
 				<input type="hidden" name="event_id" value="<?= $item->id ?>" />
 				
-				<div class="row">
-					<div class="col-md-6">
+				<div class="form_inner">
 				
-						<fieldset>
+					<div class="row">
+						<div class="col-md-4">
 							
-							<div class="form-group row">
-								<label for="inputParticipant" class="col-md-12 control-label">Participant</label>
-								<div class="col-md-12">
-									<input disabled="disabled" type="text" class="form-control disabled" id="inputParticipant" name="participant" value="Daniel Macyszyn">
+							<fieldset>
+								<div class="form-group row">
+									<label for="inputParticipant" class="col-md-12 control-label">Participant</label>
+									<div class="col-md-12">
+										<input disabled="disabled" type="text" class="form-control disabled" id="inputParticipant" name="participant" value="Daniel Macyszyn">
+									</div>
 								</div>
-							</div>
+							</fieldset>
 							
-							<div class="form-group row">
-								<label for="inputOrganizationName" class="col-md-12 control-label">Organization name</label>
-								<div class="col-md-12">
-									<input name="organization_name" type="text" class="form-control" id="inputOrganizationName" placeholder="Organization name" value="<?= isset($user_registration) ? $user_registration['organization_name'] : '' ?>">
-								</div>
-							</div>
-							
-							<div class="form-group row">
-								<label for="inputOrganizationWWW" class="col-md-12 control-label">Organization website address</label>
-								<div class="col-md-12">
-									<input name="organization_www" type="text" class="form-control" id="inputOrganizationWWW" placeholder="Organization website address">
-								</div>
-							</div>
-							
-							<div class="form-group row">
-								<label for="inputCoupon" class="col-md-12 control-label">I have a coupon</label>
-								<div class="col-md-12">
-									<input name="coupon" type="text" class="form-control" id="inputCoupon" placeholder="Coupon Code">
-								</div>
-							</div>
-							
-						</fieldset>
+						</div><div class="col-md-4">
 						
-					</div><div class="col-md-6">
-						
-						
-						<fieldset>
-							
-							<div class="form-group row">
-								<label for="textAreaDietary" class="col-md-12 control-label">Dietary restrictions</label>
-								<div class="col-md-12">
-									<textarea name="dietary" class="form-control" rows="3" id="textAreaDietary"></textarea>
-									<span class="help-block">Food allergies, requirements (e.g. vegetarian).</span>
+							<fieldset>
+								<div class="form-group row">
+									<label for="inputOrganizationName" class="col-md-12 control-label">Organization name</label>
+									<div class="col-md-12">
+										<input name="organization_name" type="text" class="form-control" id="inputOrganizationName" placeholder="Organization name" value="<?= isset($user_registration) ? $user_registration['organization_name'] : '' ?>">
+									</div>
 								</div>
-							</div>
+							</fieldset>
 							
-							<div class="form-group row">
-								<label for="textAreaComments" class="col-md-12 control-label">Additional comments / special needs</label>
-								<div class="col-md-12">
-									<textarea name="comments" class="form-control" rows="4" id="textAreaComments"></textarea>
+						</div><div class="col-md-4">
+						
+							<fieldset>
+								<div class="form-group row">
+									<label for="inputOrganizationWWW" class="col-md-12 control-label">Organization website address</label>
+									<div class="col-md-12">
+										<input name="organization_www" type="text" class="form-control" id="inputOrganizationWWW" placeholder="Organization website address">
+									</div>
 								</div>
-							</div>
-							
-						</fieldset>
-
+							</fieldset>
 						
-						
+						</div>
 					</div>
+					
+					<div class="row">
+						<div class="col-md-4">
+							
+							<fieldset>
+								<div class="form-group row">
+									<label for="textAreaDietary" class="col-md-12 control-label">Dietary restrictions</label>
+									<div class="col-md-12">
+										<textarea name="dietary" class="form-control" rows="3" id="textAreaDietary"></textarea>
+										<span class="help-block">Food allergies, requirements (e.g. vegetarian).</span>
+									</div>
+								</div>
+							</fieldset>
+							
+						</div><div class="col-md-4">
+						
+							<fieldset>
+								<div class="form-group row">
+									<label for="textAreaComments" class="col-md-12 control-label">Additional comments / special needs</label>
+									<div class="col-md-12">
+										<textarea name="comments" class="form-control" rows="3" id="textAreaComments"></textarea>
+									</div>
+								</div>
+							</fieldset>
+							
+						</div><div class="col-md-4">
+						
+							<fieldset>
+								<div class="form-group row">
+									<label for="inputCoupon" class="col-md-12 control-label">I have a coupon</label>
+									<div class="col-md-12">
+										<input name="coupon" type="text" class="form-control" id="inputCoupon" placeholder="Coupon Code">
+									</div>
+								</div>
+							</fieldset>
+						
+						</div>
+					</div>
+				
 				</div>
 				
 				<div class="buttons">
+					<div class="buttons-primary">
+						<button type="submit" class="btn btn-primary btn-lg">Submit and Pay</button>
+					</div>
 					
-					<button type="submit" class="btn btn-primary btn-lg">Submit and Pay</button>
-					
+					<div class="buttons-secondary">
+						<a href="#" id="btn-register-cancel">Cancel</a>
+					</div>
 				</div>
 						
 			</form>
@@ -130,86 +157,101 @@
 <div class="row" id="register-user-div">
 	<div class="col-md-12">
 		
-		<div class="block">
+		<div class="block block-registration block-confirm">
 
-			<header class="text-center"><h2>You have registered with the following data:</h2></header>
-
+			<header class="text-center"><h2>Confirm your registration</h2></header>
 
 			<div class="content">
-			
-			
-				
+						
 				<input type="hidden" name="event_id" value="<?= $item->id ?>" />
 				
-				<div class="row">
-					<div class="col-md-6">
+				<div class="form_inner">
 				
-						<fieldset>
+					<div class="row">
+						<div class="col-md-4">
 							
-							<div class="form-group row">
-								<label for="inputParticipant" class="col-md-12 control-label">Participant</label>
-								<div class="col-md-12">
-									<p class="value">Daniel Macyszyn</p>
+							<fieldset>
+								<div class="form-group row">
+									<label for="inputParticipant" class="col-md-12 control-label">Participant</label>
+									<div class="col-md-12">
+										<p class="value">Daniel Macyszyn</p>
+									</div>
 								</div>
-							</div>
+							</fieldset>
 							
-							<div class="form-group row">
-								<label for="inputOrganizationName" class="col-md-12 control-label">Organization name</label>
-								<div class="col-md-12">
-									<p class="value"><?= $user_registration->organization_name ?></p>
+						</div><div class="col-md-4">
+						
+							<fieldset>
+								<div class="form-group row">
+									<label for="inputOrganizationName" class="col-md-12 control-label">Organization name</label>
+									<div class="col-md-12">
+										<p class="value"><?= $item->organization_name ?></p>
+									</div>
 								</div>
-							</div>
+							</fieldset>
 							
-							<div class="form-group row">
-								<label for="inputOrganizationWWW" class="col-md-12 control-label">Organization website address</label>
-								<div class="col-md-12">
-									<p class="value"><?= $user_registration->organization_www ?></p>
+						</div><div class="col-md-4">
+						
+							<fieldset>
+								<div class="form-group row">
+									<label for="inputOrganizationWWW" class="col-md-12 control-label">Organization website address</label>
+									<div class="col-md-12">
+										<p class="value"><?= $item->organization_name ?></p>
+									</div>
 								</div>
-							</div>
-							
-						</fieldset>
+							</fieldset>
 						
-					</div><div class="col-md-6">
-						
-						
-						<fieldset>
-							
-							<div class="form-group row">
-								<label for="textAreaDietary" class="col-md-12 control-label">Dietary restrictions</label>
-								<div class="col-md-12">
-									<p class="value"><?= $user_registration->dietary ?></p>
-								</div>
-							</div>
-							
-							<div class="form-group row">
-								<label for="textAreaComments" class="col-md-12 control-label">Additional comments / special needs</label>
-								<div class="col-md-12">
-									<p class="value"><?= $user_registration->comments ?></p>
-								</div>
-							</div>
-							
-						</fieldset>
-
-						
-						
+						</div>
 					</div>
+					
+					<div class="row">
+						<div class="col-md-4">
+							
+							<fieldset>
+								<div class="form-group row">
+									<label for="textAreaDietary" class="col-md-12 control-label">Dietary restrictions</label>
+									<div class="col-md-12">
+										<p class="value"><?= $item->organization_name ?></p>
+									</div>
+								</div>
+							</fieldset>
+							
+						</div><div class="col-md-4">
+						
+							<fieldset>
+								<div class="form-group row">
+									<label for="textAreaComments" class="col-md-12 control-label">Additional comments / special needs</label>
+									<div class="col-md-12">
+										<p class="value"><?= $item->organization_name ?></p>
+									</div>
+								</div>
+							</fieldset>
+							
+						</div><div class="col-md-4">
+						
+							<fieldset>
+								<div class="form-group row">
+									<label for="inputCoupon" class="col-md-12 control-label">I have a coupon</label>
+									<div class="col-md-12">
+										<p class="value"><?= $item->organization_name ?></p>
+									</div>
+								</div>
+							</fieldset>
+						
+						</div>
+					</div>
+				
 				</div>
-
-				<header class="text-center"><h2>Please finalize the proccess using the button bellow:</h2></header>
-
 
 				<div class="buttons text-center">
 					
 					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-					<input type="hidden" name="cmd" value="_s-xclick">
-					<input type="hidden" name="hosted_button_id" value="6LRKHRHU2NWYQ">
-					<input type="image" src="https://www.paypalobjects.com/en_US/PL/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-					<img alt="" border="0" src="https://www.paypalobjects.com/pl_PL/i/scr/pixel.gif" width="1" height="1">
-					<input type="hidden" value="http://themovement.loca/paypal/return" name="return">
+						<input type="hidden" name="cmd" value="_s-xclick">
+						<input type="hidden" name="hosted_button_id" value="6LRKHRHU2NWYQ">
+						<input type="image" src="https://www.paypalobjects.com/en_US/PL/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+						<img alt="" border="0" src="https://www.paypalobjects.com/pl_PL/i/scr/pixel.gif" width="1" height="1">
+						<input type="hidden" value="http://themovement.loca/paypal/return" name="return">
 					</form>
-		
-
-
 					
 				</div>
 						
