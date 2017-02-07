@@ -91,6 +91,9 @@ $this->prepend('script', $this->Html->script(['jquery/jquery.min', 'jquery.stick
         <?= $this->fetch('meta') ?>
         <?= $this->fetch('css') ?>
         <?= $this->Less->less('less/base.less') ?>
+        <? if( isset($this->request->query['invert']) ) {
+	        echo $this->Less->less('less/base-invert.less');
+        } ?>
         <?= $this->Less->less('less/icomoon.less') ?>
     </head>
 
