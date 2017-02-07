@@ -1,0 +1,44 @@
+@import "elements.less";
+
+.items {
+	.tm_item {
+		
+		display: block;
+		text-decoration: none;
+		outline: none;
+		transition-duration: 0.3s;
+		
+		&:hover {
+			transform: scale(1.05);
+		}
+		
+		.code_avatar {
+			position: absolute;
+			margin: 150px auto auto -45px;
+			left: 50%;
+		}
+		
+		.img {
+			height: 200px;
+			background-position: center center;
+			background-size: cover;
+			.border-radius(3px, 0, 0, 3px);
+		}
+		
+		.info {
+			
+			height: 180px;
+			padding: 60px 10px 10px;
+			display: table;
+			
+			h2 {
+				font-size: 22px;
+				font-weight: 800;
+				padding: 0;
+				margin: 0;
+				display: table-cell;
+				vertical-align: middle;
+			}
+		}
+	}
+}

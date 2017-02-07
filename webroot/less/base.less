@@ -172,6 +172,13 @@ body {
 	
 }
 
+h1 {
+	font-size: 26px;
+	font-weight: 800;
+	margin: 7px 0;
+	padding: 7px 0;
+}
+
 #body-main {
 	padding-top: 0;
 	padding-bottom: 0;
@@ -222,6 +229,40 @@ body {
 		line-height: 22px;
 	}
 	
+	&.block-minimal {
+		background: inherit;
+		box-shadow: inherit;
+		
+		.alert {
+			margin: 0 0 0 0;
+		}
+		
+		fieldset {
+			margin: 0 0 0 0;
+		}
+		
+		input {
+			background-color: #FFF;
+			padding: 0 8px;
+		}
+		
+		textarea {
+			background-color: #FFF;
+			padding: 0 8px;
+		}
+		
+		.buttons {
+			text-align: center;
+			padding: 20px 0;
+			.btn {
+				margin: 0 5px;
+				padding-left: 30px;
+				padding-right: 30px;
+			}
+		}
+		
+	}
+	
 }
 
 .tm_item {
@@ -252,6 +293,7 @@ body {
 		border-radius: 4px;
 		padding: 3px;
 		text-align: center;
+		background-color: #FFF;
 		
 		p {
 			margin: 0;
