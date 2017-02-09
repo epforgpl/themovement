@@ -7,10 +7,17 @@
 <div class="row">
 	<div class="col-md-12">
 		
-		<div class="block block-item-header">
+		<div class="block block-item-header" data-id="<?= $item->id ?>">
 			<div class="row">
 				<div class="col-md-8">
-					<div class="block-col-img" style="background-image: url(<? if( $item->img ) { ?>/resources/<?= $item->id ?>-block.jpg<? } else { ?>/img/event-default.svg<? } ?>);"></div>
+					<div class="block-col-img" style="background-image: url(<? if( $item->img ) { ?>/resources/events/<?= $item->id ?>-block.jpg?v=<?= $item->version ?><? } else { ?>/img/event-default.svg<? } ?>);">
+						<div class="btn-group">
+							<button id="btn-img-upload" class="btn btn-primary"><span class="glyphicon glyphicon-upload"></span></button><button id="btn-img-cancel" class="btn btn-danger" style="display: none;"><span class="glyphicon glyphicon-remove"></span></button><button id="btn-img-remove" class="btn btn-danger" style="display: none;"><span class="glyphicon glyphicon-remove"></span></button><button id="btn-img-save" class="btn btn-success" style="display: none;"><span class="glyphicon glyphicon-ok"></span></button>
+						</div>
+						<form id="form-img-upload" action="<?= $this->Url->build(['controller' => 'Events', 'action' => 'image_upload']) ?>" enctype="multipart/form-data" style="display: none;">
+							<input class="file" type="file" name="file" id="file" required />
+						</form>
+					</div>
 				</div>
 				<div class="col-md-4">
 					

@@ -17,6 +17,11 @@
 !/tmp/tests/empty
 
 /webroot/css/lessphp_*
+/webroot/resources
+!/webroot/resources/events/empty
+!/webroot/resources/topics/empty
+/webroot/temp
+!/webroot/temp/empty
 
 /logs/*
 !/logs/empty
