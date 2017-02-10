@@ -18,6 +18,7 @@ use Cake\Core\Configure;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
+use Cake\ORM\TableRegistry;
 
 /**
  * Static content controller
@@ -31,6 +32,26 @@ class PagesController extends AppController
     
     public function home()
     {
+	    
+	    $eventsTable = TableRegistry::get('Events');
+	    
+	    $counters = [
+	    	'topics' => TableRegistry::get('Topics')->find()->count(),
+	    	'events' => $eventsTable->find()->count(),
+	    	'people' => TableRegistry::get('Users')->find()->count(),
+	    ];
+	    	    
+	    $events = $eventsTable->find('all', [
+		    'fields' => ['id', 'version', 'slug', 'img', 'name', 'begin_date', 'begin_time', 'end_date', 'end_time'],
+			'conditions' => [],
+			'order' => [
+				'id' => 'ASC',
+			],
+			'limit' => 3,
+	    ]);
+
+	    $this->set('counters', $counters);
+	    $this->set('events', $events);
 	    
     }
     

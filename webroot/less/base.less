@@ -2,15 +2,40 @@
 @import "paper/variables.less";
 @import "paper/bootswatch.less";
 @import "elements.less";
+@import "latofonts.less";
+
+.btn {
+	.icon-text {
+		font-size: 1.5em;
+		line-height: 0.7em;
+	}
+}
+
+.btn-register {
+	background-color: #6f50b2;
+	color: #FFF;
+}
+
+.btn-themovement {
+	background-color: #F4DF21;
+	color: #121212;
+}
+
+.btn-lg-fixed-width {
+	min-width: 200px;
+}
 
 body {
 	background-color: #EEE;
 	color: #213040;
     cursor: default;
-    font-family: "Lato",sans-serif;
+    font-family: "LatoWeb",sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
+    font-size: 1.5em;
+    line-height: 1.5em;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
 }
 
 #header-main {
@@ -164,9 +189,23 @@ body {
 		}
 		
 		&.copyright {
-			text-align: center;
 			img {
-				max-width: 100px;
+				max-width: 80px;
+				float: left;
+				margin-right: 10px;
+				margin-top: 5px;
+			}
+			.credits {
+				font-size: 0.85em;
+			    line-height: 1.5em;
+			    color: #e3d200;
+			    a {
+				    color: #e3d200;
+			    }
+				p {
+					margin: 0;
+					padding: 0;
+				}
 			}
 		}
 		
@@ -214,7 +253,7 @@ h1 {
 		margin: 0;
 		padding: 25px;
 		h2 {
-			font-size: 16px;
+			font-size: 1.15em;
 		    font-weight: 800;
 		    letter-spacing: normal;
 		    line-height: 1.5;
@@ -227,8 +266,6 @@ h1 {
 	.content {
 		margin: 0;
 		padding: 10px 25px;
-		font-size: 14px;
-		line-height: 22px;
 	}
 	
 }
@@ -238,11 +275,11 @@ h1 {
 	text-align: center;
 	
 	.name {
-		font-size: 30px;
+		font-size: 2em;
+	    line-height: 1.25em;
 	    font-weight: 800;
-	    line-height: 35px;
-	    margin: 15px 0 0;
-	    padding: 0;
+	    margin: 15px 0 10px;
+	    padding: 0 15px;
 	}
 	
 	.stats {
@@ -290,8 +327,8 @@ h1 {
 					position: absolute;
 					width: 92px;
 					color: #213040;
-					margin-top: 40px;
-					font-size: 26px;
+					margin-top: 50px;
+					font-size: 1.5em;
 				}
 				
 			}
@@ -303,6 +340,22 @@ h1 {
 		}
 	}
 	
+}
+
+@media (min-width: @screen-md-min) {
+	.tm_item {
+		.name {
+			font-size: 1.5em;
+		}
+	}
+}
+
+@media (min-width: @screen-lg-min) {
+	.tm_item {
+		.name {
+			font-size: 1.75em;
+		}
+	}
 }
 
 .spinner {

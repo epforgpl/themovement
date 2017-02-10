@@ -21,8 +21,10 @@
 				<li><?php echo $this->Html->link('Topics', ['controller' => 'Topics', 'action' => 'index']); ?></li>
 				<li><?php echo $this->Html->link('Events', ['controller' => 'Events', 'action' => 'index']); ?></li>
 				<li><?php echo $this->Html->link('People', ['controller' => 'People', 'action' => 'index']); ?></li>
+				<? /*
 				<li><?php echo $this->Html->link('Organizations', ['controller' => 'Organizations', 'action' => 'index']); ?></li>
 				<li><?php echo $this->Html->link('News', ['controller' => 'News', 'action' => 'index']); ?></li>
+				*/ ?>
 				<? /* <li><?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', '#', ['escape' => false]); ?></li> */ ?>
 				<? if( $_user ) { ?>
 				<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-user"></span>', ['controller' => 'Users', 'action' => 'logout'], ['escape' => false]); ?></li>
@@ -37,5 +39,6 @@
 	</div>
 </nav>
 
-<div class="container" id="body-main">
-	<?= $this->Flash->render() ?>
+<div id="body-main">
+	<div class="container">
+		<?= $this->Flash->render() ?>

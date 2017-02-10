@@ -27,13 +27,16 @@
 
 								<?= $this->Layout->calendar( $item ); ?>
 																
-								<p class="name"><?php echo $item->name; ?></p>
+								<h1 class="name"><?php echo $item->name; ?></h1>
 								<?php if( false ) {?><p class="stats">325 person is going</p><?php } ?>
+								
+								<? if( !$user_registration ) { ?><button id="btn-register" class="btn btn-md btn-register btn-main" data-toggle="modal" data-target="#modal-register">Register</button><? } ?>
+								
 							</div>
 							<div class="buttons">
 								<div class="buttons_inner">
 									<div class="btn-group">
-										<? if( !$user_registration ) { ?><button id="btn-register" class="btn btn-md btn-primary btn-main" data-toggle="modal" data-target="#modal-register"><span class="glyphicon glyphicon-plus"></span> Register</button><? } ?><button class="btn btn-md btn-default"><span class="glyphicon glyphicon-comment"></span></button><button class="btn btn-md btn-default"><span class="glyphicon glyphicon-share"></span></button><button class="btn btn-md btn-default"><span class="glyphicon glyphicon-cog"></span></button>
+										<button id="btn-register" class="btn btn-md btn-themovement btn-main"><span class="icon-text">&plus;</span> Follow</button><button class="btn btn-md btn-default"><span class="glyphicon glyphicon-comment"></span></button><button class="btn btn-md btn-default"><span class="glyphicon glyphicon-share"></span></button><button class="btn btn-md btn-default"><span class="glyphicon glyphicon-cog"></span></button>
 									</div>
 								</div>
 							</div>
