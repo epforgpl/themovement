@@ -137,7 +137,7 @@
 	</div>
 </div>
 
-<? if($user_registration) { ?>
+<? if($user_registration && $user_registration->status===0) { ?>
 <div class="row" id="register-user-div">
 	<div class="col-md-12">
 		
@@ -147,12 +147,16 @@
 
 			<div class="content">
 				
-				<? if( isset($user_registration->coupon_valid) && !$user_registration->coupon_valid ) { ?>
-				<div class="row">
-					<div class="col-sm-6 col-sm-offset-3">
-						<div class="alert alert-danger">Your coupon is invalid.</div>
+				<? if( $user_registration->coupon ) {?>
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+					<? if( $user_registration->coupon_valid ) { ?>
+							<div class="alert alert-success">Your coupon is valid.</div>
+					<? } else { ?>
+							<div class="alert alert-danger">Your coupon is invalid.</div>
+					<? } ?>
+						</div>
 					</div>
-				</div>
 				<? } ?>
 				
 				<input type="hidden" name="event_id" value="<?= $item->id ?>" />
@@ -201,16 +205,27 @@
 				</div>
 
 				<div class="buttons text-center">
+				
+				
+					<? if( $user_registration->coupon && $user_registration->coupon_valid ) {?>
 					
-					<div class="buttons-primary">
-						<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-							<input type="hidden" name="cmd" value="_s-xclick">
-							<input type="hidden" name="hosted_button_id" value="6LRKHRHU2NWYQ">
-							<input type="image" src="https://www.paypalobjects.com/en_US/PL/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-							<img alt="" border="0" src="https://www.paypalobjects.com/pl_PL/i/scr/pixel.gif" width="1" height="1">
-							<input type="hidden" value="http://themovement.loca/paypal/return" name="return">
-						</form>
-					</div>
+						<div class="buttons-primary">
+							<a href="<?= $this->Url->build(['controller' => 'Events', 'action' => 'finishRegistration', $item->slug]) ?>" class="btn btn-register btn-lg">Finish Registration</a>
+						</div>
+						
+					<? } else { ?>
+					
+						<div class="buttons-primary">
+							<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+								<input type="hidden" name="cmd" value="_s-xclick">
+								<input type="hidden" name="hosted_button_id" value="6LRKHRHU2NWYQ">
+								<input type="image" src="https://www.paypalobjects.com/en_US/PL/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+								<img alt="" border="0" src="https://www.paypalobjects.com/pl_PL/i/scr/pixel.gif" width="1" height="1">
+								<input type="hidden" value="http://themovement.loca/paypal/return" name="return">
+							</form>
+						</div>
+					
+					<? } ?>
 					
 					<div class="buttons-secondary">
 						<p><a href="#" id="btn-register-modify">Modify registration data</a></p>
@@ -259,12 +274,18 @@
 			$item->begin_date ||
 			$item->end_date ||
 			$item->location ||
-			$item->location_address
+			$item->location_address || 
+			( $user_registration && ($user_registration->status==1) )
 		) {?>
 		<div class="block">
 			<header><h2>Details</h2></header>
 			<ul class="tm_list">
-								
+				<? if($user_registration && ($user_registration->status==1)) {?>
+				<li class="dates nopadding">
+					<div class="icon"><span class="glyphicon glyphicon-plane"></span></div>
+					<div class="content"><p class="label label-success label-yag">You are going!</p></div>
+				</li>
+				<? } ?>			
 				<?php
 					
 					$date_parts = [];

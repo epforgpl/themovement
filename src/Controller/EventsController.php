@@ -23,9 +23,39 @@ class EventsController extends AppController
 		
     }
     
-    public function create()
+    public function finishRegistration($slug)
     {
-
+	    	    
+	    if(
+		    ( $slug ) && 
+		    ( $user_id = $this->Auth->user('id') ) && 
+		    ( $item = TableRegistry::get('Events')->find('all', [
+		    	'conditions' => [
+		    		'slug' => $slug,
+		    		'registration' => true
+	    		], 
+		    	'limit' => 1
+	    	])->first() ) &&
+	    	( $registration = TableRegistry::get('Registrations')->find('all', [
+		    	'conditions' => [
+		    		'event_id' => $item->id,
+		    		'user_id' => $user_id
+	    		], 
+		    	'limit' => 1
+	    	])->first() )
+	    ) {
+		    
+		    $registration->status = 1;
+		    TableRegistry::get('Registrations')->save($registration);
+		    
+		    $this->Flash->set('Your registration has been finalized.', [
+			    'element' => 'success'
+			]);
+		    		    
+	    }
+	    
+	    $this->redirect( $item->getUrl() );
+	    
     }
     
     public function view( $slug )

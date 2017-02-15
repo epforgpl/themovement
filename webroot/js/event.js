@@ -82,6 +82,7 @@ $(document).ready(function(){
 	
 	$('#btn-register-modify').click(function(event){
 		event.preventDefault();
+		profileEditFormInit();
 		$('#register-user-div').slideUp();
 		$('#register-div').slideDown();		
 	});
