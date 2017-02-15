@@ -28,6 +28,7 @@ use Cake\Event\Event;
 class AppController extends Controller
 {
 	
+	public $meta = [];
 	public $helpers = ['Less.Less'];
     
     /**
@@ -76,7 +77,10 @@ class AppController extends Controller
      * @return \Cake\Network\Response|null|void
      */
     public function beforeRender(Event $event)
-    {
+    {	
+	    
+	    $this->set('_meta', $this->meta);
+	    
         if (!array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
@@ -90,6 +94,7 @@ class AppController extends Controller
         
         $user = $this->Auth->user() ? $this->Auth->user() : false;
         $this->set('_user', $user);
-        
+                
     }
+    
 }

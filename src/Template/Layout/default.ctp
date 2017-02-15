@@ -103,6 +103,15 @@ $this->prepend('script', $this->Html->script(['jquery/jquery.min', 'jquery.stick
 		<link rel="manifest" href="/favicon/manifest.json">
 		<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
 		<meta name="theme-color" content="#ffffff">
+		
+		<?
+			if( isset($_meta) ) {
+				foreach( $_meta as $k => $v ) {
+					echo $this->Html->meta($k, $v);
+				}
+			}
+		?>
+		
     </head>
 
     <?php

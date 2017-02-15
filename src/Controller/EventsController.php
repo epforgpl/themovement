@@ -89,7 +89,17 @@ class EventsController extends AppController
 	    	]])->limit(1)->first() )
 	    ) {
 		    					    
+		    $this->meta['ogg:url'] = 'http://themovement.io' . $item->getUrl();
+		    $this->meta['ogg:type'] = 'article';
+		    $this->meta['ogg:title'] = $item->name;
+		    $this->meta['ogg:description'] = $item->about;
 		    
+		    if( $item->img )
+			    $this->meta['ogg:image'] = 'http://themovement.io/resources/events/' . $item->id . '-block.jpg?v=' . $item->version;
+	    	
+	    	
+	    	$this->set('_meta', $this->meta);
+		    		    
 		    $user_registration = false;
 		    if( $user_id = $this->Auth->user('id') ) {
 			    
