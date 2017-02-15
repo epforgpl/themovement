@@ -160,7 +160,7 @@
 			<fieldset>
 				<div class="form-group row">
 					<label class="col-md-12 control-label">Birthday</label>
-					<div id="birthdayDiv" class="birthdaySelects" data-value="<?= isset($user) ? $user->birthday->format('Y-m-d') : '' ?>">
+					<div id="birthdayDiv" class="birthdaySelects" data-value="<?= (isset($user) && $user->birthday) ? $user->birthday->format('Y-m-d') : '' ?>">
 						<div class="row">
 							<div class="col col-xs-3">
 								
