@@ -29,7 +29,7 @@ class TopicsController extends AppController
     
     public function view( $slug )
     {
-	    	    
+	        
 	    if(
 		    ( $slug ) && 
 		    ( $item = TableRegistry::get('Topics')->find()->where([

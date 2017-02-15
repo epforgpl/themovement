@@ -107,7 +107,7 @@ class EventsController extends AppController
 	    ) {		    
 		    
 		    $errors = TableRegistry::get('Users')->updateProfile($user_id, $this->request->data);
-		    debug($errors); die();
+		    // debug($errors); die();
 		    
 		    $registrationsTable = TableRegistry::get('Registrations');
 		    
