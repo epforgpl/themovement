@@ -95,6 +95,14 @@ function profileEditFormInit() {
 		profileEditFormInitFinish();
 		
 	});
+		
+	if( !$('#checkboxOrganization').prop('checked') ) {
+				
+		$('#inputOrganizationName').prop('disabled', true).addClass('disabled');
+		$('#inputOrganizationWWW').prop('disabled', true).addClass('disabled');
+		$('#inputOrganizationRole').prop('disabled', true).addClass('disabled');
+		
+	}
 	
 	$('#checkboxOrganization').change(function(event){
 		

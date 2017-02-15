@@ -24,7 +24,7 @@ class UsersTable extends Table
 	public function updateProfile($user_id, $data) {
 		
 		if( $user = $this->get($user_id) ) {
-			
+						
 			$validator = new Validator();
 			$validator
 				->requirePresence('country')
@@ -40,9 +40,16 @@ class UsersTable extends Table
 			
 			$errors = $validator->errors($data);
 			if( empty($errors) ) {
-									
+								
 				$data['birthday'] = $data['birthdayYear'] . '-' . $data['birthdayMonth'] . '-' . $data['birthdayDay'];
-					
+				
+				if( !isset($data['organization']) ) {
+					$data['organization'] = false;
+					$data['organization_name'] = '';
+					$data['organization_www'] = '';
+					$data['organization_role'] = '';
+				}
+				
 				$this->patchEntity($user, $data, [
 				    'fieldList' => ['organization', 'organization_name', 'organization_www', 'organization_role', 'other_profession', 'about', 'gender', 'country', 'birthday', 'professions'],
 				    'associated' => ['Professions']
