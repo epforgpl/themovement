@@ -14,7 +14,7 @@
 		<div class="col-md-4 col-sm-6 col-xs-12">
 			<a href="<?= $item->getUrl() ?>" class="block tm_item">
 				<?= $this->Layout->calendar( $item ); ?>
-				<div class="img" style="background-image: url(<? if( $item->img ) { ?>/resources/events/<?= $item->id ?>-block.jpg?v=<?= $item->version ?><? } else { ?>/img/event-default.svg<? } ?>);"></div>
+				<div class="img" style="background-image: url(<? if( $item->img ) { ?>/resources/events/<?= $item->id ?>-block.jpg?v=<?= $item->version ?><? } else { ?>/img/events-default.svg<? } ?>);"></div>
 				<div class="info">
 					<h2><?= $item->name ?></h2>
 				</div>

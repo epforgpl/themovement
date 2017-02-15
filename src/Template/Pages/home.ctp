@@ -9,7 +9,7 @@
 		<div id="info">
 			
 			<div class="text">
-				<h1>Be Part Of The Movement.</h1>
+				<h1><? if($_user) { ?>Welcome back, <? echo $_user['name']; } else { ?>Be Part Of The Movement.<? } ?></h1>
 				
 				<p class="motto">The Movement connects thousands of open data specialists to meet, learn and collaborate in joint initiatives and at international events. We are a global community of activists, leaders and innovators who have the ambition to change the world.</p>
 				
@@ -45,8 +45,10 @@
 				</div>
 			</div>
 			
-			<a class="btn btn-lg btn-themovement btn-lg-fixed-width" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'add']) ?>">Join now</a>
-		
+			<? if( !$_user ) {?>
+			<a class="btn btn-lg btn-themovement btn-lg-fixed-width" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'login']) ?>">Join now</a>
+			<? } ?>
+			
 		</div>
 		
 	</div>

@@ -147,9 +147,12 @@
 		margin: 0 0 0 0;
 	}
 	
-	input.form-control {
+	input.form-control, select.form-control {
 		background-color: #ffffff;
 		padding: 0 8px;
+		&.disabled {
+			background-color: #F6F6F6;
+		}
 	}
 	
 	textarea.form-control {
@@ -173,6 +176,10 @@
 		.buttons-secondary {
 			margin: 15px 0;
 			font-size: 14px;
+			p {
+				margin: 0;
+				padding: 0;
+			}
 		}
 	}
 	
@@ -197,6 +204,35 @@
 		margin-bottom: 15px;
 	}
 	
+}
+
+#register-user-div header {
+	margin-bottom: -2em;
+}
+
+.btn-coupon {
+	border: 1px solid #ccc;
+    box-shadow: none;
+    position: relative;
+    top: -1px;
+}
+
+.msg-coupon {
+	margin: 5px;
+	
+	.glyphicon {
+		position: relative;
+		top: 2px;
+		margin-right: 3px;
+	}
+	
+	&.valid {
+		color: green;
+	}
+	
+	&.invalid {
+		color: red;
+	}
 }
 
 @media (min-width: @screen-xs-min) {

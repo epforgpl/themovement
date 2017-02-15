@@ -56,26 +56,54 @@ Router::scope('/', function (RouteBuilder $routes) {
     foreach( ['about', 'contact'] as $page )
 	    $routes->connect($page, ['controller' => 'Pages', 'action' => $page]);
 	    
-	$routes->connect('/login', ['controller' => 'Users', 'action' => 'login']);
-	$routes->connect('/signup', ['controller' => 'Users', 'action' => 'add']);
-
-    $routes->connect('/topics/:slug', [
-    	'controller' => 'Topics', 
-    	'action' => 'view',
-    	'[method]' => 'GET'
+	$routes->connect('/join', ['controller' => 'Users', 'action' => 'login']);
+	$routes->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
+	
+	$routes->connect('/people/:action', [
+    	'controller' => 'Users', 
+	], [
+		'action' => 'index|facebook-login|facebook-callback'
+	]);
+	
+	$routes->connect('/people/:slug/edit', [
+    	'controller' => 'Users', 
+    	'action' => 'edit',
 	], [
 		// 'slug' => 'init|start|loadChapter',
 		'pass' => ['slug']		
 	]);
 	
-	$routes->connect('/events/:slug', [
-    	'controller' => 'Events', 
+	$routes->connect('/people/:slug', [
+    	'controller' => 'Users', 
     	'action' => 'view',
-    	'[method]' => 'GET'
 	], [
 		// 'slug' => 'init|start|loadChapter',
 		'pass' => ['slug']		
 	]);
+
+    $routes->connect('/topics/:slug', [
+    	'controller' => 'Topics', 
+    	'action' => 'view',
+	], [
+		// 'slug' => 'init|start|loadChapter',
+		'pass' => ['slug']		
+	]);
+	
+	$routes->connect('/events/:action', [
+    	'controller' => 'Events', 
+	], [
+		'action' => 'index|create|register|view'
+	]);
+	
+	$routes->connect('/events/:slug', [
+    	'controller' => 'Events', 
+    	'action' => 'view',
+	], [
+		// 'slug' => 'init|start|loadChapter',
+		'pass' => ['slug']		
+	]);
+	
+	
 	
 	$routes->connect(
 	    '/people', ['controller' => 'Users']

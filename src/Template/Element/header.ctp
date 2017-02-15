@@ -20,16 +20,22 @@
 			<ul class="nav navbar-nav navbar-right menu">
 				<li><?php echo $this->Html->link('Topics', ['controller' => 'Topics', 'action' => 'index']); ?></li>
 				<li><?php echo $this->Html->link('Events', ['controller' => 'Events', 'action' => 'index']); ?></li>
-				<li><?php echo $this->Html->link('People', ['controller' => 'People', 'action' => 'index']); ?></li>
 				<? /*
+				<li><?php echo $this->Html->link('People', ['controller' => 'People', 'action' => 'index']); ?></li>
 				<li><?php echo $this->Html->link('Organizations', ['controller' => 'Organizations', 'action' => 'index']); ?></li>
 				<li><?php echo $this->Html->link('News', ['controller' => 'News', 'action' => 'index']); ?></li>
 				*/ ?>
 				<? /* <li><?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', '#', ['escape' => false]); ?></li> */ ?>
 				<? if( $_user ) { ?>
-				<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-user"></span>', ['controller' => 'Users', 'action' => 'logout'], ['escape' => false]); ?></li>
+				<li class="logged_user dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//graph.facebook.com/<?= $_user['fb_id'] ?>/picture" /></a>
+					<ul class="dropdown-menu logged_user_dropdown">
+						<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-user"></span> Profile', ['controller' => 'Users', 'action' => 'view', $_user['slug']], ['escape' => false]); ?></li>
+						<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-off"></span> Log out', ['controller' => 'Users', 'action' => 'logout'], ['escape' => false]); ?></li>
+					</ul>
+				</li>
 				<? } else { ?>
-				<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-off"></span>', ['controller' => 'Users', 'action' => 'login'], ['escape' => false]); ?></li>
+				<li><?php echo $this->Html->link('Join', ['controller' => 'Users', 'action' => 'login'], ['escape' => false]); ?></li>
 				<? } ?>
 			</ul>
 		</div>

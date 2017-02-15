@@ -20,6 +20,7 @@
 /webroot/resources
 !/webroot/resources/events/empty
 !/webroot/resources/topics/empty
+!/webroot/resources/people/empty
 /webroot/temp
 !/webroot/temp/empty
 

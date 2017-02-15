@@ -78,7 +78,7 @@ $this->append('css', $html5Shim);
 /**
  * Prepend `script` block with jQuery and Bootstrap scripts
  */
-$this->prepend('script', $this->Html->script(['jquery/jquery.min', 'jquery.sticky', 'bootstrap/bootstrap.min', 'engine']));
+$this->prepend('script', $this->Html->script(['jquery/jquery.min', 'jquery.sticky', 'bootstrap/bootstrap.min', 'history', 'engine']));
 
 ?>
 <!DOCTYPE html>
@@ -94,6 +94,8 @@ $this->prepend('script', $this->Html->script(['jquery/jquery.min', 'jquery.stick
         <? if( isset($this->request->query['invert']) ) {
 	        echo $this->Less->less('less/base-invert.less');
         } ?>
+        <?= $this->Less->less('css/font-awesome.css') ?>
+		<?= $this->Less->less('css/bootstrap-social.css') ?>
         <?= $this->Less->less('less/icomoon.less') ?>
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
 		<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">

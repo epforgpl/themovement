@@ -1,3 +1,38 @@
+function checkCoupon() {
+	
+	var input = $('#inputCoupon');
+	var btn = $('#btnCoupon');
+	var v = input.val();
+	
+	if( v ) {
+		
+		input.attr("disabled", true);
+		btn.attr("disabled", true);
+		$('#register-div .msg-coupon').hide();
+		var event_id = $('#inputEventId').val();
+		
+		$.get('/coupons/check.json?code=' + v + '&event_id=' + event_id, function(res){
+			
+			if( res === true ) {
+				$('#register-div .banner.without-coupon').hide();
+				$('#register-div .banner.with-coupon').show();
+				$('#register-div .msg-coupon.valid').show();
+				$('#btn-submit-pay').text('Submit');
+			} else {
+				$('#register-div .banner.with-coupon').hide();
+				$('#register-div .banner.without-coupon').show();
+				$('#register-div .msg-coupon.invalid').show();
+				$('#btn-submit-pay').text('Submit and pay');
+			}
+			
+		});
+		
+		input.attr("disabled", false);
+		btn.attr("disabled", false);
+	
+	}
+}
+
 $(document).ready(function(){
 	
 	// REGISTERING
@@ -5,92 +40,56 @@ $(document).ready(function(){
 	$('#btn-register').click(function(event){
 		
 		event.preventDefault();
-		$('#register-div').slideToggle();
+		
+		if( $('#register-div').is(':visible') ) {
+			
+			$('#register-div').slideUp();
+			History.pushState({state:1}, null, "?");
+			
+		} else {
+			
+			$('#register-div').slideDown();
+			History.pushState({state:1}, null, "?register");
+			profileEditFormInit();
+			
+		}		
 		
 	});
 	
 	$('#btn-register-cancel').click(function(event){
 		
 		event.preventDefault();
+		History.pushState({state:1}, null, "?")
 		$('#register-div').slideUp();
 		
-	});
-		
-	
-	
-	// UPLODADING IMAGES
-	
-	$('.block-col-img').data('old_style', $('.block-col-img').css('background-image'));
-	$('#btn-img-cancel').click(function(){
-		$('.block-col-img').data('id', null).css({
-			'background-image': $('.block-col-img').data('old_style')
-		});
-		$('#btn-img-cancel').hide();
-		$('#btn-img-save').hide();
-	});
-	
-	$('#btn-img-save').click(function(){
-		
-		var id = $('.block-col-img').data('id');
-		if( id ) {
-			
-			$.ajax({
-				url: '/events/image_save.json',
-				type: 'POST',
-				data: {
-					event_id: $('.block-item-header').data('id'),
-					id: id
-				},
-				success: function(data) {
-									
-					$('#btn-img-cancel').hide();
-					$('#btn-img-save').hide();
-					
-				}
-			});
-			
+		if( $('#register-user-div').length ) {
+			$('#register-user-div').slideDown();
 		}
 		
 	});
 	
-	$('#btn-img-upload').click(function(event){
-		event.preventDefault();
-		$('#form-img-upload .file').click();
+	$('#inputCoupon').keypress(function(event){
+		if( event.which == 13 ) {
+			event.preventDefault();
+			checkCoupon();
+		}
 	});
-		
-	$('#form-img-upload .file').change(function(event){
-		
-		var form = $('#form-img-upload');
-		var form_data = new FormData( form[0] );
-		
-		$.ajax({
-			url: form.attr('action') + '.json',
-			type: 'POST',
-			data: form_data,
-			async: false,
-			contentType: false,
-			cache: false,
-			processData: false,
-			success: function(data) {
-								
-				if( data['code']==200 ) {
-										
-					$('.block-col-img').data('id', data['id']).css({
-						'background-image': 'url("/temp/' + data['id'] + '-block.jpg")'
-					});
-					
-					$('#btn-img-cancel').show();
-					$('#btn-img-save').show();
-					
-				} else {
-					
-					alert( data['msg'] );
-					
-				}
-				
-			}
-		});
-		
+	
+	$('#btnCoupon').click(function(event){
+		event.preventDefault();
+		checkCoupon();
+	});
+	
+	$('#btn-register-modify').click(function(event){
+		event.preventDefault();
+		$('#register-user-div').slideUp();
+		$('#register-div').slideDown();		
+	});
+	
+	$('#form-cancel-registration').submit(function(event){
+		if( !confirm('Do you really want to cancel your registration?') ) {
+			event.preventDefault();
+		}
 	});
 	
 });

@@ -11,7 +11,7 @@
 					<h3>The Movement</h3>
 					<ul>
 						<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-menu-right"></span> About', ['controller' => 'Pages', 'action' => 'about'], ['escape' => false]) ?></li>
-						<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-menu-right"></span> Join', ['controller' => 'Users', 'action' => 'add'], ['escape' => false]) ?></li>
+						<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-menu-right"></span> Join', ['controller' => 'Users', 'action' => 'login'], ['escape' => false]) ?></li>
 					</ul>
 				</section>
 			</div>

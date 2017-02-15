@@ -14,6 +14,9 @@
 .btn-register {
 	background-color: #6f50b2;
 	color: #FFF;
+	&:hover {
+		color: #FFF;
+	}
 }
 
 .btn-themovement {
@@ -23,6 +26,10 @@
 
 .btn-lg-fixed-width {
 	min-width: 200px;
+}
+
+.btn-sm-fixed-width {
+	min-width: 120px;
 }
 
 body {
@@ -69,7 +76,7 @@ body {
 	
 	.menu {
 		li {
-			a {
+			> a {
 				color: #EEE;
 				display: block;
 				font-size: 16px;
@@ -87,6 +94,35 @@ body {
 				.glyphicon {
 					position: relative;
 					top: 2px;
+				}
+			}
+			&.logged_user {
+				> a {
+					padding: 0;
+					margin-left: 15px;
+					margin-top: 18px;
+					img {
+						width: 40px;
+						height: 40px;
+					}
+				}
+				
+				.logged_user_dropdown {
+					background-color: #242128;
+					padding-top: 0;
+					padding-bottom: 0;
+					margin-right: -2px;
+				    margin-top: 15px;
+				    > li {
+					    > a {
+						    padding-top: 5px;
+						    padding-bottom: 5px;
+						    font-size: 14px;
+						    .glyphicon {
+							    margin-right: 3px;
+						    }
+					    }
+				    }
 				}
 			}
 		}
@@ -356,6 +392,89 @@ h1 {
 			font-size: 1.75em;
 		}
 	}
+}
+
+.block.block-login {
+	margin-top: 50px;
+	margin-bottom: 50px;
+	
+	header {
+		margin-top: 1em;
+		margin-bottom: -1em;
+	}
+	
+	.button-separator {
+		margin-top: 1em;
+		margin-bottom: 1em;
+	}
+	
+	.btn-social {
+		width: 250px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	.form-group.separator {
+		margin-top: 40px;
+	}
+	
+	.birthdaySelects {
+		margin-left: -10px;
+		margin-right: 10px;
+	}
+}
+
+.birthdaySelects {
+	select {
+		float: left;
+		margin-left: 10px;
+		margin-right: 10px;
+		/*
+		&:first-child {
+			margin-left: 0;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+		*/
+	}
+}
+
+input.input-link {
+	background: none;
+	background-color: none;
+	border: none;
+	box-shadow: none;
+	color: #2196f3;
+	&:hover {
+		text-decoration: underline;
+		color: #2196f3;
+	}
+}
+
+.modal .block.block-login {
+	margin-top: 0;
+	margin-bottom: -30px;
+	box-shadow: none;
+	
+	.button-separator {
+		margin-top: 0;
+	}
+}
+
+.modal-footer.text-center {
+	text-align: center;
+}
+
+.modal .msg .well {
+	background-color: #F3F3F3;
+	margin: -15px 15px;
+	font-weight: 600;
+	text-align: center;
+}
+
+.modal .block.block-login .form-group.separator {
+	margin-top: 25px;
 }
 
 .spinner {

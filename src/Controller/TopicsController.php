@@ -8,7 +8,18 @@ class TopicsController extends AppController
 {
 	public function index()
     {
-
+		
+		$items = TableRegistry::get('Topics')->find('all', [
+			'fields' => ['id', 'img', 'version', 'slug', 'name'],
+			'conditions' => [],
+			'order' => [
+				'id' => 'ASC',
+			],
+			'limit' => 30,
+		]);
+		
+		$this->set('items', $items);
+		
     }
     
     public function create()
@@ -21,12 +32,12 @@ class TopicsController extends AppController
 	    	    
 	    if(
 		    ( $slug ) && 
-		    ( $topic = TableRegistry::get('Topics')->find()->where([
+		    ( $item = TableRegistry::get('Topics')->find()->where([
 			    'Topics.slug' => $slug
 		    ])->limit(1)->first() )
 	    ) {
 		    
-		    $this->set('topic', $topic);
+		    $this->set('item', $item);
 		    
 	    } else {
 		    
