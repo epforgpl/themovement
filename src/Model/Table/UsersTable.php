@@ -17,7 +17,31 @@ class UsersTable extends Table
 	public function beforeSave($event, $entity, $options)
 	{
 		
-		$entity->slug = strtolower( Inflector::slug( $entity->name ) );
+		$_slug = strtolower( Inflector::slug( $entity->name ) );
+		$slug = $_slug;
+		$i = 0;
+		
+		while( true ) {
+			
+			if( $i )
+				$slug = $_slug . '-' . $i;
+				
+			
+			$user = $this->find('all', [
+				'conditions' => [
+					'slug' => $slug,
+				],
+			])->first();
+			
+			if( !$user ) {
+				break;
+			}
+			
+			$i++;
+			
+		}
+		
+		$entity->slug = $slug;
 		
 	}
 	

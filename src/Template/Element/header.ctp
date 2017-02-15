@@ -28,7 +28,7 @@
 				<? /* <li><?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', '#', ['escape' => false]); ?></li> */ ?>
 				<? if( $_user ) { ?>
 				<li class="logged_user dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="//graph.facebook.com/<?= $_user['fb_id'] ?>/picture" /></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><? if($_user['fb_id']) {?><img src="//graph.facebook.com/<?= $_user['fb_id'] ?>/picture" /><? } else {?><span class="glyphicon glyphicon-user"></span><?}?></a>
 					<ul class="dropdown-menu logged_user_dropdown">
 						<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-user"></span> Profile', ['controller' => 'Users', 'action' => 'view', $_user['slug']], ['escape' => false]); ?></li>
 						<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-off"></span> Log out', ['controller' => 'Users', 'action' => 'logout'], ['escape' => false]); ?></li>
@@ -44,6 +44,68 @@
 		
 	</div>
 </nav>
+
+<?
+	if(
+		!(
+			( $this->request->params['controller'] == 'Users' ) && 
+			( $this->request->params['action'] == 'login' )
+		)
+	) {
+?>
+
+<div id="_login_template" style="display: none;">
+	<div class="block block-login" style="display: none;">
+		
+		<div class="msg"></div>
+		
+		<header><h2>Log in using social media:</h2></header>
+		<div class="content">
+			
+			<div class="text-center">
+				<a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'facebook_login']) ?>" class="btn btn-block btn-social btn-facebook"><span class="fa fa-facebook"></span> Log in with Facebook</a>
+			</div>				
+			
+		</div>
+		
+		<div id="login-email">
+		
+			<header><h2>Log in using e-mail address:</h2></header>
+			<div class="content">
+				
+				<form class="form-horizontal" action="<?= $this->Url->build(['controller' => 'Users', 'action' => 'login']) ?>" method="post">
+					<? echo $this->Form->hidden('next', ['class' => 'inputNext', 'value' => $this->request->here]); ?>
+					<fieldset>
+						<div class="form-group">
+							<label for="inputEmail" class="col-md-3 control-label">E-mail</label>
+							<div class="col-md-9">
+								<input name="email" type="text" class="form-control" id="inputEmail" placeholder="Username" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPassword" class="col-md-3 control-label">Password</label>
+							<div class="col-md-9">
+								<input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password" />
+							</div>
+						</div>
+						
+						<div class="form-group buttons text-center separator">
+							<button type="submit" class="btn btn-themovement btn-sm btn-login btn-sm-fixed-width">Login</button>
+						</div>
+					</fieldset>
+				</form>
+				
+				<div class="text-center button-separator">
+					<a class="btn-show-register" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'login', '?' => ['register' => true]]) ?>">Create account using e-mail address &raquo;</a>
+				</div>
+				
+			</div>
+		
+		</div>
+			
+	</div>
+</div>
+<? } ?>
 
 <div id="body-main">
 	<div class="container">
