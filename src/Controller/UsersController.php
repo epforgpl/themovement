@@ -196,9 +196,9 @@ class UsersController extends AppController
 					} else {
 						
 						$this->request->data['name'] = $this->request->data['first_name'] . ' ' . $this->request->data['last_name'];
-						$this->request->data['birthday'] = $this->request->data['birthdayYear'] . '-' . $this->request->data['birthdayMonth'] . '-' . $this->request->data['birthdayDay']
+						$this->request->data['birthday'] = $this->request->data['birthdayYear'] . '-' . $this->request->data['birthdayMonth'] . '-' . $this->request->data['birthdayDay'];
 						
-						
+						$user = $this->Users->newEntity();
 			            $user = $this->Users->patchEntity($user, $this->request->data);
 			            if ($this->Users->save($user)) {
 				            					            
