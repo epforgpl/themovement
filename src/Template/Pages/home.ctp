@@ -33,10 +33,10 @@
 									
 								</div><div class="col-xs-4">
 									
-									<a href="<?= $this->Url->build(['controller' => 'Users']) ?>">
+									<? /* <a href="<?= $this->Url->build(['controller' => 'Users']) ?>"> */ ?>
 										<p class="number"><?= $counters['people'] ?></p>
 										<p class="desc">People</p>
-									</a>
+									<? /* </a> */ ?>
 									
 								</div>
 							</div>
