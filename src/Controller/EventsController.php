@@ -66,10 +66,7 @@ class EventsController extends AppController
 			    ->subject('Personal Democracy Forum CEE 2017')
 			    ->template('register')
 			    ->send([$user->first_name]);
-			   
-			debug($status);
-			die();
-		    		    
+			   		    		    
 	    }
 	    
 	    $this->redirect( $item->getUrl() );
