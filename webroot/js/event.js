@@ -94,3 +94,98 @@ $(document).ready(function(){
 	});
 	
 });
+
+
+
+
+
+var _EP = function(){};
+_EP.prototype = {
+	
+	modal: false,
+	
+	init: function(){
+		
+		var that = this;
+		$(document).ready(function(){
+			that.ready();
+		});
+	
+	},
+	ready: function(){
+		
+		var that = this;
+		this.modal = $('#eventPublisherModal');
+		
+		if( typeof(_eventPublisherStart)!='undefined' ) {
+			this.start();
+		}
+		
+		$('.event-publisher-btn-share').click(function(event){
+			event.preventDefault();
+			that.start();
+		});
+	
+		
+	},
+	start: function(){
+		
+		var that = this;
+		
+		this.modal.on('shown.bs.modal', function() {
+			var height = Math.round( that.modal.find('.previewImg').width() * 788 / 940 );
+			that.modal.find('.previewImg').height(height);
+		});
+		
+		this.modal.modal('show');
+		
+		
+		this.modal.find('.btn-upload').click(function(event){
+			event.preventDefault();
+			that.modal.find('.uploadForm .inputFile').click();
+		});
+			
+		this.modal.find('.uploadForm .inputFile').change(function(event){
+			
+	
+			var form = that.modal.find('.uploadForm');
+			var form_data = new FormData( form[0] );
+			
+			$.ajax({
+				url: form.attr('action') + '.json?filter=pdfcee17',
+				type: 'POST',
+				data: form_data,
+				async: false,
+				contentType: false,
+				cache: false,
+				processData: false,
+				success: function(data) {
+							
+					if( data['code']==200 ) {
+						
+						that.modal.find('.previewImg').data('id', data['id']).css({
+							'background-image': 'url("/temp/' + data['id'] + '-block.jpg")'
+						});
+						
+						that.modal.find('.btn-download').attr('href', '/images/' + data['id'] + '/download').show();
+						
+						/*
+						$('#btn-img-cancel').show();
+						$('#btn-img-save').show();
+						*/
+						
+					} else {
+						
+						alert( data['msg'] );
+						
+					}
+					
+				}
+			});
+			
+		});
+		
+	}
+}
+var _ep = new _EP();
+_ep.init();

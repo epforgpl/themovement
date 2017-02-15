@@ -111,6 +111,13 @@ Router::scope('/', function (RouteBuilder $routes) {
 		'pass' => ['slug']		
 	]);
 	
+	$routes->connect('/images/:slug/:action', [
+    	'controller' => 'Images', 
+	], [
+		'action' => 'download',
+		'pass' => ['slug']		
+	]);
+	
 	
 	
 	$routes->connect(

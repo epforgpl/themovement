@@ -309,8 +309,49 @@
 				<? if($user_registration && ($user_registration->status==1)) {?>
 				<li class="dates nopadding">
 					<div class="icon"><span class="glyphicon glyphicon-plane"></span></div>
-					<div class="content"><p class="label label-success label-yag">You are going!</p></div>
+					<div class="content">
+						<p class="label label-success label-yag">You are going!</p>
+						<p><a class="event-publisher-btn-share" href="#">Share on social media</a></p>
+					</div>
 				</li>
+				
+				<?
+					$gender = 'other';
+					if( in_array($_user['gender'], ['male', 'female']) )
+						$gender = $_user['gender'];
+				?>
+				
+				<div id="eventPublisherModal" class="modal fade" tabindex="-1" role="dialog">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title">Your registration has been finalized</h4>
+				      </div>
+				      <div class="modal-body">
+					  	
+					  	<div id="event-publisher" class="eventPublisherDiv">						  	
+						  	<p>Now you can share it on social media by publishing your personalized photo which can look like this:</p>
+						  	
+						  	<div class="previewImg" style="background-image: url(/img/event-ban-pdfcee17-<?= $gender ?>.jpeg)"></div>
+						  	
+						  	<div class="buttons text-center">
+							  	<form class="uploadForm"  action="<?= $this->Url->build(['controller' => 'Images', 'action' => 'upload']) ?>" enctype="multipart/form-data" style="display: none;">
+									<input class="inputFile" type="file" name="file" required />
+								</form>
+							  	<a class="btn btn-themovement btn-md btn-download" style="display: none;" href="#">Download image</a>
+							  	<button class="btn btn-themovement btn-md btn-upload">Try with your own photo</button>
+						  	</div>
+					  	</div>
+					  	
+				      </div>
+				      <div class="modal-footer text-center">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				      </div>
+				    </div><!-- /.modal-content -->
+				  </div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				
 				<? } ?>			
 				<?php
 					

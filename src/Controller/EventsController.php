@@ -49,7 +49,7 @@ class EventsController extends AppController
 		    TableRegistry::get('Registrations')->save($registration);
 		    
 		    $this->Flash->set('Your registration has been finalized.', [
-			    'element' => 'success'
+			    'element' => 'event-publisher'
 			]);
 		    		    
 	    }
@@ -60,7 +60,7 @@ class EventsController extends AppController
     
     public function view( $slug )
     {
-				
+			
 		$registrations_conditions = [
 			'Registrations.status' => 1,
 		];

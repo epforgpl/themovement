@@ -8,6 +8,21 @@ use Cake\Core\App;
 class ImagesController extends AppController
 {
     
+    public function download( $slug ) {
+	    
+	    if(
+		    $slug && 
+		    ( $file = WWW_ROOT . '/temp/' . $slug . '-block.jpg' ) && 
+		    file_exists( $file )
+	    ) {
+		    
+		    $this->response->file($file, array('download'=> true, 'name'=> 'PDF_CEE_17.jpg'));
+		    return $this->response;
+		    
+	    }
+	    	    
+    }
+    
     public function upload() {
 	    
 	    $res = [
@@ -21,7 +36,9 @@ class ImagesController extends AppController
 		    'image/jpg' => 'jpg',
 		    'image/jpeg' => 'jpg',
 	    ];
-	    	    
+	    
+	    $filter = isset( $this->request->query['filter'] ) ? $this->request->query['filter'] : false;
+	     
 	    if( @$this->request->data['file'] ) {
 		    if( @$this->request->data['file']['size'] ) {
 		    	if( @array_key_exists($this->request->data['file']['type'], $formats) ) {
@@ -51,20 +68,42 @@ class ImagesController extends AppController
 						$src_width = imagesx( $src );
 						$src_height = imagesy( $src );
 						
-						if( $src_width >= $src_height ) {
+						
+						if( $filter ) {
 							
-							$dst_height = min(600, $src_height);
-							$dst_width = round( $src_width / $src_height * $dst_height );
+							$dst_width = 940;
+							$_dst_height = 599;
+							$dst_height = 788;
+							
+							$ban_file = WWW_ROOT . '/img/event-ban-pdfcee17.png';
+							$ban_img = imagecreatefrompng($ban_file);
+							
+							$img = imagecreatetruecolor($dst_width, $dst_height);
+							imagecopyresampled($img, $src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
+							
+							imagecopyresampled($img, $src, 0, 0, 0, 0, $dst_width, $_dst_height, $src_width, $src_height);							
+							imagecopyresampled($img, $ban_img, 0, $_dst_height, 0, 0, 940, 189, 940, 189);
 							
 						} else {
+						
+							if( $src_width >= $src_height ) {
+								
+								$dst_height = min(600, $src_height);
+								$dst_width = round( $src_width / $src_height * $dst_height );
+								
+							} else {
+								
+								$dst_width = min(600, $src_width);
+								$dst_height = round( $src_height / $src_width * $dst_width );
+								
+							}
 							
-							$dst_width = min(600, $src_width);
-							$dst_height = round( $src_height / $src_width * $dst_width );
-							
+							$img = imagecreatetruecolor($dst_width, $dst_height);
+							imagecopyresampled($img, $src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
+						
 						}
 						
-						$img = imagecreatetruecolor($dst_width, $dst_height);
-						imagecopyresampled($img, $src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
+						
 						imagedestroy( $src );
 						imagejpeg($img, $temp_file_block, 90);
 						imagedestroy( $img );
