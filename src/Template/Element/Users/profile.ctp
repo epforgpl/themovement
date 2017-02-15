@@ -58,7 +58,7 @@
 		
 	<div class="row">
 		<div class="col-md-12">
-			<div class="checkbox"><label><?= $this->Form->checkbox('organization', ['value' => 1, 'hiddenField' => false, 'id' => 'checkboxOrganization', 'checked' => ( isset($user) ? $user->organization : true )]) ?> I'm affiliated with:</label></div>
+			<div class="checkbox"><label><?= $this->Form->checkbox('organization', ['value' => 1, 'hiddenField' => false, 'id' => 'checkboxOrganization', 'checked' => ( (isset($user) && !is_null($user->organization) ) ? $user->organization : true )]) ?> I'm affiliated with:</label></div>
 		</div>
 	</div>
 	
