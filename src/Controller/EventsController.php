@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Core\App;
+use Cake\Mailer\Email;
 
 class EventsController extends AppController
 {
@@ -42,7 +43,13 @@ class EventsController extends AppController
 		    		'user_id' => $user_id
 	    		], 
 		    	'limit' => 1
-	    	])->first() )
+	    	])->first() ) && 
+	    	( $user = TableRegistry::get('Users')->find('all', [
+		    	'conditions' => [
+		    		'id' => $user_id
+	    		], 
+		    	'limit' => 1
+	    	])->first() ) 
 	    ) {
 		    
 		    $registration->status = 1;
@@ -51,6 +58,17 @@ class EventsController extends AppController
 		    $this->Flash->set('Your registration has been finalized.', [
 			    'element' => 'event-publisher'
 			]);
+						
+			$email = new Email('default');
+						
+			$status = $email->from(['events@themovement.io' => 'The Movement'])
+			    ->to([$user->email => $user->name])
+			    ->subject('Personal Democracy Forum CEE 2017')
+			    ->template('register')
+			    ->send([$user->first_name]);
+			   
+			debug($status);
+			die();
 		    		    
 	    }
 	    
