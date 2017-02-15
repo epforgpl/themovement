@@ -44,6 +44,31 @@
 	</div>
 </div>
 
+
+<? if( $item->toc ) {?>
+<div id="tocModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Terms and Conditions</h4>
+      </div>
+      <div class="modal-body">
+
+	  	<div class="terms_text">
+		<?= $item->toc ?>
+		</div>
+	  	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<? } ?>
+
+
 <? if( $_user && $item['registration'] ) { ?>
 <div class="row" id="register-div"<? if( !isset($this->request->query['register']) ) {?> style="display: none;"<? } ?>>
 	<div class="col-md-12">
@@ -275,6 +300,7 @@
 			$item->end_date ||
 			$item->location ||
 			$item->location_address || 
+			$item->toc || 
 			( $user_registration && ($user_registration->status==1) )
 		) {?>
 		<div class="block">
@@ -336,6 +362,15 @@
 					</div>
 				</li>
 				<?php } ?>
+				
+				<? if( $item->toc ) {?>
+				<li class="nopadding">
+					<div class="icon"><span class="glyphicon glyphicon-align-justify"></span></div>
+					<div class="content">
+						<p><a href="#" onclick="return false;" data-toggle="modal" data-target="#tocModal">See Terms and Conditions</a></p>
+					</div>
+				</li>
+				<? } ?>
 									
 			</ul>
 		</div>
