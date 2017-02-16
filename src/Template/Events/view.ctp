@@ -1,6 +1,7 @@
 <?php
 	$this->assign('title', $item->name . ' | The Movement');
 	echo $this->Less->less('less/page.less');
+	echo $this->Less->less('less/items.less');
 	$this->prepend('script', $this->Html->script('page'));
 	$this->prepend('script', $this->Html->script('event'));
 ?>
@@ -445,6 +446,21 @@
 				<? } ?>
 									
 			</ul>
+		</div>
+		<? } ?>
+		
+		<? if( $related_event ) {?>
+		<div class="block block-see-also">
+			<header><h2>See also</h2></header>
+			<div class="content items">
+				<a href="<?= $related_event->getUrl() ?>" class="block tm_item">
+					<?= $this->Layout->calendar( $related_event ); ?>
+					<div class="img" style="background-image: url(<? if( $related_event->img ) { ?>/resources/events/<?= $related_event->id ?>-block.jpg?v=<?= $related_event->version ?><? } else { ?>/img/events-default.svg<? } ?>);"></div>
+					<div class="info">
+						<h2><?= $related_event->name ?></h2>
+					</div>
+				</a>
+			</div>
 		</div>
 		<? } ?>
 		
