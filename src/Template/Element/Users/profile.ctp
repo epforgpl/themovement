@@ -121,12 +121,18 @@
 						<?
 							$ids = [];
 							if( isset($user) && isset($user->professions) ) {
-								foreach( $user->professions as $p ) {
-									$ids[] = $p->id;
+								
+								if( isset($user->professions['_ids']) ) {
+									$ids = $user->professions['_ids'];
+								} else {
+									foreach( $user->professions as $p ) {
+										$ids[] = $p->id;
+									}
 								}
+								
 							}
 						?>
-						<div class="row" id="professions_div" data-value="<?= json_encode($ids) ?>"></div>
+						<div class="row" id="professions_div" data-value="<?= htmlspecialchars(json_encode($ids)) ?>"></div>
 					</div>
 				</div>
 				<div class="form-group row" id="otherProfession"<? if( !(isset($user) && $user->other_profession) ) {?> style="display: none;"<? } ?>>

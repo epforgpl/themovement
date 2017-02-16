@@ -125,11 +125,15 @@ class EventsController extends AppController
 			    ])->contain([
 				    'EventsDays' => [],
 			    ])->limit(1)->first();
+			    
+			    if( !$user_registration ) {
+				    $user_registration =  TableRegistry::get('Registrations')->newEntity();
+			    }
 			    			    
 			    if( $session_data = $this->request->session()->read('Forms.Events.' . $item->id . '.register') ) {
-				    
+				    				    		    
 				    if( $user ) {
-					    $fields = ['country', 'organization', 'organization_name', 'organization_www', 'organization_role', 'other_profession', 'about', 'gender'];
+					    $fields = ['country', 'organization', 'organization_name', 'organization_www', 'organization_role', 'other_profession', 'about', 'gender', 'professions'];
 					    foreach( $fields as $f ) {
 						    
 						    if( isset($session_data[ $f ]) )
@@ -137,22 +141,21 @@ class EventsController extends AppController
 						    
 					    }
 				    }
+				    	
 				    
-				    if( $user_registration ) {
-					    $fields = ['dietary', 'comments'];
-					    foreach( $fields as $f ) {
-						    
-						    if( isset($session_data[ $f ]) )
-						    	$user_registration->set($f, $session_data[ $f ]);
-						    
-					    }
+				    // USER REGISTRATION
+				    
+				    $fields = ['dietary', 'comments', 'events_days', 'coupon'];				    
+				    foreach( $fields as $f ) {
+					    if( isset($session_data[ $f ]) )
+					    	$user_registration->set($f, $session_data[ $f ]);
 				    }
+				    
+				    if( $user_registration->coupon ) {
+					    $user_registration->coupon_valid = TableRegistry::get('Coupons')->check($user_registration->coupon, $item->id);
+				    }					    
 				    			    
-			    }
-			   
-			    if( @$user_registration->coupon ) {
-				    $user_registration->coupon_valid = TableRegistry::get('Coupons')->check($user_registration->coupon, $item->id);
-			    }
+			    }			    
 
 			    $this->set('user', $user);
 			    
@@ -164,6 +167,8 @@ class EventsController extends AppController
 					$user_registration && 
 					isset($this->request->data['cancel-registration'])
 				) {
+					
+					$this->request->session()->delete('Forms.Events.' . $item->id . '.register');
 					
 					TableRegistry::get('Registrations')->delete($user_registration);
 					$this->Flash->set('Your registration has been canceled.', [

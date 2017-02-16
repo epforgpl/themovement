@@ -15,8 +15,8 @@
 				'chapter' => 'events',
 				'avatar_manage' => ( $_user && ($_user['role']=='admin') )
 			];
-						
-			if( $item['registration'] && !$user_registration ) {					
+			
+			if( $item['registration'] && !@$user_registration->id ) {					
 				
 				if( $_user ) {
 					$data = [];
@@ -131,7 +131,14 @@
 								<? if( $item->events_days ) { ?>
 								<div class="form-group row daysCheckboxesDiv">
 									<label class="col-md-12 control-label">I will attend PDF CEE 2017 on:</label>
-									<div class="col-md-12">
+									<?
+										$ids = [];
+										if( $user_registration->events_days ) {
+											if( isset($user_registration->events_days['_ids']) )
+												$ids = $user_registration->events_days['_ids'];
+										}
+									?>
+									<div class="col-md-12" id="daysCheckboxes" data-value="<?= htmlspecialchars(json_encode($ids)) ?>">
 										<? foreach( $item->events_days as $day ) {?>
 										<div class="checkbox">
 											<label class="ch">
