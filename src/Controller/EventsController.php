@@ -89,6 +89,7 @@ class EventsController extends AppController
 			    	'conditions' => $registrations_conditions
 		    	],
 		    	'EventsDays' => [],
+		    	'Organizations' => [],
 	    	])->limit(1)->first() )
 	    ) {
 		    
@@ -98,7 +99,7 @@ class EventsController extends AppController
 			    $related_event = TableRegistry::get('Events')->get( $item->related_event_id );
 			    
 		    }
-		    
+		    		    
 		    $this->set('related_event', $related_event);
 		    				    
 		    $this->meta['ogg:url'] = 'http://themovement.io' . $item->getUrl();
@@ -180,6 +181,8 @@ class EventsController extends AppController
 				return $this->redirect( $item->getUrl() );
 				
 			}
+			
+			$item->groupOrganizations();
 			
 		    $this->set('item', $item);
 		    $this->set('user_registration', $user_registration);

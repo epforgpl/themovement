@@ -331,6 +331,31 @@
 			</ul>
 		</div>
 		<? } ?>
+		
+		<?
+			if($item->organizations_groups) {
+				foreach( $item->organizations_groups as $group ) {
+					$role = $group['role'];
+					$orgs = $group['organizations'];
+		?>
+		<div class="block">
+			<header><h2><?= $role['name'] ?></h2></header>
+			<ul class="tm_organizations">
+			<? foreach( $orgs as $o ) {?>
+				<li>
+					<p>
+						<span class="glyphicon glyphicon-menu-right"></span>
+						<? if( $o->www ) {?><a target="_blank" href="<?= $o->www ?>"><? } ?>
+						<?= $o->name ?>
+						<? if( $o->www ) {?></a><? } ?>
+					</p>
+				</li>
+			<? } ?>
+			</ul>
+		</div>
+		
+		
+		<? } } ?>
 
 	</div><div class="col-md-6">
 		

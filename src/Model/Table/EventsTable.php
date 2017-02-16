@@ -10,6 +10,7 @@ class EventsTable extends Table
     {
         $this->hasMany('Registrations');
         $this->hasMany('EventsDays');
+        $this->belongsToMany('Organizations');
     }
 
 }
