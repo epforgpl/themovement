@@ -126,6 +126,22 @@
 						
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3">
+								
+								<? if( $item->events_days ) { ?>
+								<div class="form-group row daysCheckboxesDiv">
+									<label class="col-md-12 control-label">I will attend PDF CEE 2017 on:</label>
+									<div class="col-md-12">
+										<? foreach( $item->events_days as $day ) {?>
+										<div class="checkbox">
+											<label class="ch">
+												<input name="events_days[_ids][]" type="checkbox" value="<?= $day->id ?>"> <?= $day->date->format('l, F j, Y') ?>
+											</label>
+								        </div>
+								        <? } ?>
+									</div>
+								</div>
+								<? } ?>
+								
 								<div class="form-group row">
 									<label for="inputCoupon" class="col-md-12 control-label">I have a coupon</label>
 									<div class="col-md-12">
@@ -202,29 +218,44 @@
 								
 							</fieldset>
 							
-						</div><? if( $user_registration->dietary ) {?><div class="col-md-4">
+						</div><div class="col-md-4">
 						
 							<fieldset>
 								<div class="form-group row">
 									<label for="textAreaDietary" class="col-md-12 control-label">Dietary restrictions</label>
 									<div class="col-md-12">
-										<p class="value"><?= $user_registration->dietary ?></p>
+										<p class="value"><?= $user_registration->dietary ? $user_registration->dietary : '<span class="none">None</span>' ?></p>
 									</div>
 								</div>
 							</fieldset>
 							
-						</div><? } if( $user_registration->comments ) { ?><div class="col-md-4">
+						</div><div class="col-md-4">
 						
 							<fieldset>
 								<div class="form-group row">
 									<label for="textAreaComments" class="col-md-12 control-label">Additional comments / special needs</label>
 									<div class="col-md-12">
-										<p class="value"><?= $user_registration->comments ?></p>
+										<p class="value"><?= $user_registration->comments ? $user_registration->comments : '<span class="none">None</span>' ?></p>
 									</div>
 								</div>
 							</fieldset>
 						
-						</div><? } ?>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12">
+							
+							<div class="form-group row text-center">
+								<label class="col-md-12 control-label">You will participate in PDF CEE 2017 on:</label>
+								<div class="col-md-12 days_values">
+									<? foreach( $user_registration->events_days as $day ) { ?>
+									<p class="value"><?= $day->date->format('l, F j, Y') ?></p>
+									<? } ?>
+								</div>
+							</div>
+							
+						</div>
 					</div>
 									
 				</div>

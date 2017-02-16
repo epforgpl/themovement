@@ -84,9 +84,12 @@ class EventsController extends AppController
 		    ( $slug ) && 
 		    ( $item = TableRegistry::get('Events')->find()->where([
 			    'Events.slug' => $slug
-		    ])->contain(['Registrations' => [
-		    	'conditions' => $registrations_conditions
-	    	]])->limit(1)->first() )
+		    ])->contain([
+		    	'Registrations' => [
+			    	'conditions' => $registrations_conditions
+		    	],
+		    	'EventsDays' => [],
+	    	])->limit(1)->first() )
 	    ) {
 		    					    
 		    $this->meta['ogg:url'] = 'http://themovement.io' . $item->getUrl();
@@ -106,16 +109,43 @@ class EventsController extends AppController
 			    $user =  TableRegistry::get('Users')->get($user_id, [
 				    'contain' => ['Professions'],
 			    ]);
-			    $this->set('user', $user);
 			    		    
 			    $user_registration = TableRegistry::get('Registrations')->find()->where([
 				    'Registrations.event_id' => $item->id,
 				    'Registrations.user_id' => $user_id,
+			    ])->contain([
+				    'EventsDays' => [],
 			    ])->limit(1)->first();
-			    
+			    			    
+			    if( $session_data = $this->request->session()->read('Forms.Events.' . $item->id . '.register') ) {
+				    
+				    if( $user ) {
+					    $fields = ['country', 'organization', 'organization_name', 'organization_www', 'organization_role', 'other_profession', 'about', 'gender'];
+					    foreach( $fields as $f ) {
+						    
+						    if( isset($session_data[ $f ]) )
+						    	$user->set($f, $session_data[ $f ]);
+						    
+					    }
+				    }
+				    
+				    if( $user_registration ) {
+					    $fields = ['dietary', 'comments'];
+					    foreach( $fields as $f ) {
+						    
+						    if( isset($session_data[ $f ]) )
+						    	$user_registration->set($f, $session_data[ $f ]);
+						    
+					    }
+				    }
+				    			    
+			    }
+			   
 			    if( @$user_registration->coupon ) {
 				    $user_registration->coupon_valid = TableRegistry::get('Coupons')->check($user_registration->coupon, $item->id);
 			    }
+
+			    $this->set('user', $user);
 			    
 		    }
 		    
@@ -162,30 +192,65 @@ class EventsController extends AppController
 	    ) {		    
 		    
 		    $errors = TableRegistry::get('Users')->updateProfile($user_id, $this->request->data);
-		    // debug($errors); die();
+		    if( $errors ) {
+			    
+			    foreach( $errors as $key => $val ) {
+					foreach( $val as $k => $v ) {
+						
+						$this->Flash->set($v, [
+						    'element' => 'error'
+						]);
+						
+						break;
+					}
+					break;
+				}
+				
+				$this->request->session()->write('Forms.Events.' . $event_id . '.register', $this->request->data);
+				$this->redirect('/events/' . $event->slug . '/?register');
+			    
+			} else {
+		    	
+		    	
+		    	if( empty($this->request->data['events_days']['_ids']) ) {
+			    	
+			    	$this->Flash->set('Select days', [
+					    'element' => 'error'
+					]);
+			    	
+			    	$this->request->session()->write('Forms.Events.' . $event_id . '.register', $this->request->data);
+					$this->redirect('/events/' . $event->slug . '/?register');
+			    	
+		    	} else {
+		    	
+				    $registrationsTable = TableRegistry::get('Registrations');
+				    
+				    $registration = $registrationsTable->find('all', [
+					    'conditions' => [
+						    'Registrations.event_id' => $event_id,
+						    'Registrations.user_id' => $user_id,
+					    ],
+				    ])->first();
+				    
+				    if( !$registration ) {
+					    $registration = $registrationsTable->newEntity([
+						    'event_id' => $event_id,
+						    'user_id' => $user_id,
+					    ]);
+				    }
+				    				    
+				    $registrationsTable->patchEntity($registration, $this->request->data, [
+					    'fieldList' => ['coupon', 'dietary', 'comments', 'events_days'],
+					    'associated' => ['EventsDays']
+				    ]);
+				    $registrationsTable->save($registration);
+				    				    
+				    $this->request->session()->delete('Forms.Events.' . $event_id . '.register');
+				    $this->redirect('/events/' . $event->slug);
+			    
+			    }
 		    
-		    $registrationsTable = TableRegistry::get('Registrations');
-		    
-		    $registration = $registrationsTable->find('all', [
-			    'conditions' => [
-				    'Registrations.event_id' => $event_id,
-				    'Registrations.user_id' => $user_id,
-			    ],
-		    ])->first();
-		    
-		    if( !$registration ) {
-			    $registration = $registrationsTable->newEntity([
-				    'event_id' => $event_id,
-				    'user_id' => $user_id,
-			    ]);
 		    }
-		    
-		    $registrationsTable->patchEntity($registration, $this->request->data, [
-			    'fieldList' => ['coupon', 'dietary', 'comments'],
-		    ]);
-		    $registrationsTable->save( $registration );
-		    		    
-		    $this->redirect('/events/' . $event->slug);
 		    
 		    
 	    } else {

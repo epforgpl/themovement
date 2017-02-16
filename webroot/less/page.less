@@ -215,6 +215,25 @@
 		margin-bottom: 15px;
 	}
 	
+	.value {
+		.none {
+			font-style: italic;
+			color: #999;
+		}
+	}
+	
+	.days_values {
+		.value {
+			margin: 0;
+			&:first-child {
+				margin-top: 5px;
+			}
+			&:last-child {
+				margin-bottom: 10px;
+			}
+		}
+	}
+	
 }
 
 #register-user-div header {
@@ -355,5 +374,21 @@
 		height: 476px;
 		margin-bottom: 20px;
 		background-size: cover;
+	}
+}
+
+.daysCheckboxesDiv {
+	margin-bottom: 30px !important;
+	label.ch {
+		font-weight: normal;
+		input {
+			margin-right: 3px;
+		}
+	}
+	.checkbox {
+		margin: 0;
+		&:first-child {
+			margin-top: 5px;
+		}
 	}
 }
