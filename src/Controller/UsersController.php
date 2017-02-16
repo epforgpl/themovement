@@ -142,7 +142,9 @@ class UsersController extends AppController
 	                        
 	            if ($user) {
 	                $this->Auth->setUser($user);
-	                return $this->redirect($this->Auth->redirectUrl());
+	                
+	                $redirect = isset($_REQUEST['next']) ? $_REQUEST['next'] : $this->Auth->redirectUrl();
+	                return $this->redirect($redirect);
 	            }
 	            
 	            $this->Flash->error(__('Invalid username or password, try again'));
@@ -205,7 +207,9 @@ class UsersController extends AppController
 			                $this->Flash->success(__('Your account has been created'));
 			                $user = $this->Auth->identify();
 			                $this->Auth->setUser($user);
-			                return $this->redirect($this->Auth->redirectUrl());
+			                
+			                $redirect = isset($_REQUEST['next']) ? $_REQUEST['next'] : $this->Auth->redirectUrl();
+			                return $this->redirect($redirect);
 			                
 			            }
 			            $this->Flash->error(__('Unable to add the user.'));

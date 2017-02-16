@@ -90,7 +90,7 @@
 						</div>
 						
 						<div class="form-group buttons text-center separator">
-							<button type="submit" class="btn btn-themovement btn-sm btn-login btn-sm-fixed-width">Login</button>
+							<input name="login" type="submit" class="btn btn-themovement btn-sm btn-login btn-sm-fixed-width" value="Login" />
 						</div>
 					</fieldset>
 				</form>

@@ -50,7 +50,9 @@ $(document).ready(function(){
 			
 			$('#register-div').slideDown();
 			History.pushState({state:1}, null, "?register");
-			profileEditFormInit();
+			if( typeof(profileEditFormInit) == 'function' ) {
+				profileEditFormInit();
+			}
 			
 		}		
 		
