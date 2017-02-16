@@ -343,7 +343,7 @@
 					<div class="icon"><span class="glyphicon glyphicon-plane"></span></div>
 					<div class="content">
 						<p class="label label-success label-yag">You are going!</p>
-						<p><a class="event-publisher-btn-share" href="#">Share on social media</a></p>
+						<p><a class="event-publisher-btn-share" href="#">Photo Generator</a></p>
 					</div>
 				</li>
 				
@@ -365,7 +365,7 @@
 					  	<div id="event-publisher" class="eventPublisherDiv">						  	
 						  	<p>Now you can share it on social media by publishing your personalized photo which can look like this:</p>
 						  	
-						  	<div class="previewImg" style="background-image: url(/img/event-ban-pdfcee17-<?= $gender ?>.jpeg)"></div>
+						  	<div class="previewImg" style="background-image: url(/img/event-ban-pdfcee17-<?= $gender ?>-en.jpg)"></div>
 						  	
 						  	<div class="buttons text-center">
 							  	<form class="uploadForm"  action="<?= $this->Url->build(['controller' => 'Images', 'action' => 'upload']) ?>" enctype="multipart/form-data" style="display: none;">

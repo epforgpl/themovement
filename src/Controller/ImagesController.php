@@ -75,7 +75,7 @@ class ImagesController extends AppController
 							$_dst_height = 599;
 							$dst_height = 788;
 							
-							$ban_file = WWW_ROOT . '/img/event-ban-pdfcee17.png';
+							$ban_file = WWW_ROOT . '/img/event-ban-pdfcee17-en.png';
 							$ban_img = imagecreatefrompng($ban_file);
 							
 							$img = imagecreatetruecolor($dst_width, $dst_height);
