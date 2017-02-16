@@ -79,9 +79,32 @@ class ImagesController extends AppController
 							$ban_img = imagecreatefrompng($ban_file);
 							
 							$img = imagecreatetruecolor($dst_width, $dst_height);
-							imagecopyresampled($img, $src, 0, 0, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
+														
+							$_src_width = $src_width;
+							$_src_height = $src_height;
+							$src_x = 0;
+							$src_y = 0;
 							
-							imagecopyresampled($img, $src, 0, 0, 0, 0, $dst_width, $_dst_height, $src_width, $src_height);							
+							$dst_radio = $dst_width / $_dst_height;
+							$src_ratio = $src_width / $src_height;
+							
+							if( $dst_radio >= $src_ratio ) {
+								
+								$_src_width = $src_width;
+								$_src_height = $_src_width / $dst_radio;
+								
+								$src_y = round( ($_dst_height - ( $_src_height * $_dst_height / $src_height )) / 2 );
+								
+							} else {
+								
+								$_src_height = $src_height;
+								$_src_width = $dst_radio * $_src_height;
+								
+								$src_x = round( ($dst_width - $_src_width * $dst_width / $src_width) / 2 );
+								
+							}
+									
+							imagecopyresampled($img, $src, 0, 0, $src_x, $src_y, $dst_width, $_dst_height, $_src_width, $_src_height);							
 							imagecopyresampled($img, $ban_img, 0, $_dst_height, 0, 0, 940, 189, 940, 189);
 							
 						} else {
