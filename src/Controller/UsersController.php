@@ -279,7 +279,11 @@ class UsersController extends AppController
     
     public function facebookLogin()
     {
-	    	    
+	    
+	    if( !$this->request->session()->started() ) {
+		    $this->request->session()->start();
+	    }
+	        
 	    $fb = new \App\Model\Facebook();
 	    
 	    $next = '/';
@@ -293,10 +297,14 @@ class UsersController extends AppController
     
     public function facebookCallback()
     {
-	    	    
+	    	  
+	    if( !$this->request->session()->started() ) {
+		    $this->request->session()->start();
+	    }
+	      
 	    $fb = new \App\Model\Facebook();
 		$login = $fb->loginCallback();
-		
+				
 		switch( @$login['code'] ) {
 			case 500: {
 				$this->Flash->set("Can't login via Facebook", [
