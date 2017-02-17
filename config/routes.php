@@ -105,9 +105,8 @@ Router::scope('/', function (RouteBuilder $routes) {
 	
 	$routes->connect('/events/:slug/:action', [
     	'controller' => 'Events', 
-    	'action' => 'view',
 	], [
-		'action' => 'finish-registration',
+		'action' => 'finish-registration|registrations|coupons',
 		'pass' => ['slug']		
 	]);
 	

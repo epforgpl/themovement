@@ -45,9 +45,11 @@
 				</div>
 			</div>
 			
+			<? /*
 			<? if( !$_user ) {?>
 			<a class="btn btn-lg btn-themovement btn-lg-fixed-width" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'login']) ?>">Join now</a>
 			<? } ?>
+			*/ ?>
 			
 		</div>
 		

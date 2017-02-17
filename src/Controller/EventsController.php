@@ -92,7 +92,7 @@ class EventsController extends AppController
 		    	'Organizations' => [],
 	    	])->limit(1)->first() )
 	    ) {
-		    
+		    		    
 		    $related_event = false;
 		    if( $item->related_event_id ) {
 			    
@@ -277,5 +277,73 @@ class EventsController extends AppController
 	    }
 	    	    
     }
+    
+    
+    
+    public function registrations($slug)
+    {
+	 		 	   
+	    if(
+		    ( $slug ) && 
+		    ( $item = TableRegistry::get('Events')->find()->where([
+			    'Events.slug' => $slug
+		    ])->contain([
+		    	'EventsDays' => [],
+	    	])->limit(1)->first() ) &&
+	    	( $this->Auth->user('role')=='admin' )
+	    ) {
+		    
+		    $registrations = TableRegistry::get('Registrations')->find('all', [
+			    'conditions' => [
+				    'Registrations.event_id' => $item->id,
+			    ],
+			    'contain' => [
+				    'Users' => [],
+			    ],
+			    'limit' => 100,
+			    'order' => [
+				    'Registrations.created' => 'DESC',
+			    ],
+		    ]);
+		    
+		    $this->set('item', $item);
+		    $this->set('registrations', $registrations);
+		    
+		} else {
+			
+			$this->redirect([
+			    'controller' => 'Events',
+			    'action' => 'index',
+		    ]);
+			
+		}
+	
+	}
+	
+	public function coupons($slug)
+    {
+	 		 	   
+	    if(
+		    ( $slug ) && 
+		    ( $item = TableRegistry::get('Events')->find()->where([
+			    'Events.slug' => $slug
+		    ])->contain([
+		    	'EventsDays' => [],
+	    	])->limit(1)->first() ) &&
+	    	( $this->Auth->user('role')=='admin' )
+	    ) {
+		    
+		    $this->set('item', $item);
+		    		    
+		} else {
+			
+			$this->redirect([
+			    'controller' => 'Events',
+			    'action' => 'index',
+		    ]);
+			
+		}
+	
+	}
         
 }

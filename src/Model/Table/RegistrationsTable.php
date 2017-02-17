@@ -10,6 +10,7 @@ class RegistrationsTable extends Table
     {
         $this->addBehavior('Timestamp');
         $this->belongsToMany('EventsDays');
+        $this->belongsTo('Users');
     }
 
 }

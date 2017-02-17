@@ -31,6 +31,8 @@ _PAGE.prototype = {
 		this.resize();
 		this.armButtons();
 		
+		$('[data-toggle="tooltip"]').tooltip();
+		
 	},
 	resize: function(){
 				
