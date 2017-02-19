@@ -20,7 +20,7 @@
 
 						<?= $this->Layout->calendar( $item ); ?>
 														
-						<h1 class="name"><?php echo $item->name; ?></h1>
+						<h1 class="name"><a href="<?= $item->getUrl() ?>"><?php echo $item->name; ?></a></h1>
 						<?php if( false ) {?><p class="stats">325 person is going</p><?php } ?>
 						
 						<?
@@ -33,15 +33,34 @@
 						<? } } ?>
 												
 					</div>
-					<? /*
+					<? if( isset($buttons) ) {?>
 					<div class="buttons">
 						<div class="buttons_inner">
 							<div class="btn-group">
-								<button id="btn-register" class="btn btn-md btn-themovement btn-main"><span class="icon-text">&plus;</span> Follow</button><button class="btn btn-md btn-default"><span class="glyphicon glyphicon-comment"></span></button><button class="btn btn-md btn-default"><span class="glyphicon glyphicon-share"></span></button><button class="btn btn-md btn-default"><span class="glyphicon glyphicon-cog"></span></button>
+							<? foreach( $buttons as $button ) { ?>
+								<?
+									if( isset($button['dropdown']) ) {
+										
+										if( !isset($button['class']) )
+											$button['class'] = 'dropdown-toggle';
+										else
+											$button['class'] .= ' dropdown-toggle';
+										
+								?><div class="dropdown"><? } ?>
+								<button<? if(isset($button['id'])) {?> id="<?= htmlspecialchars($button['id']) ?>"<? } ?> class="btn btn-md<? if( isset($button['class']) ) { echo ' ' . $button['class']; } ?>"<? if( isset($button['attr']) ) echo ' ' . $button['attr']; ?>><? if( isset($button['content']) ) { echo ' ' . $button['content']; } ?></button>
+								<? if( isset($button['dropdown']) ) { ?>
+									<ul class="dropdown-menu">
+									<? foreach( $button['dropdown'] as $o ) {?>
+								    <li><a href="<?= $o['href'] ?>"><?= $o['content'] ?></a></li>
+								    <? } ?>
+									</ul>
+								</div>
+								<? } ?>
+							<? } ?>
 							</div>
 						</div>
 					</div>
-					*/ ?>
+					<? } ?>
 				</div>
 			</div>
 			

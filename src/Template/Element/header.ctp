@@ -35,7 +35,7 @@
 					</ul>
 				</li>
 				<? } else { ?>
-				<li><?php echo $this->Html->link('Join', ['controller' => 'Users', 'action' => 'login'], ['escape' => false]); ?></li>
+				<li><?php echo $this->Html->link('Join', ['controller' => 'Users', 'action' => 'login'], ['escape' => false, 'class' => 'login-required']); ?></li>
 				<? } ?>
 			</ul>
 		</div>

@@ -1,0 +1,50 @@
+.tmTable {
+	> .row {
+		border-bottom: 1px solid #CCC;
+		padding: 10px 0;
+		
+		&:last-child {
+			border-bottom: none;
+		}
+		
+		p {
+			margin: 0;
+			padding: 0;
+		}
+		
+		.timestamp {
+			font-size: 0.8em;
+			color: #999;
+		}
+		
+		.item-status {
+			background-color: #ff9800;
+			width: 10px;
+			height: 10px;
+			display: inline-block;
+			border-radius: 10px;
+			margin-right: 3px;
+			&.item-status-finalized {
+				background-color: #4caf50;
+			}
+		}
+		
+		.icons {
+			span {
+				margin: 0 5px;
+				color: #BBB;
+				&:hover {
+					color: #666;
+				}
+			}
+		}
+	}
+}
+
+.block .toolbar {
+	margin: -15px 15px 15px;
+	
+	button {
+		margin: 0 5px;
+	}
+}

@@ -151,11 +151,7 @@ class EventsController extends AppController
 					    if( isset($session_data[ $f ]) )
 					    	$user_registration->set($f, $session_data[ $f ]);
 				    }
-				    
-				    if( $user_registration->coupon ) {
-					    $user_registration->coupon_valid = TableRegistry::get('Coupons')->check($user_registration->coupon, $item->id);
-				    }					    
-				    			    
+				    				    			    
 			    }			    
 
 			    $this->set('user', $user);
@@ -183,6 +179,10 @@ class EventsController extends AppController
 			}
 			
 			$item->groupOrganizations();
+			
+			if( $user_registration->coupon ) {
+			    $user_registration->coupon_valid = TableRegistry::get('Coupons')->check($user_registration->coupon, $item->id);
+		    }
 			
 		    $this->set('item', $item);
 		    $this->set('user_registration', $user_registration);
@@ -333,7 +333,23 @@ class EventsController extends AppController
 	    	( $this->Auth->user('role')=='admin' )
 	    ) {
 		    
+		    $coupons = TableRegistry::get('Coupons')->find('all', [
+			    'conditions' => [
+				    'Coupons.event_id' => $item->id,
+			    ],
+			    /*
+			    'contain' => [
+				    'Users' => [],
+			    ],
+			    */
+			    'limit' => 100,
+			    'order' => [
+				    'Coupons.id' => 'DESC',
+			    ],
+		    ]);
+		    
 		    $this->set('item', $item);
+		    $this->set('coupons', $coupons);
 		    		    
 		} else {
 			

@@ -2,49 +2,14 @@
 	$this->assign('title', $item->name . ' | The Movement');
 	echo $this->Less->less('less/page.less');
 	echo $this->Less->less('less/items.less');
+	echo $this->Less->less('less/manager.less');
 	$this->prepend('script', $this->Html->script('page'));
 	$this->prepend('script', $this->Html->script('event'));
+	
+	echo $this->element('Items/Events/header', [
+		'item' => $item
+	]);
 ?>
-
-<div class="row">
-	<div class="col-md-12">
-		
-		<?
-			$params = [
-				'item' => $item,
-				'chapter' => 'events',
-				'avatar_manage' => ( $_user && ($_user['role']=='admin') )
-			];
-			
-			if( $item['registration'] && !@$user_registration->id ) {					
-				
-				if( $_user ) {
-					$data = [];
-					$class = 'btn-register';
-				} else {
-					$data = [
-						'msg' => 'In order to register for this event, you need to login.',
-						'next' => $item->getUrl() . '?register'
-					];
-					$class = 'btn-register login-required';
-				}
-				
-				$params['title_buttons'] = [
-					[
-						'id' => 'btn-register',
-						'class' => $class,
-						'content' => 'Register',
-						'data' => $data,
-					]
-				];
-			}
-			
-			echo $this->element('Items/header', $params);
-		?>
-		
-	</div>
-</div>
-
 
 <div class="row">
 	<div class="col-md-2">

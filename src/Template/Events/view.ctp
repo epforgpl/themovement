@@ -4,49 +4,13 @@
 	echo $this->Less->less('less/items.less');
 	$this->prepend('script', $this->Html->script('page'));
 	$this->prepend('script', $this->Html->script('event'));
+	
+	echo $this->element('Items/Events/header', [
+		'item' => $item
+	]);
+
+	if( $item->toc ) {	
 ?>
-
-<div class="row">
-	<div class="col-md-12">
-		
-		<?
-			$params = [
-				'item' => $item,
-				'chapter' => 'events',
-				'avatar_manage' => ( $_user && ($_user['role']=='admin') )
-			];
-			
-			if( $item['registration'] && !@$user_registration->id ) {					
-				
-				if( $_user ) {
-					$data = [];
-					$class = 'btn-register';
-				} else {
-					$data = [
-						'msg' => 'In order to register for this event, you need to login.',
-						'next' => $item->getUrl() . '?register'
-					];
-					$class = 'btn-register login-required';
-				}
-				
-				$params['title_buttons'] = [
-					[
-						'id' => 'btn-register',
-						'class' => $class,
-						'content' => 'Register',
-						'data' => $data,
-					]
-				];
-			}
-			
-			echo $this->element('Items/header', $params);
-		?>
-		
-	</div>
-</div>
-
-
-<? if( $item->toc ) {?>
 <div id="tocModal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -195,7 +159,7 @@
 			<header class="text-center"><h2>Confirm your registration</h2></header>
 
 			<div class="content">
-				
+								
 				<? if( $user_registration->coupon ) {?>
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
