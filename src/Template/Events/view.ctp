@@ -447,7 +447,14 @@
 		
 		<? if( $related_event ) {?>
 		<div class="block block-see-also">
-			<header><h2>See also</h2></header>
+			<?
+				$label = 'See also';
+				if( $item->related_event_type == 1 )
+					$label = 'Core Event';
+				elseif( $item->related_event_type == 2 )
+					$label = 'Satellite Event';
+			?>
+			<header><h2><?= $label ?></h2></header>
 			<div class="content items">
 				<a href="<?= $related_event->getUrl() ?>" class="block tm_item">
 					<?= $this->Layout->calendar( $related_event ); ?>
