@@ -35,245 +35,245 @@
 
 
 <? if( $_user && $item['registration'] ) { ?>
-<div class="row" id="register-div"<? if( !isset($this->request->query['register']) ) {?> style="display: none;"<? } ?>>
-	<div class="col-md-12">
-		
-		<div class="block block-registration block-minimal">
+	
+	<? if($user_registration && $user_registration->status===0) { ?>
+	<div class="row" id="register-user-div">
+		<div class="col-md-12">
 			
-			<header class="text-center"><h2>You are about to register</h2></header>
-			
-			<div class="row">
-				
-				<div class="col-md-8 col-md-offset-2">
-					
-					<p class="banner without-coupon">The price for the event is <strong>20 PLN</strong>. Please fill out the form below and press the "Submit and Pay" button. In the next step you will be required to pay the registration fee via PayPal.</p>
-					<p class="banner with-coupon" style="display: none;">Please fill out the form below and press the "Submit" button.</p>
-					
-					<form class="form-vertical" action="/events/register" method="post">
-				
-						<input id="inputEventId" type="hidden" name="event_id" value="<?= $item->id ?>" />
-						
-						<div class="form_inner">
-							
-							<?= $this->element('Users/profile', [
-								'user' => $user,
-								'disableBasicFields' => true,
-								'autoInit' => isset( $this->request->query['register'] )
-							]); ?>
-							
-							<div class="row">
-								<div class="col-md-6">
-								
-									<fieldset>
-										<div class="form-group row">
-											<label for="textAreaDietary" class="col-md-12 control-label">Dietary restrictions for the event</label>
-											<div class="col-md-12">
-												<?= $this->Form->textarea('dietary', ['class' => 'form-control', 'rows' => 3, 'id' => 'textAreaDietary', 'value' => isset($user_registration) ? $user_registration->dietary : false]) ?>
-												<span class="help-block">Food allergies, requirements (e.g. vegetarian).</span>
-											</div>
-										</div>
-									</fieldset>
+			<div class="block block-registration block-confirm">
+	
+				<header class="text-center"><h2>Confirm your registration</h2></header>
+	
+				<div class="content">
 									
-								</div><div class="col-md-6">
+					<? if( $user_registration->coupon ) {?>
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+						<? if( $user_registration->coupon_valid ) { ?>
+								<div class="alert alert-success">Your coupon is valid.</div>
+						<? } else { ?>
+								<div class="alert alert-danger">Your coupon is invalid.</div>
+						<? } ?>
+							</div>
+						</div>
+					<? } ?>
+					
+					<input type="hidden" name="event_id" value="<?= $item->id ?>" />
+					
+					<div class="form_inner">
+					
+						<div class="row">
+							<div class="col-md-4">
 								
-									<fieldset>
-										<div class="form-group row">
-											<label for="textAreaComments" class="col-md-12 control-label">Additional comments / special needs for the event</label>
-											<div class="col-md-12">
-												<?= $this->Form->textarea('comments', ['class' => 'form-control', 'rows' => 3, 'id' => 'textAreaComments', 'value' => isset($user_registration) ? $user_registration->comments : false]) ?>
-											</div>
+								<fieldset>
+									
+									<div class="form-group row">
+										<label for="inputParticipant" class="col-md-12 control-label">Participant</label>
+										<div class="col-md-12">
+											<p class="value"><?= $_user['name'] ?></p>
 										</div>
-									</fieldset>
+									</div>
+									
+								</fieldset>
 								
-								</div>
-							</div>					
+							</div><div class="col-md-4">
+							
+								<fieldset>
+									<div class="form-group row">
+										<label for="textAreaDietary" class="col-md-12 control-label">Dietary restrictions</label>
+										<div class="col-md-12">
+											<p class="value"><?= $user_registration->dietary ? $user_registration->dietary : '<span class="none">None</span>' ?></p>
+										</div>
+									</div>
+								</fieldset>
+								
+							</div><div class="col-md-4">
+							
+								<fieldset>
+									<div class="form-group row">
+										<label for="textAreaComments" class="col-md-12 control-label">Additional comments / special needs</label>
+										<div class="col-md-12">
+											<p class="value"><?= $user_registration->comments ? $user_registration->comments : '<span class="none">None</span>' ?></p>
+										</div>
+									</div>
+								</fieldset>
+							
+							</div>
 						</div>
 						
 						<div class="row">
-							<div class="col-md-6 col-md-offset-3">
+							<div class="col-md-12">
 								
-								<? if( $item->events_days ) { ?>
-								<div class="form-group row daysCheckboxesDiv">
-									<label class="col-md-12 control-label">I will attend PDF CEE 2017 on:</label>
-									<?
-										$ids = [];
-										if( $user_registration->events_days ) {
-											if( isset($user_registration->events_days['_ids']) )
-												$ids = $user_registration->events_days['_ids'];
-										}
-									?>
-									<div class="col-md-12" id="daysCheckboxes" data-value="<?= htmlspecialchars(json_encode($ids)) ?>">
-										<? foreach( $item->events_days as $day ) {?>
-										<div class="checkbox">
-											<label class="ch">
-												<input name="events_days[_ids][]" type="checkbox" value="<?= $day->id ?>"> <?= $day->date->format('l, F j, Y') ?>
-											</label>
-								        </div>
-								        <? } ?>
+								<div class="form-group row text-center">
+									<label class="col-md-12 control-label">You will participate in PDF CEE 2017 on:</label>
+									<div class="col-md-12 days_values">
+										<? foreach( $user_registration->events_days as $day ) { ?>
+										<p class="value"><?= $day->date->format('l, F j, Y') ?></p>
+										<? } ?>
 									</div>
 								</div>
-								<? } ?>
 								
-								<div class="form-group row">
-									<label for="inputCoupon" class="col-md-12 control-label">I have a coupon</label>
-									<div class="col-md-12">
-										<div class="input-group">
-											<?= $this->Form->text('coupon', ['class' => 'form-control', 'id' => 'inputCoupon', 'placeholder' => 'Coupon Code', 'value' => isset($user_registration) ? $user_registration->coupon : false]) ?><span class="input-group-btn"><button id="btnCoupon" class="btn btn-default btn-coupon" type="button">Check</button></span>
-										</div>
-										
-										<p class="msg-coupon valid" style="display: none;"><span class="glyphicon glyphicon-ok"></span> Your coupon is valid</p>
-										<p class="msg-coupon invalid" style="display: none;"><span class="glyphicon glyphicon-remove"></span> Your coupon is invalid</p>
-										
-									</div>
-								</div>
 							</div>
 						</div>
+										
+					</div>
+	
+					<div class="buttons text-center">
+					
+					
+						<? if( $user_registration->coupon && $user_registration->coupon_valid ) {?>
 						
-						<div class="buttons">
 							<div class="buttons-primary">
-								<button id="btn-submit-pay" type="submit" class="btn btn-register btn-lg btn-profile-edit-submit disabled" disabled="disabled">Submit and Pay</button>
+								<a href="<?= $this->Url->build(['controller' => 'Events', 'action' => 'finishRegistration', $item->slug]) ?>" class="btn btn-register btn-lg">Finish Registration</a>
 							</div>
 							
-							<div class="buttons-secondary">
-								<p><a href="#" id="btn-register-cancel">Cancel</a></p>
+						<? } else { ?>
+						
+							<div class="buttons-primary">
+								<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+									<input type="hidden" name="cmd" value="_s-xclick">
+									<input type="hidden" name="hosted_button_id" value="6LRKHRHU2NWYQ">
+									<input type="image" src="https://www.paypalobjects.com/en_US/PL/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+									<img alt="" border="0" src="https://www.paypalobjects.com/pl_PL/i/scr/pixel.gif" width="1" height="1">
+								</form>
+	
 							</div>
-						</div>
-								
-					</form>
-					
-				</div>
-				
-			</div>
-							
-		</div>
-		
-	</div>
-</div>
-
-<? if($user_registration && $user_registration->status===0) { ?>
-<div class="row" id="register-user-div">
-	<div class="col-md-12">
-		
-		<div class="block block-registration block-confirm">
-
-			<header class="text-center"><h2>Confirm your registration</h2></header>
-
-			<div class="content">
-								
-				<? if( $user_registration->coupon ) {?>
-					<div class="row">
-						<div class="col-sm-6 col-sm-offset-3">
-					<? if( $user_registration->coupon_valid ) { ?>
-							<div class="alert alert-success">Your coupon is valid.</div>
-					<? } else { ?>
-							<div class="alert alert-danger">Your coupon is invalid.</div>
-					<? } ?>
-						</div>
-					</div>
-				<? } ?>
-				
-				<input type="hidden" name="event_id" value="<?= $item->id ?>" />
-				
-				<div class="form_inner">
-				
-					<div class="row">
-						<div class="col-md-4">
-							
-							<fieldset>
-								
-								<div class="form-group row">
-									<label for="inputParticipant" class="col-md-12 control-label">Participant</label>
-									<div class="col-md-12">
-										<p class="value"><?= $_user['name'] ?></p>
-									</div>
-								</div>
-								
-							</fieldset>
-							
-						</div><div class="col-md-4">
 						
-							<fieldset>
-								<div class="form-group row">
-									<label for="textAreaDietary" class="col-md-12 control-label">Dietary restrictions</label>
-									<div class="col-md-12">
-										<p class="value"><?= $user_registration->dietary ? $user_registration->dietary : '<span class="none">None</span>' ?></p>
-									</div>
-								</div>
-							</fieldset>
-							
-						</div><div class="col-md-4">
+						<? } ?>
 						
-							<fieldset>
-								<div class="form-group row">
-									<label for="textAreaComments" class="col-md-12 control-label">Additional comments / special needs</label>
-									<div class="col-md-12">
-										<p class="value"><?= $user_registration->comments ? $user_registration->comments : '<span class="none">None</span>' ?></p>
-									</div>
-								</div>
-							</fieldset>
-						
-						</div>
-					</div>
-					
-					<div class="row">
-						<div class="col-md-12">
-							
-							<div class="form-group row text-center">
-								<label class="col-md-12 control-label">You will participate in PDF CEE 2017 on:</label>
-								<div class="col-md-12 days_values">
-									<? foreach( $user_registration->events_days as $day ) { ?>
-									<p class="value"><?= $day->date->format('l, F j, Y') ?></p>
-									<? } ?>
-								</div>
-							</div>
-							
-						</div>
-					</div>
-									
-				</div>
-
-				<div class="buttons text-center">
-				
-				
-					<? if( $user_registration->coupon && $user_registration->coupon_valid ) {?>
-					
-						<div class="buttons-primary">
-							<a href="<?= $this->Url->build(['controller' => 'Events', 'action' => 'finishRegistration', $item->slug]) ?>" class="btn btn-register btn-lg">Finish Registration</a>
-						</div>
-						
-					<? } else { ?>
-					
-						<div class="buttons-primary">
-							<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-								<input type="hidden" name="cmd" value="_s-xclick">
-								<input type="hidden" name="hosted_button_id" value="6LRKHRHU2NWYQ">
-								<input type="image" src="https://www.paypalobjects.com/en_US/PL/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-								<img alt="" border="0" src="https://www.paypalobjects.com/pl_PL/i/scr/pixel.gif" width="1" height="1">
+						<div class="buttons-secondary">
+							<p><a href="#" id="btn-register-modify">Modify registration data</a></p>
+							<form id="form-cancel-registration" method="post" action="<?= $item->getUrl() ?>">
+								<p><input type="submit" name="cancel-registration" class="input-link" href="#" id="btn-register-cancel-registration" value="Cancel registration" />
 							</form>
-
 						</div>
+						
+						
+						
+					</div>
+							
+				</div>
 					
-					<? } ?>
+			</div>
+			
+		</div>
+	</div>
+	<? } ?>
+	<div class="row" id="register-div"<? if( !isset($this->request->query['register']) || ( isset($this->request->query['register']) && $user_registration ) ) {?> style="display: none;"<? } ?>>
+		<div class="col-md-12">
+			
+			<div class="block block-registration block-minimal">
+				
+				<header class="text-center"><h2>You are about to register</h2></header>
+				
+				<div class="row">
 					
-					<div class="buttons-secondary">
-						<p><a href="#" id="btn-register-modify">Modify registration data</a></p>
-						<form id="form-cancel-registration" method="post" action="<?= $item->getUrl() ?>">
-							<p><input type="submit" name="cancel-registration" class="input-link" href="#" id="btn-register-cancel-registration" value="Cancel registration" />
+					<div class="col-md-8 col-md-offset-2">
+						
+						<p class="banner without-coupon">The price for the event is <strong>20 PLN</strong>. Please fill out the form below and press the "Submit and Pay" button. In the next step you will be required to pay the registration fee via PayPal.</p>
+						<p class="banner with-coupon" style="display: none;">Please fill out the form below and press the "Submit" button.</p>
+						
+						<form class="form-vertical" action="/events/register" method="post">
+					
+							<input id="inputEventId" type="hidden" name="event_id" value="<?= $item->id ?>" />
+							
+							<div class="form_inner">
+								
+								<?= $this->element('Users/profile', [
+									'user' => $user,
+									'disableBasicFields' => true,
+									'autoInit' => isset( $this->request->query['register'] )
+								]); ?>
+								
+								<div class="row">
+									<div class="col-md-6">
+									
+										<fieldset>
+											<div class="form-group row">
+												<label for="textAreaDietary" class="col-md-12 control-label">Dietary restrictions for the event</label>
+												<div class="col-md-12">
+													<?= $this->Form->textarea('dietary', ['class' => 'form-control', 'rows' => 3, 'id' => 'textAreaDietary', 'value' => isset($user_registration) ? $user_registration->dietary : false]) ?>
+													<span class="help-block">Food allergies, requirements (e.g. vegetarian).</span>
+												</div>
+											</div>
+										</fieldset>
+										
+									</div><div class="col-md-6">
+									
+										<fieldset>
+											<div class="form-group row">
+												<label for="textAreaComments" class="col-md-12 control-label">Additional comments / special needs for the event</label>
+												<div class="col-md-12">
+													<?= $this->Form->textarea('comments', ['class' => 'form-control', 'rows' => 3, 'id' => 'textAreaComments', 'value' => isset($user_registration) ? $user_registration->comments : false]) ?>
+												</div>
+											</div>
+										</fieldset>
+									
+									</div>
+								</div>					
+							</div>
+							
+							<div class="row">
+								<div class="col-md-6 col-md-offset-3">
+									
+									<? if( $item->events_days ) { ?>
+									<div class="form-group row daysCheckboxesDiv">
+										<label class="col-md-12 control-label">I will attend PDF CEE 2017 on:</label>
+										<?
+											$ids = [];
+											if( $user_registration->events_days ) {
+												if( isset($user_registration->events_days['_ids']) )
+													$ids = $user_registration->events_days['_ids'];
+											}
+										?>
+										<div class="col-md-12" id="daysCheckboxes" data-value="<?= htmlspecialchars(json_encode($ids)) ?>">
+											<? foreach( $item->events_days as $day ) {?>
+											<div class="checkbox">
+												<label class="ch">
+													<input name="events_days[_ids][]" type="checkbox" value="<?= $day->id ?>"> <?= $day->date->format('l, F j, Y') ?>
+												</label>
+									        </div>
+									        <? } ?>
+										</div>
+									</div>
+									<? } ?>
+									
+									<div class="form-group row">
+										<label for="inputCoupon" class="col-md-12 control-label">I have a coupon</label>
+										<div class="col-md-12">
+											<div class="input-group">
+												<?= $this->Form->text('coupon', ['class' => 'form-control', 'id' => 'inputCoupon', 'placeholder' => 'Coupon Code', 'value' => isset($user_registration) ? $user_registration->coupon : false]) ?><span class="input-group-btn"><button id="btnCoupon" class="btn btn-default btn-coupon" type="button">Check</button></span>
+											</div>
+											
+											<p class="msg-coupon valid" style="display: none;"><span class="glyphicon glyphicon-ok"></span> Your coupon is valid</p>
+											<p class="msg-coupon invalid" style="display: none;"><span class="glyphicon glyphicon-remove"></span> Your coupon is invalid</p>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="buttons">
+								<div class="buttons-primary">
+									<button id="btn-submit-pay" type="submit" class="btn btn-register btn-lg btn-profile-edit-submit disabled" disabled="disabled">Submit and Pay</button>
+								</div>
+								
+								<div class="buttons-secondary">
+									<p><a href="#" id="btn-register-cancel">Cancel</a></p>
+								</div>
+							</div>
+									
 						</form>
+						
 					</div>
 					
-					
-					
 				</div>
-						
+								
 			</div>
-				
+			
 		</div>
-		
 	</div>
-</div>
-<? } ?>
-
+	
 <? } ?>
 
 

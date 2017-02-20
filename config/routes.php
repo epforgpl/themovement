@@ -52,6 +52,9 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
+     
+	$routes->resources('Coupons');
+     
     $routes->connect('/', ['controller' => 'Pages', 'action' => 'home']);
     foreach( ['about', 'contact'] as $page )
 	    $routes->connect($page, ['controller' => 'Pages', 'action' => $page]);
@@ -116,8 +119,6 @@ Router::scope('/', function (RouteBuilder $routes) {
 		'action' => 'download',
 		'pass' => ['slug']		
 	]);
-	
-	
 	
 	$routes->connect(
 	    '/people', ['controller' => 'Users']
