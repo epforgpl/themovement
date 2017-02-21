@@ -15,6 +15,8 @@ class LayoutHelper extends Helper
 			
 			if( $item->end_date )
 				$parts[] = $item->end_date->format('j');
+				
+			$parts = array_unique($parts);
 							
 			$output .= '
 			<div class="code_avatar event">

@@ -415,7 +415,7 @@
 						
 						$part = '<span>End</span> <strong>' . $item->end_date->format('l, F j, Y') . '</strong>';
 						if( $item->end_time )
-							$part .= ' &mdash; ' . $item->begin_time->format('G:i');
+							$part .= ' &mdash; ' . $item->end_time->format('G:i');
 						
 						$date_parts[] = $part;
 						
