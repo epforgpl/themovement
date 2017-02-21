@@ -14,7 +14,7 @@ class EventsController extends AppController
 			'fields' => ['id', 'version', 'slug', 'img', 'name', 'begin_date', 'begin_time', 'end_date', 'end_time'],
 			'conditions' => [],
 			'order' => [
-				'ord' => 'ASC',
+				'-ord' => 'DESC',
 				'begin_date' => 'ASC',
 				'begin_time' => 'ASC',
 				'id' => 'ASC',
