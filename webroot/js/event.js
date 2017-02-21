@@ -13,16 +13,19 @@ function checkCoupon() {
 		
 		$.get('/coupons/check.json?code=' + v + '&event_id=' + event_id, function(res){
 			
+			var btn = $('#btn-submit-pay');
+			
 			if( res === true ) {
 				$('#register-div .banner.without-coupon').hide();
 				$('#register-div .banner.with-coupon').show();
 				$('#register-div .msg-coupon.valid').show();
-				$('#btn-submit-pay').text('Submit');
+				btn.text('Submit');
+				
 			} else {
 				$('#register-div .banner.with-coupon').hide();
 				$('#register-div .banner.without-coupon').show();
 				$('#register-div .msg-coupon.invalid').show();
-				$('#btn-submit-pay').text('Submit and pay');
+				btn.text('Submit and pay');
 			}
 			
 		});

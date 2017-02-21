@@ -36,6 +36,7 @@
 
 <? if( $_user && $item['registration'] ) { ?>
 	
+	
 	<? if($user_registration && $user_registration->status===0) { ?>
 	<div class="row" id="register-user-div">
 		<div class="col-md-12">
@@ -101,11 +102,12 @@
 							</div>
 						</div>
 						
+						<? if( $user_registration->events_days ) {?>
 						<div class="row">
 							<div class="col-md-12">
 								
 								<div class="form-group row text-center">
-									<label class="col-md-12 control-label">You will participate in PDF CEE 2017 on:</label>
+									<label class="col-md-12 control-label">You will participate in <?= $item->name ?> on:</label>
 									<div class="col-md-12 days_values">
 										<? foreach( $user_registration->events_days as $day ) { ?>
 										<p class="value"><?= $day->date->format('l, F j, Y') ?></p>
@@ -115,13 +117,21 @@
 								
 							</div>
 						</div>
+						<? } ?>
 										
 					</div>
 	
 					<div class="buttons text-center">
 					
 					
-						<? if( $user_registration->coupon && $user_registration->coupon_valid ) {?>
+						<? if( 
+							$item->registration_free || 
+							(
+								$user_registration->coupon && 
+								$user_registration->coupon_valid
+							)
+							
+						) {?>
 						
 							<div class="buttons-primary">
 								<a href="<?= $this->Url->build(['controller' => 'Events', 'action' => 'finishRegistration', $item->slug]) ?>" class="btn btn-register btn-lg">Finish Registration</a>
@@ -159,7 +169,7 @@
 		</div>
 	</div>
 	<? } ?>
-	<div class="row" id="register-div"<? if( !isset($this->request->query['register']) || ( isset($this->request->query['register']) && $user_registration ) ) {?> style="display: none;"<? } ?>>
+	<div class="row" id="register-div"<? if( !isset($this->request->query['register']) || ( isset($this->request->query['register']) && $user_registration && !$user_registration->isNew() ) ) {?> style="display: none;"<? } ?>>
 		<div class="col-md-12">
 			
 			<div class="block block-registration block-minimal">
@@ -170,8 +180,12 @@
 					
 					<div class="col-md-8 col-md-offset-2">
 						
+						<? if( $item->registration_free ) { ?>
+						<p class="banner">Registration for this event is free. Please fill out the form below and press the "Submit" button.</p>
+						<? } else { ?>
 						<p class="banner without-coupon">The price for the event is <strong>20 PLN</strong>. Please fill out the form below and press the "Submit and Pay" button. In the next step you will be required to pay the registration fee via PayPal.</p>
 						<p class="banner with-coupon" style="display: none;">Please fill out the form below and press the "Submit" button.</p>
+						<? } ?>
 						
 						<form class="form-vertical" action="/events/register" method="post">
 					
@@ -238,6 +252,7 @@
 									</div>
 									<? } ?>
 									
+									<? if( $item->registration_coupons ) {?>
 									<div class="form-group row">
 										<label for="inputCoupon" class="col-md-12 control-label">I have a coupon</label>
 										<div class="col-md-12">
@@ -250,12 +265,13 @@
 											
 										</div>
 									</div>
+									<? } ?>
 								</div>
 							</div>
 							
 							<div class="buttons">
 								<div class="buttons-primary">
-									<button id="btn-submit-pay" type="submit" class="btn btn-register btn-lg btn-profile-edit-submit disabled" disabled="disabled">Submit and Pay</button>
+									<button id="btn-submit-pay" type="submit" class="btn btn-register btn-lg btn-profile-edit-submit disabled" disabled="disabled"><?= $item->registration_free ? 'Submit' : 'Submit and Pay' ?></button>
 								</div>
 								
 								<div class="buttons-secondary">
@@ -339,7 +355,7 @@
 					<div class="icon"><span class="glyphicon glyphicon-plane"></span></div>
 					<div class="content">
 						<p class="label label-success label-yag">You are going!</p>
-						<p><a class="event-publisher-btn-share" href="#">Photo Generator</a></p>
+						<? if( $item->registration_photo_generator ) { ?><p><a class="event-publisher-btn-share" href="#">Photo Generator</a></p><? } ?>
 					</div>
 				</li>
 				

@@ -57,9 +57,9 @@ class EventsController extends AppController
 		    $registration->status = 1;
 		    TableRegistry::get('Registrations')->save($registration);
 		    TableRegistry::get('Registrations')->sendConfirmation($registration);
-		    
+		    		    
 		    $this->Flash->set('Your registration has been finalized.', [
-			    'element' => 'event-publisher'
+			    'element' => $item->registration_photo_generator ? 'event-publisher' : 'success',
 			]);
 						   		    		    
 	    }
@@ -200,7 +200,12 @@ class EventsController extends AppController
 		    ( $user_id = $this->Auth->user('id') ) && 
 		    @$this->request->data &&
 		    ( $event_id = @$this->request->data['event_id'] ) && 
-		    ( $event = $this->Events->get($this->request->data['event_id'], ['fields' => ['id', 'slug']]) )
+		    ( $event = $this->Events->get($this->request->data['event_id'], [
+		    	'fields' => ['id', 'slug'],
+		    	'contain' => [
+			    	'EventsDays'
+		    	],
+	    	]) )
 	    ) {		    
 		    
 		    $errors = TableRegistry::get('Users')->updateProfile($user_id, $this->request->data);
@@ -222,9 +227,11 @@ class EventsController extends AppController
 				$this->redirect('/events/' . $event->slug . '/?register');
 			    
 			} else {
-		    	
-		    	
-		    	if( empty($this->request->data['events_days']['_ids']) ) {
+		    			    	
+		    	if( 
+		    		!empty($event->events_days) && 
+		    		empty($this->request->data['events_days']['_ids']) 
+	    		) {
 			    	
 			    	$this->Flash->set('Select days', [
 					    'element' => 'error'

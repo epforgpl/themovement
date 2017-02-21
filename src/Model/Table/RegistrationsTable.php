@@ -24,16 +24,27 @@ class RegistrationsTable extends Table
 	    if(
 		    $registration && 
 		    $registration->user_id && 
-		    ( $user = TableRegistry::get('Users')->get($registration->user_id) )
+		    ( $user = TableRegistry::get('Users')->get($registration->user_id) ) && 
+		    ( $event = TableRegistry::get('Events')->get($registration->event_id) )
 	    ) {
-	    		    	
+	    		    	 	
 		    $email = new Email('default');
-												
+			
+			$msg = '';
+			
+			if( $user->first_name )
+				$msg .= 'Hi ' . $user->first_name . ",\n\n";
+				
+			$msg .= "Thank you for registering to " . $event->name . "!\n";
+			
+			if( $event->registration_mail )
+				$msg .= "\n" . $event->registration_mail;
+																
 			$status = $email->from(['events@themovement.io' => 'The Movement'])
 			    ->to([$user->email => $user->name])
-			    ->subject('Personal Democracy Forum CEE 2017')
+			    ->subject( $event->name )
 			    ->template('register')
-			    ->send([$user->first_name]);
+			    ->send([$msg]);
 		    
 		}
 	    
