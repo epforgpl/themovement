@@ -85,17 +85,9 @@ class EventsController extends AppController
 		    	],
 		    	'EventsDays' => [],
 		    	'Organizations' => [],
+		    	'RelatedEvents' => [],
 	    	])->limit(1)->first() )
 	    ) {
-		    		    
-		    $related_event = false;
-		    if( $item->related_event_id ) {
-			    
-			    $related_event = TableRegistry::get('Events')->get( $item->related_event_id );
-			    
-		    }
-		    		    
-		    $this->set('related_event', $related_event);
 		    				    
 		    $this->meta['ogg:url'] = 'http://themovement.io' . $item->getUrl();
 		    $this->meta['ogg:type'] = 'article';

@@ -11,6 +11,12 @@ class EventsTable extends Table
         $this->hasMany('Registrations');
         $this->hasMany('EventsDays');
         $this->belongsToMany('Organizations');
+        $this->belongsToMany('RelatedEvents', [
+	        'className' => 'Events',
+	        'joinTable' => 'events_related',
+	        'foreignKey' => 'parent_id',
+	        'targetForeignKey' => 'child_id',
+        ]);
     }
 
 }

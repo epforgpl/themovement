@@ -461,17 +461,11 @@
 		</div>
 		<? } ?>
 		
-		<? if( $related_event ) {?>
+		<? if( $relatedGroups = $item->groupRelatedEvents() ) { foreach( $relatedGroups as $related ) { ?>
 		<div class="block block-see-also">
-			<?
-				$label = 'See also';
-				if( $item->related_event_type == 1 )
-					$label = 'Core Event';
-				elseif( $item->related_event_type == 2 )
-					$label = 'Satellite Event';
-			?>
-			<header><h2><?= $label ?></h2></header>
+			<header><h2><?= $related['type']['label'] ?></h2></header>
 			<div class="content items">
+				<? foreach( $related['events'] as $related_event ) {?>
 				<a href="<?= $related_event->getUrl() ?>" class="block tm_item">
 					<?= $this->Layout->calendar( $related_event ); ?>
 					<div class="img" style="background-image: url(<? if( $related_event->img ) { ?>/resources/events/<?= $related_event->id ?>-block.jpg?v=<?= $related_event->version ?><? } else { ?>/img/events-default.svg<? } ?>);"></div>
@@ -479,9 +473,10 @@
 						<h2><?= $related_event->name ?></h2>
 					</div>
 				</a>
+				<? } ?>
 			</div>
 		</div>
-		<? } ?>
+		<? } } ?>
 		
 		<?php if( false ) { ?>
 		<div class="block">
