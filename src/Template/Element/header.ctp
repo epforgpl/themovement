@@ -28,7 +28,7 @@
 				<? /* <li><?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', '#', ['escape' => false]); ?></li> */ ?>
 				<? if( $_user ) { ?>
 				<li class="logged_user dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><? if($_user['fb_id']) {?><img src="//graph.facebook.com/<?= $_user['fb_id'] ?>/picture" /><? } else {?><span class="glyphicon glyphicon-user"></span><?}?></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= $this->Layout->userAvatar($_user) ?></a>
 					<ul class="dropdown-menu logged_user_dropdown">
 						<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-user"></span> Profile', ['controller' => 'Users', 'action' => 'view', $_user['slug']], ['escape' => false]); ?></li>
 						<li><?php echo $this->Html->link('<span class="glyphicon glyphicon-off"></span> Log out', ['controller' => 'Users', 'action' => 'logout'], ['escape' => false]); ?></li>

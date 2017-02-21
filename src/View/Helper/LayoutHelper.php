@@ -30,4 +30,22 @@ class LayoutHelper extends Helper
 		return $output;
 		
 	}
+	
+	public function userAvatar($user) {
+		
+		$output = '<div class="img"';
+		
+		if( $user['fb_id'] )
+			$output .= ' style="background-image: url(\'//graph.facebook.com/' . $user['fb_id'] . '/picture\') "';
+		
+		$output .= '>';
+		
+		if( !$user['fb_id'] )
+			$output .= '<span class="icon-user"></span>';
+		
+		$output .= '</div>';
+		
+		return $output;
+		
+	}
 }
