@@ -70,19 +70,12 @@ class EventsController extends AppController
     
     public function view( $slug )
     {
-			
-		$registrations_conditions = [
-			'Registrations.status' => 1,
-		];
-		
+					
 	    if(
 		    ( $slug ) && 
 		    ( $item = TableRegistry::get('Events')->find()->where([
 			    'Events.slug' => $slug
 		    ])->contain([
-		    	'Registrations' => [
-			    	'conditions' => $registrations_conditions
-		    	],
 		    	'EventsDays' => [],
 		    	'Organizations' => [],
 		    	'RelatedEvents' => [],
@@ -100,8 +93,8 @@ class EventsController extends AppController
 	    	
 	    	$this->set('_meta', $this->meta);
 		    
-		    
-		    if( $item->registration )
+		    if( $item->registration ) {
+			    
 			    $followers = TableRegistry::get('Registrations')->find('all', [
 				    'fields' => ['Registrations.created', 'Users.id', 'Users.fb_id', 'Users.first_name', 'Users.last_name', 'Users.name', 'Users.organization_name', 'Users.organization_www', 'Users.slug', 'Users.gender'],
 				    'conditions' => [
@@ -116,58 +109,89 @@ class EventsController extends AppController
 				    ],
 				    'limit' => 6,
 			    ]);
-			else 
-			    $followers = TableRegistry::get('EventsFollows')->find('all');
-		    
-		    $this->set('followers', $followers);
-		    	    
-		    $user_registration = false;
-		    if(
-			    $item->registration && 
-		    	( $user_id = $this->Auth->user('id') )
-	    	) {
+			    $followers_label = 'Who is going';
 			    
-			    $user =  TableRegistry::get('Users')->get($user_id, [
-				    'contain' => ['Professions'],
+			} else {
+			    
+			    $followers = TableRegistry::get('EventsFollowers')->find('all', [
+				    'conditions' => [
+					    'EventsFollowers.deleted' => false,
+				    ],
+				    'order' => [
+					    'EventsFollowers.id' => 'DESC',
+				    ],
+				    'contain' => [
+					    'Users' => [],
+				    ],
 			    ]);
-			    		    
-			    $user_registration = TableRegistry::get('Registrations')->find()->where([
-				    'Registrations.event_id' => $item->id,
-				    'Registrations.user_id' => $user_id,
-			    ])->contain([
-				    'EventsDays' => [],
-			    ])->limit(1)->first();
-			    
-			    if( !$user_registration ) {
-				    $user_registration =  TableRegistry::get('Registrations')->newEntity();
-			    }
-			    			    
-			    if( $session_data = $this->request->session()->read('Forms.Events.' . $item->id . '.register') ) {
-				    				    		    
-				    if( $user ) {
-					    $fields = ['country', 'organization', 'organization_name', 'organization_www', 'organization_role', 'other_profession', 'about', 'gender', 'professions'];
-					    foreach( $fields as $f ) {
-						    
-						    if( isset($session_data[ $f ]) )
-						    	$user->set($f, $session_data[ $f ]);
-						    
-					    }
-				    }
-				    	
-				    
-				    // USER REGISTRATION
-				    
-				    $fields = ['dietary', 'comments', 'events_days', 'coupon'];				    
-				    foreach( $fields as $f ) {
-					    if( isset($session_data[ $f ]) )
-					    	$user_registration->set($f, $session_data[ $f ]);
-				    }
-				    				    			    
-			    }			    
-
-			    $this->set('user', $user);
+			    $followers_label = 'Following';
 			    
 		    }
+		    
+		    $this->set('followers', $followers);
+		    $this->set('followers_label', $followers_label);
+		    	    
+		    $user_registration = false;
+		    $user_follow = false;
+		    
+		    if( $user_id = $this->Auth->user('id') ) {
+		    
+		    
+			    if( $item->registration ) {
+				    
+				    $user =  TableRegistry::get('Users')->get($user_id, [
+					    'contain' => ['Professions'],
+				    ]);
+				    		    
+				    $user_registration = TableRegistry::get('Registrations')->find()->where([
+					    'Registrations.event_id' => $item->id,
+					    'Registrations.user_id' => $user_id,
+				    ])->contain([
+					    'EventsDays' => [],
+				    ])->limit(1)->first();
+				    
+				    if( !$user_registration ) {
+					    $user_registration =  TableRegistry::get('Registrations')->newEntity();
+				    }
+				    			    
+				    if( $session_data = $this->request->session()->read('Forms.Events.' . $item->id . '.register') ) {
+					    				    		    
+					    if( $user ) {
+						    $fields = ['country', 'organization', 'organization_name', 'organization_www', 'organization_role', 'other_profession', 'about', 'gender', 'professions'];
+						    foreach( $fields as $f ) {
+							    
+							    if( isset($session_data[ $f ]) )
+							    	$user->set($f, $session_data[ $f ]);
+							    
+						    }
+					    }
+					    	
+					    
+					    // USER REGISTRATION
+					    
+					    $fields = ['dietary', 'comments', 'events_days', 'coupon'];				    
+					    foreach( $fields as $f ) {
+						    if( isset($session_data[ $f ]) )
+						    	$user_registration->set($f, $session_data[ $f ]);
+					    }
+					    				    			    
+				    }			    
+	
+				    $this->set('user', $user);
+				    
+			    } else {
+				    
+					
+					$user_follow = TableRegistry::get('EventsFollowers')->find()->where([
+					    'EventsFollowers.event_id' => $item->id,
+					    'EventsFollowers.user_id' => $user_id,
+					    'EventsFollowers.deleted' => false,
+				    ])->limit(1)->first();
+									    
+			    }
+			    			    
+			    
+			}
 		    
 		    if( $this->request->is('post') ) {
 				
@@ -197,6 +221,7 @@ class EventsController extends AppController
 			
 		    $this->set('item', $item);
 		    $this->set('user_registration', $user_registration);
+		    $this->set('user_follow', $user_follow);
 		    
 	    } else {
 		    
@@ -379,5 +404,68 @@ class EventsController extends AppController
 		}
 	
 	}
+	
+	private function setFollow($slug, $status) {
+		
+		$follow = false;
+		
+		if(
+		    ( $slug ) && 
+		    ( $user_id = $this->Auth->user('id') ) && 
+		    ( $item = TableRegistry::get('Events')->find('all', [
+		    	'conditions' => [
+		    		'slug' => $slug,
+	    		], 
+		    	'limit' => 1
+	    	])->first() )
+	    ) {
+		    
+		    $followsTable = TableRegistry::get('EventsFollowers');
+		    
+		    $follow = $followsTable->find('all', [
+			    'conditions' => [
+				    'EventsFollowers.event_id' => $item->id,
+				    'EventsFollowers.user_id' => $user_id,
+			    ],
+		    ])->first();
+		    
+		    if( !$follow ) {
+			    $follow = $followsTable->newEntity([
+				    'event_id' => $item->id,
+				    'user_id' => $user_id,
+			    ]);
+		    }
+		    
+		    $follow->deleted = !$status;
+		    
+		    $followsTable->save( $follow );		    
+		    
+		    if( $follow->deleted )
+			    $this->Flash->set('You have unfollowed ' . $item->name, ['element' => 'success']);
+			else
+			    $this->Flash->set('You are now following ' . $item->name, ['element' => 'success']);
+		    						   		    		    
+	    }
+	    
+	    $this->set('res', $follow);
+	    $this->set('_serialize', 'res');
+		
+	}
+	
+	public function follow($slug)
+    {
+	    	    
+	    $this->setFollow($slug, true);
+	    $this->redirect( $this->referer() );
+	    
+    }
+    
+    public function unfollow($slug)
+    {
+	    	    
+	    $this->setFollow($slug, false);
+	    $this->redirect( $this->referer() );
+	    
+    }
         
 }

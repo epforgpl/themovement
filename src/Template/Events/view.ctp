@@ -461,9 +461,9 @@
 		</div>
 		<? } ?>
 		
-		<? if( $followers ) { ?>
+		<? if( $followers && $followers->count() ) { ?>
 		<div class="block block-followers">
-			<header><h2>Who is going</h2></header>
+			<header><h2><?= $followers_label ?></h2></header>
 			<div class="content">
 				<div class="tmTable">
 				<? foreach($followers as $f) {?>

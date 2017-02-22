@@ -33,11 +33,12 @@
 						<? } } ?>
 												
 					</div>
-					<? if( isset($buttons) ) {?>
+					<? if( isset($buttons) && $buttons ) {?>
 					<div class="buttons">
 						<div class="buttons_inner">
 							<div class="btn-group">
 							<? foreach( $buttons as $button ) { ?>
+								<? if( isset($button['before']) ) echo $button['before']; ?>
 								<?
 									if( isset($button['dropdown']) ) {
 										
@@ -56,6 +57,7 @@
 									</ul>
 								</div>
 								<? } ?>
+								<? if( isset($button['after']) ) echo $button['after']; ?>
 							<? } ?>
 							</div>
 						</div>
