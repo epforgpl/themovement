@@ -429,3 +429,112 @@
 .nav-page {
 	margin-top: 15px;
 }
+
+.block.block-followers {
+	.tmTable {
+		margin: 0 -10px;
+		
+		> a.row {
+			display: block;
+			&:hover {
+				p.name {
+					color: #2196f3;
+				}
+				p.desc {
+					color: #444;
+				}
+			}
+		}
+		
+		> .row {
+						
+			padding: 10px;
+			p {
+				margin: 0;
+				&.name {
+					font-weight: 600;
+					color: #333;
+				}
+				&.desc {
+					color: #213040;
+					color: #666;
+					font-size: 0.8em;
+				}
+			}
+			.img {
+				span.icon-gender {
+					font-size: 60px;
+					position: relative;
+					top: 3px;
+					color: #DDD;
+				}
+			}
+		}
+	}
+	.a-text {
+		color: #666;
+		font-size: 0.85em;
+		&:hover {
+			color: #0a6ebd;
+		}
+	}	
+}
+
+.tmTable {
+	> .row {
+		border-bottom: 1px solid #DDD;
+		padding: 10px 0;
+		
+		&:last-child {
+			border-bottom: none;
+		}
+		
+		p {
+			margin: 0;
+			padding: 0;
+		}
+		
+		.timestamp {
+			font-size: 0.8em;
+			color: #999;
+		}
+		
+		.img {
+			float: left;
+			width: 65px;
+			height: 65px;
+			margin-right: 10px;
+			background-position: center center;
+			background-size: cover;
+			border-radius: 5px;
+			text-align: center;
+			span {
+				font-size: 14px;
+				font-size: 28px;
+				color: #AAA;
+			}
+		}
+		
+		.item-status {
+			background-color: #ff9800;
+			width: 10px;
+			height: 10px;
+			display: inline-block;
+			border-radius: 10px;
+			margin-right: 3px;
+			&.item-status-finalized {
+				background-color: #4caf50;
+			}
+		}
+		
+		.icons {
+			span {
+				margin: 0 5px;
+				color: #BBB;
+				&:hover {
+					color: #666;
+				}
+			}
+		}
+	}
+}

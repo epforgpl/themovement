@@ -461,6 +461,25 @@
 		</div>
 		<? } ?>
 		
+		<? if( $followers ) { ?>
+		<div class="block block-followers">
+			<header><h2>Who is going</h2></header>
+			<div class="content">
+				<div class="tmTable">
+				<? foreach($followers as $f) {?>
+					<a class="row" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'view', $f->user->slug]) ?>">
+						<div class="col-md-12">
+							<?= $this->Layout->userAvatar($f->user, ['gender' => true]) ?>
+							<p class="name"><?= $f->user->name ?></p>
+							<p class="desc"><?= $f->user->organization_name ?></p>
+						</div>
+					</a>					
+				<? } ?>
+				</div>
+			</div>
+		</div>
+		<? } ?>
+		
 		<? if( $relatedGroups = $item->groupRelatedEvents() ) { foreach( $relatedGroups as $related ) { ?>
 		<div class="block block-see-also">
 			<header><h2><?= $related['type']['label'] ?></h2></header>

@@ -99,9 +99,33 @@ class EventsController extends AppController
 	    	
 	    	
 	    	$this->set('_meta', $this->meta);
-		    		    
+		    
+		    
+		    if( $item->registration )
+			    $followers = TableRegistry::get('Registrations')->find('all', [
+				    'fields' => ['Registrations.created', 'Users.id', 'Users.fb_id', 'Users.first_name', 'Users.last_name', 'Users.name', 'Users.organization_name', 'Users.organization_www', 'Users.slug', 'Users.gender'],
+				    'conditions' => [
+					    'event_id' => $item->id,
+					    'status' => 1,
+				    ],
+				    'order' => [
+					    'Registrations.created' => 'DESC',
+				    ],
+				    'contain' => [
+					    'Users' => [],
+				    ],
+				    'limit' => 6,
+			    ]);
+			else 
+			    $followers = TableRegistry::get('EventsFollows')->find('all');
+		    
+		    $this->set('followers', $followers);
+		    	    
 		    $user_registration = false;
-		    if( $user_id = $this->Auth->user('id') ) {
+		    if(
+			    $item->registration && 
+		    	( $user_id = $this->Auth->user('id') )
+	    	) {
 			    
 			    $user =  TableRegistry::get('Users')->get($user_id, [
 				    'contain' => ['Professions'],

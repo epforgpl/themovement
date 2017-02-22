@@ -31,17 +31,36 @@ class LayoutHelper extends Helper
 		
 	}
 	
-	public function userAvatar($user) {
+	public function userAvatar($user, $options = []) {
+		
+		$options = array_merge([
+			'gender' => false,
+		], $options);
 		
 		$output = '<div class="img"';
 		
 		if( $user['fb_id'] )
-			$output .= ' style="background-image: url(\'//graph.facebook.com/' . $user['fb_id'] . '/picture\') "';
+			$output .= ' style="background-image: url(\'//graph.facebook.com/' . $user['fb_id'] . '/picture?type=normal\') "';
 		
 		$output .= '>';
 		
-		if( !$user['fb_id'] )
-			$output .= '<span class="icon-user"></span>';
+		if( !$user['fb_id'] ) {
+			
+			if( $options['gender'] ) {
+				if( $user['gender']=='male' ) {
+					$class = 'icon-gender icon-account_man';
+				} elseif( $user['gender']=='female' ) {
+					$class = 'icon-gender icon-account_women';
+				} else {
+					$class = 'icon-user';
+				}
+			} else {
+				$class = 'icon-user';
+			}
+			
+			$output .= '<span class="' . $class . '"></span>';
+			
+		}
 		
 		$output .= '</div>';
 		
