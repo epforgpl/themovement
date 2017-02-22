@@ -68,6 +68,60 @@ class EventsController extends AppController
 	    
     }
     
+    private function getFollowers($item, $options = [])
+    {
+	    
+	    if( !isset($options['limit']) )
+	    	$options['limit'] = 6;
+	    
+	    if( $item->registration ) {
+			    
+		    $conditions = [
+			    'event_id' => $item->id,
+			    'status' => 1,
+		    ];
+		    
+		    if( isset($options['id']) )
+		    	$conditions['Registrations.id <'] = $options['id'];
+		    
+		    $followers = TableRegistry::get('Registrations')->find('all', [
+			    'fields' => ['Registrations.id', 'Registrations.created', 'Users.id', 'Users.fb_id', 'Users.first_name', 'Users.last_name', 'Users.name', 'Users.organization_name', 'Users.organization_www', 'Users.slug', 'Users.gender'],
+			    'conditions' => $conditions,
+			    'order' => [
+				    'Registrations.id' => 'DESC',
+			    ],
+			    'contain' => [
+				    'Users' => [],
+			    ],
+			    'limit' => $options['limit'],
+		    ]);
+		    
+		} else {
+		    
+		    $conditions = [
+			    'EventsFollowers.deleted' => false,
+		    ];
+		    
+		    if( isset($options['id']) )
+		    	$conditions['EventsFollowers.id <'] = $options['id'];
+		    
+		    $followers = TableRegistry::get('EventsFollowers')->find('all', [
+			    'conditions' => $conditions,
+			    'order' => [
+				    'EventsFollowers.id' => 'DESC',
+			    ],
+			    'contain' => [
+				    'Users' => [],
+			    ],
+			    'limit' => $options['limit'],
+		    ]);
+		    
+	    }
+	    
+	    return $followers;
+	    
+    }
+    
     public function view( $slug )
     {
 		
@@ -107,39 +161,12 @@ class EventsController extends AppController
 	    	
 	    	$this->set('_meta', $this->meta);
 		    
+		    $followers = $this->getFollowers($item);
+		    
 		    if( $item->registration ) {
-			    
-			    $followers = TableRegistry::get('Registrations')->find('all', [
-				    'fields' => ['Registrations.created', 'Users.id', 'Users.fb_id', 'Users.first_name', 'Users.last_name', 'Users.name', 'Users.organization_name', 'Users.organization_www', 'Users.slug', 'Users.gender'],
-				    'conditions' => [
-					    'event_id' => $item->id,
-					    'status' => 1,
-				    ],
-				    'order' => [
-					    'Registrations.created' => 'DESC',
-				    ],
-				    'contain' => [
-					    'Users' => [],
-				    ],
-				    'limit' => 6,
-			    ]);
 			    $followers_label = 'Who is going';
-			    
 			} else {
-			    
-			    $followers = TableRegistry::get('EventsFollowers')->find('all', [
-				    'conditions' => [
-					    'EventsFollowers.deleted' => false,
-				    ],
-				    'order' => [
-					    'EventsFollowers.id' => 'DESC',
-				    ],
-				    'contain' => [
-					    'Users' => [],
-				    ],
-			    ]);
 			    $followers_label = 'Following';
-			    
 		    }
 		    
 		    $this->set('followers', $followers);
@@ -481,5 +508,34 @@ class EventsController extends AppController
 	    $this->redirect( $this->referer() );
 	    
     }
+    
+    public function following( $slug )
+    {
+		
+	    if(
+		    ( $slug ) && 
+		    ( $item = TableRegistry::get('Events')->find()->where([
+			    'Events.slug' => $slug
+		    ])->limit(1)->first() )
+	    ) {
+        	
+        	$options = [
+	        	'limit' => 20
+        	];
+        	
+        	if(
+	        	isset( $this->request->query['id'] ) && 
+	        	( $id = (int) $this->request->query['id'] )
+        	) {
+	        	$options['id'] = $id;
+        	}
+        	
+        	$followers = $this->getFollowers($item, $options);
+        	$this->set('followers', $followers);
+        	        
+        }
         
+        $this->viewBuilder()->layout('blank');
+        
+    }
 }

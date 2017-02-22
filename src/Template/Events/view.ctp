@@ -25,7 +25,7 @@
 		</div>
 	  	
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer text-center">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div><!-- /.modal-content -->
@@ -33,6 +33,27 @@
 </div><!-- /.modal -->
 <? } ?>
 
+<div id="followingModal" class="modal fade" tabindex="-1" role="dialog" data-url="<?= $item->getUrl() ?>/following">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><?= $item->registration ? 'Who is going' : 'Following' ?></h4>
+      </div>
+      <div class="modal-body">
+	  	
+	  	<div class="scrollDiv">
+	  	<div class="tmTable followers"></div>
+	  	</div>
+	  	<div class="loader"><?= $this->Layout->spinner() ?></div>
+	  	
+      </div>
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <? if( $_user && $item['registration'] ) { ?>
 	
@@ -465,17 +486,16 @@
 		<div class="block block-followers">
 			<header><h2><?= $followers_label ?></h2></header>
 			<div class="content">
-				<div class="tmTable">
-				<? foreach($followers as $f) {?>
-					<a class="row" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'view', $f->user->slug]) ?>">
-						<div class="col-md-12">
-							<?= $this->Layout->userAvatar($f->user, ['gender' => true]) ?>
-							<p class="name"><?= $f->user->name ?></p>
-							<p class="desc"><?= $f->user->organization_name ?></p>
-						</div>
-					</a>					
-				<? } ?>
+				<div class="tmTable followers">
+				<?= $this->element('Items/Events/following', ['followers' => $followers]) ?>
 				</div>
+								
+				<? if( $followers->all()->count() < $followers->count() ) {?>
+				<div class="buttons">
+					<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#followingModal">See all</button>
+				</div>
+				<? } ?>
+				
 			</div>
 		</div>
 		<? } ?>

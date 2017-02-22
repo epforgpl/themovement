@@ -437,54 +437,71 @@
 	margin-top: 15px;
 }
 
-.block.block-followers {
-	.tmTable {
-		margin: 0 -10px;
-		
-		> a.row {
-			display: block;
-			&:hover {
-				p.name {
-					color: #2196f3;
-				}
-				p.desc {
-					color: #444;
-				}
+.tmTable.followers {
+	
+	
+	> a.row {
+		display: block;
+		&:hover {
+			p.name {
+				color: #2196f3;
 			}
-		}
-		
-		> .row {
-						
-			padding: 10px;
-			p {
-				margin: 0;
-				&.name {
-					font-weight: 600;
-					color: #333;
-				}
-				&.desc {
-					color: #213040;
-					color: #666;
-					font-size: 0.8em;
-				}
-			}
-			.img {
-				span.icon-gender {
-					font-size: 60px;
-					position: relative;
-					top: 3px;
-					color: #DDD;
-				}
+			p.desc {
+				color: #444;
 			}
 		}
 	}
+	
+	> .row {
+					
+		padding: 10px;
+		p {
+			margin: 0;
+			&.name {
+				font-weight: 600;
+				color: #333;
+			}
+			&.desc {
+				color: #213040;
+				color: #666;
+				font-size: 0.8em;
+			}
+		}
+		.img {
+			span.icon-gender {
+				font-size: 60px;
+				position: relative;
+				top: 3px;
+				color: #DDD;
+			}
+		}
+	}
+}
+
+#followingModal {
+	.scrollDiv {
+		margin: -15px;
+	    max-height: 500px;
+	    overflow: scroll;
+	    padding: 15px;
+	}
+}
+
+.block.block-followers {
 	.a-text {
 		color: #666;
 		font-size: 0.85em;
 		&:hover {
 			color: #0a6ebd;
 		}
-	}	
+	}
+	.buttons {
+		text-align: center;
+		margin: 10px 0;
+	}
+	.tmTable.followers {
+		margin: 0 -10px;
+	}
 }
 
 .tmTable {

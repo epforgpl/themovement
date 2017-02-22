@@ -101,7 +101,52 @@ $(document).ready(function(){
 });
 
 
-
+$(document).ready(function(){
+	
+	var modal = $('#followingModal');
+	var scrollDiv = modal.find('.scrollDiv');
+	var tmTable = scrollDiv.find('.tmTable');
+	var url = modal.data('url');
+	
+	var load = function(){
+		
+		var id;
+		var items = tmTable.find('.row').last();
+		
+		if( items.length ) {
+			id = items.data('id');
+		} else {
+			id = 0;
+		}
+		
+		if( modal.data('id')!=id ) {
+				
+			modal.find('.loader').slideDown();
+			$.get(url + '.html?id=' + id, function(html){
+								
+				modal.data('id', id);
+				modal.find('.tmTable').append(html);
+				modal.find('.loader').slideUp();
+				
+			});
+		
+		}
+	};
+	
+	modal.on('show.bs.modal', function(){
+		load();
+	});
+	
+	scrollDiv.scroll(function() {
+		var h = tmTable.height() - scrollDiv.height() - scrollDiv.scrollTop();
+		if( h<=15 ) {
+			
+			load();
+			
+		}
+	});
+	
+});
 
 
 var _EP = function(){};

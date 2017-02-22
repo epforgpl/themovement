@@ -45,7 +45,7 @@ Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
 	
-    $routes->extensions(['json']);
+    $routes->extensions(['json', 'html']);
 	
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
@@ -109,7 +109,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 	$routes->connect('/events/:slug/:action', [
     	'controller' => 'Events', 
 	], [
-		'action' => 'finish-registration|registrations|coupons|follow|unfollow',
+		'action' => 'finish-registration|registrations|coupons|follow|unfollow|following',
 		'pass' => ['slug']		
 	]);
 	
