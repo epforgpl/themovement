@@ -97,7 +97,7 @@
 				<li class="nopadding">
 					<div class="icon"><span class="glyphicon glyphicon-link"></span></div>
 					<div class="content text">
-					<a href="<?= $item->organization_www ?>" target="_blank"><?php echo $item->organization_www ?></a>						
+					<a href="<?= $this->Layout->href($item->organization_www) ?>" target="_blank"><?php echo $item->organization_www ?></a>						
 					</div>
 				</li>
 				<? } ?>

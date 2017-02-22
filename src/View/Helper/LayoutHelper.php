@@ -67,4 +67,16 @@ class LayoutHelper extends Helper
 		return $output;
 		
 	}
+	
+	public function href($input) {
+		
+		if(
+			( stripos($input, 'https://')===0 ) ||
+			( stripos($input, 'http://')===0 )
+		)
+			return $input;
+		else
+			return 'http://' . $input;
+		
+	}
 }
