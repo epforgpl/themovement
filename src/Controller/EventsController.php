@@ -70,7 +70,21 @@ class EventsController extends AppController
     
     public function view( $slug )
     {
-					
+		
+		if(
+			$slug &&
+			$this->request->is('post')
+		) {
+			
+			if( isset($this->request->data['follow']) )
+				$this->setFollow($slug, true);				
+			elseif( isset($this->request->data['unfollow']) )
+				$this->setFollow($slug, false);				
+			
+		    return $this->redirect( $this->referer() );
+			
+		}
+			
 	    if(
 		    ( $slug ) && 
 		    ( $item = TableRegistry::get('Events')->find()->where([

@@ -35,32 +35,36 @@
 					</div>
 					<? if( isset($buttons) && $buttons ) {?>
 					<div class="buttons">
-						<div class="buttons_inner">
-							<div class="btn-group">
-							<? foreach( $buttons as $button ) { ?>
-								<? if( isset($button['before']) ) echo $button['before']; ?>
-								<?
-									if( isset($button['dropdown']) ) {
+						<form action="<?= $item->getUrl() ?>" method="post">
+							<div class="buttons_inner">
+								<div class="btn-group">
+								<? foreach( $buttons as $button ) { ?>
+									<? if( isset($button['before']) ) echo $button['before']; ?>
+									<?
 										
-										if( !isset($button['class']) )
-											$button['class'] = 'dropdown-toggle';
-										else
-											$button['class'] .= ' dropdown-toggle';
+										$tag = isset($button['tag']) ? $button['tag'] : 'button';
 										
-								?><div class="dropdown"><? } ?>
-								<button<? if(isset($button['id'])) {?> id="<?= htmlspecialchars($button['id']) ?>"<? } ?> class="btn btn-md<? if( isset($button['class']) ) { echo ' ' . $button['class']; } ?>"<? if( isset($button['attr']) ) echo ' ' . $button['attr']; ?>><? if( isset($button['content']) ) { echo ' ' . $button['content']; } ?></button>
-								<? if( isset($button['dropdown']) ) { ?>
-									<ul class="dropdown-menu">
-									<? foreach( $button['dropdown'] as $o ) {?>
-								    <li><a href="<?= $o['href'] ?>"><?= $o['content'] ?></a></li>
-								    <? } ?>
-									</ul>
-								</div>
+										if( isset($button['dropdown']) ) {
+											
+											if( !isset($button['class']) )
+												$button['class'] = 'dropdown-toggle';
+											else
+												$button['class'] .= ' dropdown-toggle';
+											
+									?><? } ?>
+									<<?= $tag ?><? if(isset($button['id'])) {?> id="<?= htmlspecialchars($button['id']) ?>"<? } ?> class="btn btn-md<? if( isset($button['class']) ) { echo ' ' . $button['class']; } ?>"<? if( isset($button['attr']) ) echo ' ' . $button['attr']; ?><? if(isset($button['data'])) { foreach($button['data'] as $key => $val) { echo ' data-' . $key . '="' . $val . '"'; } }?><? if( isset($button['name']) && $button['name'] ) {?> name="<?= $button['name'] ?>"<?}?><? if( isset($button['href']) && $button['href'] ) {?> href="<?= $button['href'] ?>"<?}?>><? if( isset($button['content']) ) { echo ' ' . $button['content']; } ?></<?= $tag ?>>
+									<? if( isset($button['dropdown']) ) { ?>
+										<ul class="dropdown-menu">
+										<? foreach( $button['dropdown'] as $o ) {?>
+									    <li><a href="<?= $o['href'] ?>"><?= $o['content'] ?></a></li>
+									    <? } ?>
+										</ul>
+									<? } ?>
+									<? if( isset($button['after']) ) echo $button['after']; ?>
 								<? } ?>
-								<? if( isset($button['after']) ) echo $button['after']; ?>
-							<? } ?>
+								</div>
 							</div>
-						</div>
+						</form>
 					</div>
 					<? } ?>
 				</div>

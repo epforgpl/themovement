@@ -29,28 +29,48 @@
 						'class' => $class,
 						'content' => 'Register',
 						'data' => $data,
+						'tag' => 'a',
+						'href' => '?register'
 					];
 				
 				}
 				
 			} else {
-								
+				
+				$data = [];
+							
 				if( $user_follow ) {
+					
 					$class = 'btn-default';
 					$content = 'Unfollow';
 					$action = $item->getUrl() . '/unfollow';
+					$name = 'unfollow';
+					
 				} else {
+					
 					$class = 'btn-themovement';
 					$content = 'Follow';
 					$action = $item->getUrl() . '/follow';
+					$name = 'follow';
+					
+					if( !$_user ) {
+						
+						$class .= ' login-required';
+						$data = [
+							'msg' => 'In order to follow events, you need to login.',
+							'next' => $item->getUrl(),
+						];
+						
+					}
+					
 				}
 				
 				$params['buttons'][] = [
 					'id' => 'btn-follow',
 					'class' => $class,
 					'content' => $content,
-					'before' => '<form action="' . $action . '" method="post">',
-					'after' => '</form>',
+					'data' => $data,
+					'name' => $name,
 				];
 				
 			}
