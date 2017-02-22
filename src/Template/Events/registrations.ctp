@@ -31,6 +31,7 @@
 						<div class="col-md-4"><?= $this->Text->truncate($r->user->organization_name, 35) ?></div>
 						<div class="col-md-3">
 							<div class="icons">
+							<a href="mailto:<?= htmlspecialchars( $r->user->email ) ?>"><span class="glyphicon glyphicon-envelope" data-toggle="tooltip" data-placement="bottom" title="<?= htmlspecialchars( $r->user->email ) ?>"></span></a>
 							<? if( $r->coupon ) { ?><span class="glyphicon glyphicon-tag" data-toggle="tooltip" data-placement="bottom" title="<?= htmlspecialchars( $r->coupon ) ?>"></span><? } ?>
 							<? if( $r->dietary ) { ?><span class="glyphicon glyphicon-cutlery" data-toggle="tooltip" data-placement="bottom" title="<?= htmlspecialchars( $r->dietary ) ?>"></span><? } ?>
 							<? if( $r->comments ) { ?><span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom" title="<?= htmlspecialchars( $r->comments ) ?>"></span><? } ?>
