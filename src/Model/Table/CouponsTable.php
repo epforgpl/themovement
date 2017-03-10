@@ -11,11 +11,23 @@ class CouponsTable extends Table
 		
 		$coupon = $this->find('all', [
 			'conditions' => [
-				'code' => substr($code, 0, 8),
+				'code' => $code,
 				'event_id' => $event_id,
 				'used' => false,
 			],
 		])->first();
+		
+		if( !$coupon ) {
+			
+			$coupon = $this->find('all', [
+				'conditions' => [
+					'code' => substr($code, 0, 8),
+					'event_id' => $event_id,
+					'used' => false,
+				],
+			])->first();
+			
+		}
 		
 		return (boolean) $coupon;
 		
