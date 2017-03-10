@@ -11,7 +11,7 @@ class CouponsTable extends Table
 		
 		$coupon = $this->find('all', [
 			'conditions' => [
-				'code' => $code,
+				'code' => substr($code, 0, 8),
 				'event_id' => $event_id,
 				'used' => false,
 			],
