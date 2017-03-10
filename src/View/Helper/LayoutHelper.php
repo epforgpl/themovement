@@ -83,4 +83,10 @@ class LayoutHelper extends Helper
 	public function spinner() {
 		return '<div class="spinner"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
 	}
+	
+	public function data_encode($data) {
+		
+		return htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8');
+		
+	}
 }

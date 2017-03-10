@@ -13,13 +13,12 @@
 	]);
 ?>
 
-<div id="coupons-generate-new" class="modal fade" tabindex="-1" role="dialog">
+<div id="coupons-generate-new" class="modal fade modal-manager" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">Generate new coupon</h4>
-				
 			</div>
 			<form class="form-horizontal" method="post" action="<?= $this->Url->build(['controller' => 'Coupons']) ?>">
 				<input type="hidden" name="event_id" value="<?= $item->id ?>" />
@@ -70,7 +69,7 @@
 							<div class="msgDivInner">
 								<p class="status_code success alert alert-success">Your coupon has been saved</p>
 								<p class="status_code fail alert alert-danger"></p>
-								<p class="status_send">Instructions have been sent to:<br/><span class="addresse">Daniel Macyszyn (daniel@macysz.com)</span></p>
+								<p class="status_send">Instructions have been sent to:<br/><span class="addresse"></span></p>
 								<p class="btn_generate_new"><button class="input-link btn-coupons-generate-renew">Generate new coupon</button></p>
 							</div>
 						</div>

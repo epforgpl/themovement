@@ -16,6 +16,8 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Network\Exception\ForbiddenException;
+use Cake\Network\Exception\UnauthorizedException;
 
 /**
  * Application Controller
@@ -95,6 +97,21 @@ class AppController extends Controller
         $user = $this->Auth->user() ? $this->Auth->user() : false;
         $this->set('_user', $user);
                 
+    }
+    
+    public function checkAccess($role = 'user')
+    {
+	    
+	    if( $user = $this->Auth->user() ) {
+		    
+		    if( $user->role != $role ) {
+			    throw new UnauthorizedException(__('Unauthorized'));			    
+		    }
+		    
+	    } else {
+		    throw new ForbiddenException(__('Forbidden'));
+	    }
+	    
     }
     
 }
