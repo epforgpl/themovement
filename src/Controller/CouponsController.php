@@ -46,7 +46,7 @@ class CouponsController extends AppController
 			    
 			    $coupon = $this->Coupons->newEntity($coupon_data);
 			    
-			    if( @$this->request->data['send'] ) {
+			    if( @$this->request->data['send'] && ( $this->request->data['send'] != 'false' ) ) {
 			    	if(
 				    	( $name = @$this->request->data['name'] ) && 
 				    	( $email = @$this->request->data['email'] ) 

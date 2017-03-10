@@ -64,7 +64,7 @@
 			
 			<div class="block block-registration block-confirm">
 	
-				<header class="text-center"><h2>Confirm your registration</h2></header>
+				<header class="text-center"><h2>You are not registered yet</h2></header>
 	
 				<div class="content">
 									
