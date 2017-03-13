@@ -14,7 +14,7 @@
 	]);
 ?>
 
-<div id="registration-finish" class="modal fade modal-manager" tabindex="-1" role="dialog">
+<div id="registration-finish" class="modal fade modal-manager registration-finish-ask" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -69,6 +69,46 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div id="registration-ask" class="modal fade modal-manager registration-finish-ask" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Ask for the registration</h4>
+			</div>
+			<form class="form-horizontal" method="post" action="<?= $this->Url->build(['controller' => 'Registrations', 'action' => 'ask']) ?>">
+				<input type="hidden" name="registration_id" value="" />
+				<div class="modal-body">
+					
+					<div class="info">
+						<p class="name"></p>
+						<p class="organization"></p>
+					</div>
+										
+					<div class="msgCont">
+						<div class="msgDiv text-center " style="display: none;">
+							<div class="msgDivInner">
+								<p class="status_code success alert alert-success">An e-mail has been sent</p>
+								<p class="status_code fail alert alert-danger"></p>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+				<div class="modal-footer text-center">
+					<input type="submit" name="save" value="Ask" class="btn btn-primary" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+				<div class="progress-cont">
+					<div class="progress progress-striped active" style="display: none;">
+				    	<div class="progress-bar"></div>
+				    </div>
+				</div>
+			</form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <div class="row">
 	<div class="col-md-2">
 		
@@ -85,7 +125,7 @@
 					<? foreach( $registrations as $r ) {?>
 					<div class="row" data-id="<?= $r->id ?>" data-item="<?= $this->Layout->data_encode( $r ) ?>">
 						<div class="col-md-2"><p class="timestamp"><?= $r->created->format('Y-m-d H:i') ?></p></div>
-						<div class="col-md-3"><span class="item-status<? if($r->status) { ?> item-status-finalized<? }?><? if($r->confirmation_sent) { ?> item-confirmation-sent<? }?>"></span> <?= $this->Text->truncate($r->user->name, 25) ?></div>
+						<div class="col-md-3"><span class="dropdown"><span class="caret_cont" data-toggle="dropdown"><span class="caret"></span></span><ul class="dropdown-menu"></ul></span><span class="item-status<? if($r->status==1) { ?> item-status-finalized<? }?><? if($r->status==2) { ?> item-status-asked<? }?><? if($r->confirmation_sent) { ?> item-confirmation-sent<? }?>"></span> <?= $this->Text->truncate($r->user->name, 25) ?></div>
 						<div class="col-md-4"><?= $this->Text->truncate($r->user->organization_name, 35) ?></div>
 						<div class="col-md-3">
 							<div class="icons">

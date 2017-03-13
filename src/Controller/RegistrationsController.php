@@ -47,4 +47,33 @@ class RegistrationsController extends AppController
 	    	    
     }
     
+    public function ask() {
+	    
+	    $this->checkAccess('admin');
+	    	      
+	    if( $id = @$this->request->data['id'] ) {
+		    		    
+		    $registration = $this->Registrations->get($id, [
+			    'contain' => [
+				    'Users'
+			    ],
+		    ]);
+		    
+		    if( !$registration->status==2 ) {
+			    
+			    $this->Registrations->patchEntity($registration, [
+				    'status' => 2,
+			    ]);
+			    $res = $this->Registrations->save($registration);
+			    			    
+			    $this->Registrations->sendQuestion( $registration );
+			    
+			    $this->set('status', true);
+			    $this->set('_serialize', ['status']);	    
+			    
+		    } else { throw new \Cake\Network\Exception\BadRequestException('The question for this registration has already been sent'); }
+	    } else { throw new \Cake\Network\Exception\BadRequestException(); }
+	    	    
+    }
+    
 }
