@@ -380,5 +380,20 @@ class UsersController extends AppController
 		$this->redirect( isset($this->request->query['next']) ? $this->request->query['next'] : '/' );
 					    
     }
+    
+    public function withoutRegistrations()
+    {
+	    
+	    $this->checkAccess('admin');
+	    
+	    $users = $this->Users
+	    ->find()
+	    ->notMatching('Registrations', function ($q) {
+	        return $q;
+	    });
+	    	    	    
+	    $this->set('users', $users);
+	    
+    }
 
 }

@@ -79,7 +79,7 @@
 				
 	</div><div class="col-md-10">
 		<div class="block">
-			<header><h2>Registrations</h2></header>
+			<header><h2>Registrations (<?= $registrations->count() ?>)</h2></header>
 			<div class="content">
 				<div class="tmTable registrationsTable">
 					<? foreach( $registrations as $r ) {?>

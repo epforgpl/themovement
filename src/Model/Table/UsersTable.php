@@ -12,6 +12,7 @@ class UsersTable extends Table
     {
         $this->addBehavior('Timestamp');
         $this->belongsToMany('Professions');
+        $this->hasMany('Registrations');
     }
 	
 	public function beforeSave($event, $entity, $options)

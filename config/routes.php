@@ -65,7 +65,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 	$routes->connect('/people/:action', [
     	'controller' => 'Users', 
 	], [
-		'action' => 'index|facebook-login|facebook-callback|register'
+		'action' => 'index|facebook-login|facebook-callback|register|without_registrations'
 	]);
 	
 	$routes->connect('/people/:slug/edit', [
