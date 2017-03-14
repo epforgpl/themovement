@@ -35,7 +35,7 @@
 					</ul>
 				</li>
 				<? } else { ?>
-				<?php /* <li><?php echo $this->Html->link('Join', ['controller' => 'Users', 'action' => 'login'], ['escape' => false, 'class' => 'login-required', 'data-msg' => 'Join The Movement']); ?></li> */ ?>
+				<li><?php echo $this->Html->link('Join', ['controller' => 'Users', 'action' => 'login'], ['escape' => false, 'class' => 'login-required', 'data-msg' => 'Join The Movement']); ?></li>
 				<? } ?>
 			</ul>
 		</div>
