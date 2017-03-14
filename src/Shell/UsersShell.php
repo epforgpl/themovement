@@ -15,4 +15,10 @@ class UsersShell extends Shell
     {
 	    $this->Users->markRegistrationMails();
     }
+    
+    public function sendRegistrationMails()
+    {
+	    $this->Users->sendRegistrationMails();
+    }
+    
 }

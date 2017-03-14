@@ -4,7 +4,7 @@ namespace App\Model\Table;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Utility\Inflector;
-use Cake\ORM\TableRegistry;
+use Cake\Mailer\Email;
 
 class UsersTable extends Table
 {
@@ -108,6 +108,45 @@ class UsersTable extends Table
 			$this->save($u);
 			
 		}		
+		
+	}
+	
+	public function sendRegistrationMails()
+	{
+		
+		$users = $this->find('all', [
+			'conditions' => [
+				'registration_mail' => 1,
+			],
+		]);
+		
+		foreach( $users as $u ) {
+			$this->sendRegistrationMail( $u->id );
+		}
+		
+	}
+	
+	public function sendRegistrationMail($user_id)
+	{
+		
+		if( $user = $this->find('all', ['conditions' => ['id' => $user_id]])->first() ) {
+						
+			$email = new Email('default');
+			
+			$msg = '';
+			if( $user->first_name )
+				$msg .= 'Hi ' . $user->first_name . ",";
+			
+			$status = $email->from(['events@themovement.io' => 'The Movement Events'])
+			    ->to([$user->email => $user->name])
+			    ->subject('Registration for Personal Democracy Forum CEE 2017')
+			    ->template('without_registration')
+			    ->send([$msg]);
+			
+			$user->registration_mail = 2;
+			$this->save($user);
+			
+		}
 		
 	}
 	
