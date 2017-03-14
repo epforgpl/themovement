@@ -4,6 +4,7 @@ namespace App\Model\Table;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Utility\Inflector;
+use Cake\ORM\TableRegistry;
 
 class UsersTable extends Table
 {
@@ -90,6 +91,24 @@ class UsersTable extends Table
 			return false;
 		}
 				
+	}
+	
+	public function markRegistrationMails()
+	{
+		
+		$users = $this->find()->select('id')->where([
+			'Users.registration_mail' => 0,
+		])->notMatching('Registrations', function ($q) {
+			return $q;
+		})->toArray();
+		
+		foreach( $users as $u ) {
+			
+			$u->registration_mail = 1;
+			$this->save($u);
+			
+		}		
+		
 	}
 	
 }
