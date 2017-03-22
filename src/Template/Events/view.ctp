@@ -58,7 +58,7 @@
 <? if( $_user && $item['registration'] ) { ?>
 	
 	
-	<? if($user_registration && $user_registration->status===0) { ?>
+	<? if($user_registration && ( ($user_registration->status===0) || ($user_registration->status===2) )) { ?>
 	<div class="row" id="register-user-div">
 		<div class="col-md-12">
 			

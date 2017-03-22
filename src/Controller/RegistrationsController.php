@@ -12,9 +12,9 @@ class RegistrationsController extends AppController
 {
     
     public function finish() {
-	    
+	    	    
 	    $this->checkAccess('admin');
-	    	      
+	    	    	      
 	    if(
 	    	( $id = @$this->request->data['id'] ) &&
 	    	( isset( $this->request->data['send'] ) )
@@ -26,7 +26,7 @@ class RegistrationsController extends AppController
 			    ],
 		    ]);
 		    
-		    if( !$registration->status ) {
+		    if( $registration->status != 1 ) {
 			    
 			    $this->Registrations->patchEntity($registration, [
 				    'status' => 1,

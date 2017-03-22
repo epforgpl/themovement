@@ -103,8 +103,8 @@ class AppController extends Controller
     {
 	    
 	    if( $user = $this->Auth->user() ) {
-		    
-		    if( $user->role != $role ) {
+		    		    
+		    if( $user['role'] != $role ) {
 			    throw new UnauthorizedException(__('Unauthorized'));			    
 		    }
 		    

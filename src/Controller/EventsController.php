@@ -380,11 +380,12 @@ class EventsController extends AppController
 		    $registrations = TableRegistry::get('Registrations')->find('all', [
 			    'conditions' => [
 				    'Registrations.event_id' => $item->id,
+				    'Registrations.status !=' => -1,
 			    ],
 			    'contain' => [
 				    'Users' => [],
 			    ],
-			    'limit' => 100,
+			    'limit' => 1000,
 			    'order' => [
 				    'Registrations.created' => 'DESC',
 			    ],
