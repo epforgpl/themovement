@@ -149,7 +149,7 @@ class EventsController extends AppController
 		    	'RelatedEvents' => [],
 	    	])->limit(1)->first() )
 	    ) {
-		    				    
+		    		    	    			    
 		    $this->meta['ogg:url'] = 'http://themovement.io' . $item->getUrl();
 		    $this->meta['ogg:type'] = 'article';
 		    $this->meta['ogg:title'] = $item->name;
@@ -158,11 +158,29 @@ class EventsController extends AppController
 		    if( $item->img )
 			    $this->meta['ogg:image'] = 'http://themovement.io/resources/events/' . $item->id . '-block.jpg?v=' . $item->version;
 	    	
-	    	
 	    	$this->set('_meta', $this->meta);
 		    
-		    $followers = $this->getFollowers($item);
 		    
+		    
+		    
+		    
+		    $menu = [];
+		    
+		    /*
+		    if( $sessions_count = TableRegistry::get('EventsSessions')->find()->where()->count() )
+		    	$menu[] = [
+			    	'href' => 'program',
+			    	'label' => 'Program',
+		    	];
+		    */
+		    
+		    if( $followers = $this->getFollowers($item) ) {
+			    $menu[] = [
+			    	'href' => 'people',
+			    	'label' => 'People',
+		    	];
+		    }
+		    		    
 		    if( $item->registration ) {
 			    $followers_label = 'Who is going';
 			} else {
@@ -171,7 +189,7 @@ class EventsController extends AppController
 		    
 		    $this->set('followers', $followers);
 		    $this->set('followers_label', $followers_label);
-		    	    
+		    
 		    $user_registration = false;
 		    $user_follow = false;
 		    
@@ -230,6 +248,21 @@ class EventsController extends AppController
 				    ])->limit(1)->first();
 									    
 			    }
+			    
+			    
+			    if( $this->Auth->user('role') == 'admin' ) {
+				    
+				    $menu[] = [
+					    'href' => 'registrations',
+					    'label' => 'Registrations',
+				    ];
+				    
+				    $menu[] = [
+					    'href' => 'coupons',
+					    'label' => 'Coupons',
+				    ];
+				    
+			    }
 			    			    
 			    
 			}
@@ -260,7 +293,16 @@ class EventsController extends AppController
 			    $user_registration->coupon_valid = TableRegistry::get('Coupons')->check($user_registration->coupon, $item->id);
 		    }
 			
+						
+			if( $menu )
+				array_unshift($menu, [
+					'href' => '',
+					'label' => 'Home',
+				]);
+						
 		    $this->set('item', $item);
+		    $this->set('menu', $menu);
+		    $this->set('menu_active', '');
 		    $this->set('user_registration', $user_registration);
 		    $this->set('user_follow', $user_follow);
 		    
@@ -362,7 +404,140 @@ class EventsController extends AppController
 	    	    
     }
     
+    public function people( $slug )
+    {
+	    
+	    if(
+		    ( $slug ) && 
+		    ( $item = TableRegistry::get('Events')->find()->where([
+			    'Events.slug' => $slug
+		    ])->limit(1)->first() )
+	    ) {
+		    
+		    $this->generateMenu($item->id, 'people');
+		    
+		    $countries_data = TableRegistry::get('Registrations')->find()->select([
+		    	'Users.country',
+		    	'Countries.nicename',
+		    	'count' => TableRegistry::get('Registrations')->find()->func()->count('*')
+		    ])->matching('Users', function($q){
+			    return $q->matching('Countries');
+		    })->where([
+			    'Registrations.status' => 1,
+			    'Users.country !=' => '',
+		    ])->group('Users.country')->order([
+			    'count' => 'desc',
+		    ]);
+		    
+		    $countries = [];
+		    foreach( $countries_data as $c ) {
+			    
+			    $country = [
+				    'id' => $c['_matchingData']['Users']->country,
+				    'label' => $c['_matchingData']['Countries']->nicename,
+				    'count' => $c['count'],
+			    ];
+			    
+			    if(
+				    isset( $this->request->query['country'] ) && 
+				    ( $this->request->query['country'] == $country['id'] )
+			    )
+			    	$country['active'] = true;
+			    
+			    $countries[] = $country;
+			    
+		    }
+		    
+		    $this->paginate = [
+	            'limit' => 50,
+	            'contain' => [
+		            'Users' => [],
+	            ],
+	        ];
+		    
+		    $conditions = [
+			    'Registrations.status' => 1,
+		    ];		    
+		    
+		    if(
+			    isset( $this->request->query['country'] ) && 
+			    $this->request->query['country']
+		    ) {
+			    $conditions['Users.country'] = $this->request->query['country'];
+		    }
+		    
+		    $regs = $this->paginate(TableRegistry::get('Registrations')->find()->matching('Users')->where($conditions)->order([
+			    'Users.last_name' => 'asc',
+		    ]));
+		    		    
+		    $this->set('countries', $countries);
+		    $this->set('item', $item);
+		    $this->set('regs', $regs);
+		    
+		} else {
+			
+			$this->redirect([
+			    'controller' => 'Events',
+			    'action' => 'index',
+		    ]);
+			
+		}
+	    
+    }
     
+    public function program($slug)
+    {
+	 		 	   
+	    if(
+		    ( $slug ) && 
+		    ( $item = TableRegistry::get('Events')->find()->where([
+			    'Events.slug' => $slug
+		    ])->contain([
+		    	'EventsSessions' => [
+			    	'sort' => [
+				    	'EventsSessions.time' => 'ASC'
+			    	],
+		    	],
+	    	])->limit(1)->first() )
+	    ) {
+		    
+		    $this->generateMenu($item->id, 'program');
+		    
+		    $sessions = [];
+		    $dates = [];
+		    $date_active = false;
+		    
+		    foreach( $item->events_sessions as $session ) {
+			    
+			    $date = $session->time->format('Y-m-d');
+			    
+			    if( !$date_active )
+			    	$date_active = $date;
+			    
+			    if( !array_key_exists($date, $dates) )
+			    	$dates[ $date ] = $session->time;
+			    	
+			    $sessions[ $date ][] = $session;
+			    				    
+		    }
+		    
+		    unset( $item->events_sessions );
+		    		     
+		    $this->set('date_active', $date_active);
+		    $this->set('dates', $dates);
+		    $this->set('item', $item);
+		    $this->set('sessions', $sessions);
+		    
+		} else {
+			
+			$this->redirect([
+			    'controller' => 'Events',
+			    'action' => 'index',
+		    ]);
+			
+		}
+	
+	}
     
     public function registrations($slug)
     {
@@ -376,6 +551,8 @@ class EventsController extends AppController
 	    	])->limit(1)->first() ) &&
 	    	( $this->Auth->user('role')=='admin' )
 	    ) {
+		    
+		    $this->generateMenu($item->id, 'registrations');
 		    
 		    $registrations = TableRegistry::get('Registrations')->find('all', [
 			    'conditions' => [
@@ -404,7 +581,7 @@ class EventsController extends AppController
 		}
 	
 	}
-	
+		
 	public function coupons($slug)
     {
 	 		 	   
@@ -417,6 +594,8 @@ class EventsController extends AppController
 	    	])->limit(1)->first() ) &&
 	    	( $this->Auth->user('role')=='admin' )
 	    ) {
+		    
+		    $this->generateMenu($item->id, 'coupons');
 		    
 		    $coupons = TableRegistry::get('Coupons')->find('all', [
 			    'conditions' => [
@@ -539,4 +718,55 @@ class EventsController extends AppController
         $this->viewBuilder()->layout('blank');
         
     }
+    
+    private function generateMenu($id, $active = '')
+    {
+	    
+	    $menu = [];
+	    
+	    /*
+	    if( $sessions_count = TableRegistry::get('EventsSessions')->find()->where([
+	    	'EventsSessions.event_id' => $id
+    	])->count() )
+	    	$menu[] = [
+		    	'href' => 'program',
+		    	'label' => 'Program',
+	    	];
+	    */
+	    	
+	    if( $followers_count = TableRegistry::get('Registrations')->find()->where([
+		    'Registrations.event_id' => $id,
+		    'status' => 1,
+	    ])->count() )
+	    	$menu[] = [
+		    	'href' => 'people',
+		    	'label' => 'People',
+	    	];	    
+	    
+	    	
+	    if( $this->Auth->user('role') == 'admin' ) {
+		    
+		    $menu[] = [
+			    'href' => 'registrations',
+			    'label' => 'Registrations',
+		    ];
+		    
+		    $menu[] = [
+			    'href' => 'coupons',
+			    'label' => 'Coupons',
+		    ];
+		    
+	    }
+	    
+	    if( $menu )
+			array_unshift($menu, [
+				'href' => '',
+				'label' => 'Home',
+			]);
+	    
+	    $this->set('menu', $menu);
+	    $this->set('menu_active', $active);
+	    
+    }
+    
 }

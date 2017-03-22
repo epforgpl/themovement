@@ -2,6 +2,7 @@
 	$this->assign('title', $item->name . ' | The Movement');
 	echo $this->Less->less('less/page.less');
 	echo $this->Less->less('less/items.less');
+	echo $this->Less->less('less/event.less');
 	$this->prepend('script', $this->Html->script('page'));
 	$this->prepend('script', $this->Html->script('event'));
 	
