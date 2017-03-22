@@ -6,9 +6,23 @@ use Cake\ORM\Entity;
 class Event extends Entity
 {
 
-	public function getUrl()
+	public function getUrl($page = '', $options = [])
 	{
-		return '/events/' . $this->slug;
+		$url = '/events/' . $this->slug;
+		
+		if( $page )
+			$url .= '/' . $page;
+		
+		if(
+			isset( $options['?'] ) && 
+			!empty( $options['?'] )
+		) {
+			
+			$url .= '?' . http_build_query($options['?']);
+			
+		}
+		
+		return $url;
 	}
 	
 	public function groupOrganizations()

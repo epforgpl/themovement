@@ -109,3 +109,5 @@
 		
 	</div>
 </div>
+
+<? echo $this->element('Items/Events/menu', $menu); ?>

@@ -10,6 +10,10 @@ class EventsTable extends Table
     {
         $this->hasMany('Registrations');
         $this->hasMany('EventsDays');
+        $this->hasMany('EventsSessions');
+        $this->belongsToMany('Users', [
+	        'through' => 'Registrations',
+        ]);
         /*
         $this->hasMany('Followers', [
 	        'className' => 'Users',

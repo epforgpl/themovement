@@ -92,19 +92,17 @@
 </div><!-- /.modal -->
 
 <div class="row">
-	<div class="col-md-2">
+	<div class="col-md-12">
 		
-		<?= $this->element('Items/admin-nav', [
-			'item' => $item,
-			'selected' => 'coupons',
-		]) ?>
-				
-	</div><div class="col-md-10">
+		<header class="item_header">
+			<h1>Coupons</h1>
+		</header>
+		
+		<div class="toolbar">
+			<button class="input-link btn-coupons-generate-new" data-toggle="modal" data-target="#coupons-generate-new"><span class="glyphicon glyphicon-plus"></span> Generate new</button>
+		</div>
+		
 		<div class="block">
-			<header><h2>Coupons</h2></header>
-			<div class="toolbar">
-				<button class="input-link btn-coupons-generate-new" data-toggle="modal" data-target="#coupons-generate-new">Generate new</button>
-			</div>
 			<div class="content">
 				<div class="tmTable">
 					<? foreach( $coupons as $r ) {?>

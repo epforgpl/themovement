@@ -110,16 +110,13 @@
 </div><!-- /.modal -->
 
 <div class="row">
-	<div class="col-md-2">
+	<div class="col-md-12">
 		
-		<?= $this->element('Items/admin-nav', [
-			'item' => $item,
-			'selected' => 'registrations',
-		]) ?>
-				
-	</div><div class="col-md-10">
+		<header class="item_header">
+			<h1>Registrations (<?= $registrations->count() ?>)</h1>
+		</header>
+		
 		<div class="block">
-			<header><h2>Registrations (<?= $registrations->count() ?>)</h2></header>
 			<div class="content">
 				<div class="tmTable registrationsTable">
 					<? foreach( $registrations as $r ) {?>

@@ -13,6 +13,11 @@ class UsersTable extends Table
     {
         $this->addBehavior('Timestamp');
         $this->belongsToMany('Professions');
+        $this->belongsTo('Countries', [
+	        'foreignKey' => 'country',
+	        'bindingKey' => 'iso',
+	        'propertyName' => 'country',
+        ]);
         $this->hasMany('Registrations');
     }
 	
