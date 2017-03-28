@@ -127,7 +127,11 @@ class EventsController extends AppController
 		
 		if(
 			$slug &&
-			$this->request->is('post')
+			$this->request->is('post') && 
+			(
+				isset( $this->request->data['follow'] ) || 
+				isset( $this->request->data['unfollow'] )
+			)
 		) {
 			
 			if( isset($this->request->data['follow']) )
@@ -277,7 +281,7 @@ class EventsController extends AppController
 			}
 		    
 		    if( $this->request->is('post') ) {
-				
+								
 				if(
 					$user_registration && 
 					isset($this->request->data['cancel-registration'])
