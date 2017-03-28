@@ -10,6 +10,7 @@
 		<?
 			$params = [
 				'item' => $item,
+				'avatar' => 'user',
 				'chapter' => 'people',
 			];
 						

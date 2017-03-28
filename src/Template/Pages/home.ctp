@@ -69,7 +69,9 @@
 					<?= $this->Layout->calendar( $item ); ?>
 					<div class="img" style="background-image: url(<? if( $item->img ) { ?>/resources/events/<?= $item->id ?>-block.jpg?v=<?= $item->version ?><? } else { ?>/img/event-default.svg<? } ?>);"></div>
 					<div class="info">
-						<h2><?= $item->name ?></h2>
+						<div class="info_inner">
+							<h2><?= $item->name ?></h2>
+						</div>
 					</div>
 				</a>
 			</div>

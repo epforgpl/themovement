@@ -169,8 +169,8 @@ class EventsController extends AppController
 		    /*
 		    if( $sessions_count = TableRegistry::get('EventsSessions')->find()->where()->count() )
 		    	$menu[] = [
-			    	'href' => 'program',
-			    	'label' => 'Program',
+			    	'href' => 'agenda',
+			    	'label' => 'Agenda',
 		    	];
 		    */
 		    
@@ -180,6 +180,15 @@ class EventsController extends AppController
 			    	'label' => 'People',
 		    	];
 		    }
+		    
+		    /*
+		    if( $item->surveys ) {
+			    $menu[] = [
+				    'href' => 'surveys',
+				    'label' => 'Surveys',
+			    ];
+		    }
+		    */
 		    		    
 		    if( $item->registration ) {
 			    $followers_label = 'Who is going';
@@ -273,7 +282,7 @@ class EventsController extends AppController
 					$user_registration && 
 					isset($this->request->data['cancel-registration'])
 				) {
-					
+										
 					$this->request->session()->delete('Forms.Events.' . $item->id . '.register');
 					
 					TableRegistry::get('Registrations')->delete($user_registration);
@@ -414,7 +423,7 @@ class EventsController extends AppController
 		    ])->limit(1)->first() )
 	    ) {
 		    
-		    $this->generateMenu($item->id, 'people');
+		    $this->generateMenu($item, 'people');
 		    
 		    $countries_data = TableRegistry::get('Registrations')->find()->select([
 		    	'Users.country',
@@ -485,7 +494,69 @@ class EventsController extends AppController
 	    
     }
     
-    public function program($slug)
+    public function surveys($slug)
+    {
+	 		 	   
+	    if(
+		    ( $slug ) && 
+		    ( $item = TableRegistry::get('Events')->find()->where([
+			    'Events.slug' => $slug
+		    ])->limit(1)->first() )
+	    ) {
+		    
+		    $this->generateMenu($item, 'surveys');
+		    $this->set('item', $item);
+		    
+		}
+		
+	}
+	
+	public function surveysManager($slug)
+    {
+	 		 	   
+	    if(
+		    ( $slug ) && 
+		    ( $item = TableRegistry::get('Events')->find()->where([
+			    'Events.slug' => $slug
+		    ])->contain([
+			    'SurveysQuestions' => [
+				    'sort' => [
+					    'SurveysQuestions.ord' => 'asc',
+				    ],
+				    'SurveysAnswers' => [
+					    'sort' => [
+						    'SurveysAnswers.ord' => 'asc',
+					    ],
+				    ],
+			    ],
+		    ])->limit(1)->first() )
+	    ) {
+		    		    
+		    $this->generateMenu($item, 'surveys');
+		    $this->set('item', $item);
+		
+		}
+		
+	}
+	
+	public function surveysPresent($slug)
+    {
+	 		 	   
+	    if(
+		    ( $slug ) && 
+		    ( $item = TableRegistry::get('Events')->find()->where([
+			    'Events.slug' => $slug
+		    ])->limit(1)->first() )
+	    ) {
+		    
+		    $this->generateMenu($item, 'surveys');
+		    $this->set('item', $item);
+		
+		}
+		
+	}
+    
+    public function agenda($slug)
     {
 	 		 	   
 	    if(
@@ -497,11 +568,16 @@ class EventsController extends AppController
 			    	'sort' => [
 				    	'EventsSessions.time' => 'ASC'
 			    	],
+			    	'EventsSubsessions' => [
+				    	'sort' => [
+					    	'EventsSubsessions.ord' => 'ASC',
+				    	],
+			    	],
 		    	],
 	    	])->limit(1)->first() )
 	    ) {
 		    
-		    $this->generateMenu($item->id, 'program');
+		    $this->generateMenu($item, 'agenda');
 		    
 		    $sessions = [];
 		    $dates = [];
@@ -511,7 +587,7 @@ class EventsController extends AppController
 			    
 			    $date = $session->time->format('Y-m-d');
 			    
-			    if( !$date_active )
+			    // if( !$date_active )
 			    	$date_active = $date;
 			    
 			    if( !array_key_exists($date, $dates) )
@@ -552,7 +628,7 @@ class EventsController extends AppController
 	    	( $this->Auth->user('role')=='admin' )
 	    ) {
 		    
-		    $this->generateMenu($item->id, 'registrations');
+		    $this->generateMenu($item, 'registrations');
 		    
 		    $registrations = TableRegistry::get('Registrations')->find('all', [
 			    'conditions' => [
@@ -595,7 +671,7 @@ class EventsController extends AppController
 	    	( $this->Auth->user('role')=='admin' )
 	    ) {
 		    
-		    $this->generateMenu($item->id, 'coupons');
+		    $this->generateMenu($item, 'coupons');
 		    
 		    $coupons = TableRegistry::get('Coupons')->find('all', [
 			    'conditions' => [
@@ -719,23 +795,23 @@ class EventsController extends AppController
         
     }
     
-    private function generateMenu($id, $active = '')
+    private function generateMenu($item, $active = '')
     {
 	    
 	    $menu = [];
 	    
 	    /*
 	    if( $sessions_count = TableRegistry::get('EventsSessions')->find()->where([
-	    	'EventsSessions.event_id' => $id
+	    	'EventsSessions.event_id' => $item->id
     	])->count() )
 	    	$menu[] = [
-		    	'href' => 'program',
-		    	'label' => 'Program',
+		    	'href' => 'agenda',
+		    	'label' => 'Agenda',
 	    	];
 	    */
 	    	
 	    if( $followers_count = TableRegistry::get('Registrations')->find()->where([
-		    'Registrations.event_id' => $id,
+		    'Registrations.event_id' => $item->id,
 		    'status' => 1,
 	    ])->count() )
 	    	$menu[] = [
@@ -743,6 +819,16 @@ class EventsController extends AppController
 		    	'label' => 'People',
 	    	];	    
 	    
+	    /*
+	    if( $item->surveys ) {
+		    
+		    $menu[] = [
+			    'href' => 'surveys',
+			    'label' => 'Surveys',
+		    ];
+		    		    
+	    }
+	    */
 	    	
 	    if( $this->Auth->user('role') == 'admin' ) {
 		    
@@ -766,6 +852,70 @@ class EventsController extends AppController
 	    
 	    $this->set('menu', $menu);
 	    $this->set('menu_active', $active);
+	    
+    }
+    
+    public function setActiveQuestion($id)
+    {
+	    
+	    if( $id ) {
+	    	
+	    	$value = @$this->request->data['question_id'] ? $this->request->data['question_id'] : null;
+	    	
+		    $this->Events->query()->update()->set([
+			    'surveys_question_id' => $value,
+		    ])->where([
+			    'id' => $id,
+		    ])->execute();
+		    
+		    $message = 'Set';
+
+		} else {
+			
+			$message = 'Failed';
+			
+		}
+		
+		$this->set([
+            'message' => $message,
+            '_serialize' => ['message']
+        ]);
+	    
+    }
+    
+    public function getActiveQuestion($id)
+    {
+	    
+	    $question = false;
+	    
+	    if( $id ) {
+	    	
+	    	$event = $this->Events->get($id, [
+		    	'fields' => ['surveys_question_id'],
+	    	]);
+	    	
+	    	if( $event && $event->surveys_question_id ) {
+		    	
+		    	$question = TableRegistry::get('SurveysQuestions')->get($event->surveys_question_id, [
+			    	'fields' => ['id', 'text'],
+			    	'contain' => [
+				    	'SurveysAnswers' => [
+					    	'fields' => ['id', 'text', 'question_id'],
+						    'sort' => [
+							    'SurveysAnswers.ord' => 'asc',
+						    ],
+					    ],
+			    	],
+		    	]);
+		    			    	
+	    	}
+
+		}
+		
+		$this->set([
+            'question' => $question,
+            '_serialize' => 'question'
+        ]);
 	    
     }
     

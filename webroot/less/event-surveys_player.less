@@ -1,0 +1,91 @@
+.surveys_player {
+			
+	.block {
+		
+		.msg {
+			display: none;
+			text-align: center;
+			padding: 80px 10px;
+			.empty {
+				display: none;
+			}
+			.loading {
+				display: none;
+			}
+			p {
+				margin: 0;
+				padding: 0;
+			}
+		}
+		
+		.answers {
+			list-style: none;
+			margin: 0 10px 0 40px;
+			padding: 0;
+			li {
+				margin: 5px 0;
+				padding: 0;
+				list-style: none;
+				
+				label {
+					input {
+						position: relative;
+						top: -2px;
+						margin-right: 7px;
+					}
+				}
+			}
+		}
+		
+		.buttons {
+			text-align: center;
+			padding: 15px 0 30px;
+		}
+		
+		&.empty, &.loading {
+			
+			header {
+				display: none;
+			}
+			
+			.answers {
+				display: none;
+			}
+			
+			.msg {
+				display: block;
+			}
+			
+			.buttons {
+				display: none;
+			}
+			
+		}
+		
+		&.empty {
+						
+			.msg {
+				.empty {
+					display: block;
+				}
+				.loading {
+					display: none;
+				}
+			}
+		}
+		
+		&.loading {
+			
+			.msg {
+				.empty {
+					display: none;
+				}
+				.loading {
+					display: block;
+				}
+			}
+		}
+		
+	}
+		
+}

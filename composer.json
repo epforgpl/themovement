@@ -15,7 +15,8 @@
         "twbs/bootstrap": "^3.3",
         "components/jquery": "^2.2",
         "components/jqueryui": "^1.11",
-        "facebook/graph-sdk": "^5.4"	    
+        "facebook/graph-sdk": "^5.4",
+        "predis/predis": "^1.1"	    
     },
     "require-dev": {
         "psy/psysh": "@stable",

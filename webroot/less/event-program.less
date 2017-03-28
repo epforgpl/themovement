@@ -1,10 +1,71 @@
+.list-dates {
+	.list-group-item {
+		a {
+			display: block;
+			outline: none;
+			text-decoration: none;
+		}
+		&.active {
+			a {
+				color: #FFF;
+			}
+		}
+	}
+}
+
 .block-program {
+		
+	.my-agenda-nav {
+		padding: 20px 25px 5px;
+		background-color: #F6F6F6;
+		.checkbox {
+			margin: 0;
+			label {
+				font-weight: bold;
+				-webkit-touch-callout: none; /* iOS Safari */
+			    -webkit-user-select: none; /* Safari */
+			     -khtml-user-select: none; /* Konqueror HTML */
+			       -moz-user-select: none; /* Firefox */
+			        -ms-user-select: none; /* Internet Explorer/Edge */
+			            user-select: none; /* Non-prefixed version, currently
+			                                  supported by Chrome and Opera */
+				input {
+					margin-right: 5px;
+					position: relative;
+					top: -1px;
+				}
+				
+				.ch_agenda {
+					width: 16px;
+					height: 16px;
+					position: relative;
+					top: 0;
+				}
+				
+			}
+		}
+	}
+	
+	.tab-content {
+		padding-top: 15px;
+	}
+	
+	.my-agenda-info {
+		padding: 0 25px 10px;
+		background-color: #F6F6F6;
+		p {
+			margin: 0;
+			padding: 0;
+			font-size: 0.9em;
+		}
+	}
 	
 	ul.program {
 		
 		padding: 0;
 		margin: 0;
 		list-style: none;
+		min-height: 50px;
 		
 		li.session {
 			
@@ -20,9 +81,22 @@
 			.session_header {
 				
 				overflow: auto;
-				color: #00699e;
+				color: #6f50b2;
 				font-weight: bold;
-	
+				
+				.tools {
+					width: 24px;
+					min-height: 1px;
+					float: left;
+					text-align: center;
+					input {
+						position: relative;
+						top: -1px;
+						width: 16px;
+						height: 16px;
+					}
+				}
+				
 				p {
 					margin: 0;
 					padding: 0;
@@ -35,14 +109,14 @@
 				}
 				
 				.title {
-					margin-left: 65px;
+					margin-left: 80px;
 				}
 			
 			}
 			
 			.description {
 				
-				margin-left: 65px;
+				margin-left: 80px;
 				border-top: 1px solid #DDD;
 				margin-top: 7px;
 				padding-top: 4px;
@@ -52,6 +126,43 @@
 					padding: 2px 0;
 				}
 				
+			}
+			
+			.subsessions {
+				
+				list-style: none;
+				margin: 10px 0 0 80px;
+				padding: 5px 0 0;
+				border-top: 1px solid #CCC;
+				
+				.subsession {
+					
+					list-style: none;
+					margin: 0 0 0 -23px;
+					padding: 5px 0;
+					
+					label {
+						input {
+							margin-right: 10px;
+							width: 16px;
+							height: 16px;
+							position: relative;
+							top: 1px;
+						}
+						-webkit-touch-callout: none; /* iOS Safari */
+					    -webkit-user-select: none; /* Safari */
+					     -khtml-user-select: none; /* Konqueror HTML */
+					       -moz-user-select: none; /* Firefox */
+					        -ms-user-select: none; /* Internet Explorer/Edge */
+					            user-select: none; /* Non-prefixed version, currently
+					                                  supported by Chrome and Opera */
+					}
+					
+					p {
+						margin: 0;
+						padding: 0;
+					}
+				}
 			}
 			
 		}

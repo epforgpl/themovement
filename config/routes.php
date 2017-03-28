@@ -54,6 +54,8 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
      
 	$routes->resources('Coupons');
+	$routes->resources('Surveysquestions');
+	$routes->resources('Surveysanswers');
      
     $routes->connect('/', ['controller' => 'Pages', 'action' => 'home']);
     foreach( ['about', 'contact'] as $page )
@@ -106,10 +108,18 @@ Router::scope('/', function (RouteBuilder $routes) {
 		'pass' => ['slug']		
 	]);
 	
+	$routes->connect('/events/:id/:action', [
+    	'controller' => 'Events', 
+	], [
+		'id' => '[0-9]+',
+		'action' => 'setActiveQuestion|getActiveQuestion',
+		'pass' => ['id']		
+	]);
+	
 	$routes->connect('/events/:slug/:action', [
     	'controller' => 'Events', 
 	], [
-		'action' => 'finish-registration|registrations|coupons|follow|unfollow|following|program|people',
+		'action' => 'finish-registration|registrations|coupons|follow|unfollow|following|agenda|people|surveys|surveys_manager|surveys_present',
 		'pass' => ['slug']		
 	]);
 	

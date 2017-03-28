@@ -1,3 +1,7 @@
+<?
+	if( !isset($avatar) )
+		$avatar = false;
+?>
 <div class="block block-item-header" data-chapter="<?= $chapter ?>" data-id="<?= $item->id ?>">
 	<div class="row">
 		<div class="col-md-8">
@@ -17,9 +21,25 @@
 			<div class="block-col-info">
 				<div class="tm_item_cont">
 					<div class="tm_item">
-
-						<?= $this->Layout->calendar( $item ); ?>
-														
+						
+						<?
+							if( $avatar == 'calendar' ) {
+								
+								echo $this->Layout->calendar( $item );
+								
+							} elseif( $avatar == 'user' ) {
+						?>
+						<div class="code_avatar user">
+							<div class="code_avatar_inner">
+								<?= $this->Layout->userAvatar($item, ['gender' => true]) ?>
+							</div>
+						</div>
+						<?		
+							}
+						?>
+						
+					    
+					    					     						
 						<h1 class="name"><a href="<?= $item->getUrl() ?>"><?php echo $item->name; ?></a></h1>
 						<?php if( false ) {?><p class="stats">325 person is going</p><?php } ?>
 						

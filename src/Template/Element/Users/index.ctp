@@ -10,9 +10,17 @@
 	?>
 		<div class="col-md-4 col-sm-6 col-xs-12">
 			<a href="<?= $_item->getUrl() ?>" class="block tm_item">
-				<div class="img" style="background-image: url(<? if( $_item->img ) { ?>/resources/events/<?= $_item->id ?>-block.jpg?v=<?= $_item->version ?><? } else { ?>/img/people-default.svg<? } ?>);"></div>
+				<div class="code_avatar user">
+					<div class="code_avatar_inner">
+						<?= $this->Layout->userAvatar($_item, ['gender' => true]) ?>
+					</div>
+				</div>
+				<div class="img"<? if( $_item->img ) { ?> style="background-image: url(/resources/people/<?= $_item->id ?>-block.jpg?v=<?= $_item->version ?>);"<? } ?>></div>
 				<div class="info">
-					<h2><?= $_item->name ?></h2>
+					<div class="info_inner">
+						<h2><?= $_item->name ?></h2>
+						<p><?= $_item->organization_name ?></p>
+					</div>
 				</div>
 			</a>
 		</div>

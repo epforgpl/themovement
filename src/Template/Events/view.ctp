@@ -34,28 +34,6 @@
 </div><!-- /.modal -->
 <? } ?>
 
-<div id="followingModal" class="modal fade" tabindex="-1" role="dialog" data-url="<?= $item->getUrl() ?>/following">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?= $item->registration ? 'Who is going' : 'Following' ?></h4>
-      </div>
-      <div class="modal-body">
-	  	
-	  	<div class="scrollDiv">
-	  	<div class="tmTable followers"></div>
-	  	</div>
-	  	<div class="loader"><?= $this->Layout->spinner() ?></div>
-	  	
-      </div>
-      <div class="modal-footer text-center">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 <? if( $_user && $item['registration'] ) { ?>
 	
 	
@@ -493,7 +471,7 @@
 								
 				<? if( $followers->all()->count() < $followers->count() ) {?>
 				<div class="buttons">
-					<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#followingModal">See all</button>
+					<a class="btn btn-default btn-sm" href="<?= $item->getUrl('people') ?>">See all</a>
 				</div>
 				<? } ?>
 				
@@ -510,7 +488,9 @@
 					<?= $this->Layout->calendar( $related_event ); ?>
 					<div class="img" style="background-image: url(<? if( $related_event->img ) { ?>/resources/events/<?= $related_event->id ?>-block.jpg?v=<?= $related_event->version ?><? } else { ?>/img/events-default.svg<? } ?>);"></div>
 					<div class="info">
-						<h2><?= $related_event->name ?></h2>
+						<div class="info_inner">
+							<h2><?= $related_event->name ?></h2>
+						</div>
 					</div>
 				</a>
 				<? } ?>

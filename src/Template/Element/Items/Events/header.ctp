@@ -4,6 +4,7 @@
 		<?
 			$params = [
 				'item' => $item,
+				'avatar' => 'calendar',
 				'chapter' => 'events',
 				'avatar_manage' => ( $_user && ($_user['role']=='admin') ),
 				'buttons' => [],

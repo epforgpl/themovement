@@ -4,6 +4,33 @@
 @import "elements.less";
 @import "latofonts.less";
 
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+	background-color: #6f50b2;
+	border-color: #555;
+}
+
+.nav-tabs > li > a, .nav-tabs > li > a:focus {
+	font-weight: bold;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus {
+	color: #6f50b2;
+	box-shadow: 0 -2px 0 #6f50b2 inset;
+}
+
+.nav-tabs > li > a:hover, .nav-tabs > li.active > a:hover, .nav-tabs > li > a:focus:hover {
+	color: #6f50b2;
+	box-shadow: 0 -2px 0 #6f50b2 inset;
+}
+
+.list-group-item.active > .badge, .nav-pills > .active > a > .badge {
+	color: #6f50b2;
+}
+
+.list-group-item {
+	padding: 10px 15px;
+}
+
 .btn {
 	.icon-text {
 		font-size: 1.5em;
@@ -370,7 +397,23 @@ h1 {
 			margin: 0;
 			padding: 0;
 		}
-				
+		
+		&.user {
+			.img {
+				width: 92px;
+				height: 92px;
+				background-position: center center;
+				background-size: cover;
+				border-radius: 5px;
+				text-align: center;
+				span {
+					font-size: 66px;
+					line-height: 94px;
+					color: #CCC;
+				}
+			}
+		}
+			
 		&.event {
 			
 			.code_avatar_inner {

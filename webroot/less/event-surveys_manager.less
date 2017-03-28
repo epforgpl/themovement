@@ -1,0 +1,186 @@
+.surveys_manager {
+			
+	.questions {
+		
+		padding: 0 0 20px;
+		
+		.block-question {
+			
+			.presenter_toolbar {
+				font-size: 2em;
+			    margin-right: 24px;
+			    position: absolute;
+			    right: 0;
+			    width: 1.3em;
+				.button {
+					background: no-repeat;
+					margin: 5px;
+					padding: 5px;
+					border: none;
+					color: #DDD;
+					&.btn-lock {
+						font-size: 0.8em;
+						position: relative;
+						top: -1px;
+					}
+				}
+			}
+			
+			&.ui-sortable-helper {
+				.toolbar {
+					padding: 0 3px;
+				}
+			}
+			
+			&.play {
+				.presenter_toolbar {
+					.button {
+						&.btn-play {
+							color: #6f50b2;
+						}
+					}
+				}
+			}
+			
+			.block-inner {
+				padding-left: 35px;
+				padding-right: 30px;
+			}
+			
+			.editable {
+				
+				border: 1px solid rgba(255, 255, 255, 1);
+								
+				&.editing {
+					border: 1px dotted #999;
+				}
+				&:hover, &:focus {
+					border: 1px dotted #999;
+				}
+			}
+						
+			.toolbar {
+				position: absolute;
+				display: none;
+				.button {
+					display: inline;
+					background: none;
+					border: none;
+					padding: 6px 6px 1px;
+					span {
+						color: #CCC;
+						font-size: .85em;
+					}
+					
+					&.btn-drag {
+						cursor: move;
+					}
+					
+					&:hover {
+						&.btn-drag {
+							span {
+								color: #6f50b2;
+							}
+						}
+						&.btn-remove {
+							span {
+								color: #D33;
+							}
+						}
+					}
+					
+				}
+			}
+			
+			header {
+				
+				padding-left: 60px;
+				padding-right: 50px;
+				
+				h2 {
+					min-height: 1.5em;
+					border: 1px solid #FFF;
+					border: 1px solid rgba(255, 255, 255, 0);
+					text-transform: inherit;
+					&.placeholder {
+						color: #AAA;
+					}
+				}
+				
+				.toolbar {
+					margin-top: -2px;
+					margin-left: -55px;
+				}
+				
+				&:hover {
+					.toolbar {
+						display: block;
+					}
+				}
+			}
+						
+			.answers {
+				
+				margin: -20px 0 0;
+				padding: 0 0 10px;
+				list-style: none;
+				
+				.answer {
+					
+					margin: 0;
+					padding: 10px 26px;
+					list-style: none;
+					
+					.toolbar {
+						display: none;
+						margin-top: -5px;
+					}
+					
+					&:hover {
+						.toolbar {
+							display: block;
+						}
+					}
+					
+					.text {
+						min-height: 1.5em;
+						margin-left: 57px;
+						&.placeholder {
+							color: #AAA;
+						}
+					}
+										
+					
+					
+				}
+				
+			}
+			
+			.buttons {
+				margin: -5px 21px 0;
+				padding: 0 0 15px;
+				button {
+					background: no-repeat;
+					border: none;
+					color: #2196f3;
+					font-size: 0.9em;
+				}
+			}
+			
+			.progress {
+				visibility: hidden;
+				height: 4px;
+				margin-bottom: 0;
+			}
+			
+			&.locked {
+				.progress {
+					visibility: visible;
+				}
+			}
+			
+		}
+	
+	}
+		
+}
