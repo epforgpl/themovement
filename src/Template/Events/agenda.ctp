@@ -67,7 +67,7 @@
 										<p class="time"><?php echo $session->time->format('G:i'); ?></p>
 										<p class="title"><?php echo $session->title; ?></p>
 									</div>
-									<?php if( $session->description ) {?><div class="description"><?php echo $session->description; ?></div><?php } ?>
+
 									<? if( $session->events_subsessions ) {?>
 									<ul class="subsessions">
 										<? foreach( $session->events_subsessions as $subsession ) { ?>
@@ -79,6 +79,9 @@
 										<? } ?>
 									</ul>
 									<? } ?>
+
+									<?php if( $session->description ) {?><div class="description"><?php echo $session->description; ?></div><?php } ?>
+
 								</li>
 								<?php
 									}
