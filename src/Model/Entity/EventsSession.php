@@ -3,7 +3,7 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 
-class Eventssession extends Entity
+class EventsSession extends Entity
 {
 
     public function isSubscribable()

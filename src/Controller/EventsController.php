@@ -437,6 +437,7 @@ class EventsController extends AppController
 			    return $q->matching('Countries');
 		    })->where([
 			    'Registrations.status' => 1,
+			    'Registrations.event_id' => $item->id,
 			    'Users.country !=' => '',
 		    ])->group('Users.country')->order([
 			    'count' => 'desc',
@@ -470,6 +471,7 @@ class EventsController extends AppController
 		    
 		    $conditions = [
 			    'Registrations.status' => 1,
+			    'Registrations.event_id' => $item->id,
 		    ];		    
 		    
 		    if(
@@ -591,7 +593,7 @@ class EventsController extends AppController
 			    
 			    $date = $session->time->format('Y-m-d');
 			    
-			    // if( !$date_active )
+			    if( !$date_active )
 			    	$date_active = $date;
 			    
 			    if( !array_key_exists($date, $dates) )
