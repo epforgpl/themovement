@@ -20,6 +20,37 @@ _AGENDA.prototype = {
 		this.div = $(div);
 		this.agenda_switcher = this.div.find('.ch_agenda');
 		this.event_id = this.div.data('event_id');
+				
+		$(window).resize(
+            ResponsiveBootstrapToolkit.changed(function() {
+	            that.changeView();
+            })
+        );
+        
+        this.changeView();
+		
+		this.div.find('.list-dates a').each(function(){
+			
+			var a = $(this);
+			a.addClass(a.data('date'));
+			
+		}).on('show.bs.tab', function(event){
+			
+			var key = 'events.' + that.event_id + '.agenda.selectedDay';
+			var val = $(event.target).data('date');
+			localStorage.setItem(key, val);
+			
+		});
+		
+		var key = 'events.' + that.event_id + '.agenda.selectedDay';
+		var val = localStorage.getItem(key);
+		
+		if( val ) {
+			var a = this.div.find('.list-dates a.' + val);
+			if( a.length ) {
+				a.tab('show');
+			}
+		}
 		
 		this.div.find('.program .session').each(function(){
 						
@@ -80,8 +111,8 @@ _AGENDA.prototype = {
 						var _chr = $(this);
 												
 						if( _chr.val() == val ) {
-							console.log('match', _chr);
 							_chr.prop('checked', true);
+							session_div.data('subsession_id', val);
 						}
 					});
 					
@@ -129,8 +160,10 @@ _AGENDA.prototype = {
 			
 			if( value===false ) {
 				localStorage.removeItem(key);
+				session_div.removeData('subsession_id');
 			} else {
 				localStorage.setItem(key, value);				
+				session_div.data('subsession_id', value);
 			}
 						
 		} else {
@@ -154,35 +187,96 @@ _AGENDA.prototype = {
 	},
 	
 	updateView: function() {
-		
-		console.log('updateView');
-		
+				
 		var my_agenda = this.agenda_switcher.prop('checked');
 		
 		this.div.find('.program .session').each(function(){
 			
 			var session_div = $(this);
 			var input = session_div.find('.session_header .ch');
+			var inputs = session_div.find('.chr');
 			
-			if( my_agenda && session_div.hasClass('subscribable') ) {
+			if( my_agenda ) {
 				
-				if( input.prop('checked') ) {
+				if( session_div.hasClass('subscribable') ) {
 					
-					session_div.show();
-					
+					if( input.prop('checked') ) {
+						session_div.show();
+					} else {
+						session_div.hide();
+					}
+				
 				} else {
 					
-					session_div.hide();
+					if( inputs.length ) {
+						
+						var subsession_id = session_div.data('subsession_id');
+						
+						if( subsession_id ) {
+							
+							inputs.each(function(){
+								
+								var _inp = $(this);
+								
+								if( _inp.val() == subsession_id ) {
+									_inp.parents('.subsession').show();
+								} else {
+									_inp.parents('.subsession').hide();									
+								}
+								
+							});
+							
+							session_div.show();
+							
+						} else {
+							session_div.hide();
+						}
+					
+					} else {					
+						session_div.show();
+					}
 					
 				}
 				
 			} else {
-				
-				session_div.show();
-				
+				session_div.show().find('.subsession').show();
 			}
 			
 		});
+		
+	},
+	
+	changeView: function() {
+		
+		this.div.removeClass('xs').removeClass('sm').removeClass('md').removeClass('lg').addClass( ResponsiveBootstrapToolkit.current() );
+		
+        if( ResponsiveBootstrapToolkit.is('<=sm') ) {
+	        
+	        var list_dates = this.div.find('.filter');
+	        
+	        list_dates.sticky({
+				topSpacing: 0,
+				zIndex: 1
+			});
+			
+			this.div.find('.my-agenda-nav').sticky({
+				topSpacing: list_dates.height()+15,
+				zIndex: 1
+			});
+	        
+        } else {
+	        
+	        this.div.find('.filter').sticky({
+				topSpacing: 0,
+				zIndex: 1
+			});
+			
+			this.div.find('.my-agenda-nav').sticky({
+				topSpacing: 0,
+				zIndex: 1
+			});
+	        
+        }
 		
 	}
 	

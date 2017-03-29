@@ -170,13 +170,11 @@ class EventsController extends AppController
 		    
 		    $menu = [];
 		    
-		    /*
 		    if( $sessions_count = TableRegistry::get('EventsSessions')->find()->where()->count() )
 		    	$menu[] = [
 			    	'href' => 'agenda',
 			    	'label' => 'Agenda',
 		    	];
-		    */
 		    
 		    if( $followers = $this->getFollowers($item) ) {
 			    $menu[] = [
@@ -591,7 +589,7 @@ class EventsController extends AppController
 			    
 			    $date = $session->time->format('Y-m-d');
 			    
-			    // if( !$date_active )
+			    if( !$date_active )
 			    	$date_active = $date;
 			    
 			    if( !array_key_exists($date, $dates) )
@@ -804,7 +802,6 @@ class EventsController extends AppController
 	    
 	    $menu = [];
 	    
-	    /*
 	    if( $sessions_count = TableRegistry::get('EventsSessions')->find()->where([
 	    	'EventsSessions.event_id' => $item->id
     	])->count() )
@@ -812,7 +809,6 @@ class EventsController extends AppController
 		    	'href' => 'agenda',
 		    	'label' => 'Agenda',
 	    	];
-	    */
 	    	
 	    if( $followers_count = TableRegistry::get('Registrations')->find()->where([
 		    'Registrations.event_id' => $item->id,
