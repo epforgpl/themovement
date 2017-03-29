@@ -4,8 +4,10 @@
 	echo $this->Less->less('less/items.less');
 	echo $this->Less->less('less/event-program.less');
 	
-	$this->prepend('script', $this->Html->script('page'));
-	$this->prepend('script', $this->Html->script('events-agenda'));
+	$this->append('script', $this->Html->script('jquery.sticky'));
+	$this->append('script', $this->Html->script('bootstrap-toolkit.min'));
+	$this->append('script', $this->Html->script('page'));
+	$this->append('script', $this->Html->script('events-agenda'));
 	
 	echo $this->element('Items/Events/header', [
 		'item' => $item
@@ -27,8 +29,8 @@
 					
 					<div class="filter">
 						<ul class="list-group list-dates" role="tablist">
-						<?php foreach( $dates as $d => $date ) { ?>
-							<li role="presentation" class="list-group-item<?php if( $date_active == $d ) {?> active<?php } ?>"><a role="tab" href="#<?php echo $date->format('Y-m-d'); ?>" data-toggle="tab"><?php echo $date->format('l, F j'); ?></a></li>
+						<?php foreach( $dates as $d => $date ) { $ymd = $date->format('Y-m-d'); ?>
+							<li role="presentation" class="list-group-item<?php if( $date_active == $d ) {?> active<?php } ?>"><a role="tab" data-date="<?php echo $ymd; ?>" href="#<?php echo $ymd; ?>" data-toggle="tab"><?php echo $date->format('l, F j'); ?></a></li>
 						<?php } ?>
 						</ul>
 					</div>
@@ -71,7 +73,7 @@
 										<? foreach( $session->events_subsessions as $subsession ) { ?>
 										<li class="subsession" data-id="<?= $subsession->id ?>">
 											<label>
-												<input class="chr" type="checkbox" name="session_<?= $session->id ?>" value="<?= $subsession->id ?>"><?php echo $subsession->title; ?>
+												<input class="chr" type="checkbox" name="session_<?= $session->id ?>" value="<?= $subsession->id ?>"><div class="text"><?php echo $subsession->title; ?></div>
 											</label>
 										</li>
 										<? } ?>
