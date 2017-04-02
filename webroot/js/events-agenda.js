@@ -2,6 +2,7 @@ var _AGENDA = function(){};
 _AGENDA.prototype = {
 	
 	div: false,
+	form: false,
 	event_id: false,
 	agenda_switcher: false,
 	
@@ -18,6 +19,7 @@ _AGENDA.prototype = {
 		
 		var that = this;
 		this.div = $(div);
+		this.form = this.div.find('form');
 		this.agenda_switcher = this.div.find('.ch_agenda');
 		this.event_id = this.div.data('event_id');
 				
@@ -277,6 +279,12 @@ _AGENDA.prototype = {
 			});
 	        
         }
+		
+	},
+	
+	save: function() {
+		
+		console.log('save', this.form.serialize());
 		
 	}
 	

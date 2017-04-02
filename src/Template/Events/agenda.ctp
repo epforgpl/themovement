@@ -22,6 +22,7 @@
 		</header>
 
 		
+		
 		<div class="row" id="agenda" data-event_id="<?= $item->id ?>">
 			<div class="col-md-3">
 				
@@ -42,55 +43,65 @@
 				<?php if( $sessions ) {?>
 				<div class="block block-program">
 					
-					<div class="my-agenda-nav">
-						<div class="checkbox">
-							<label>
-								<input class="ch_agenda" type="checkbox"> Show only my agenda
-							</label>
+					<form method="post" action="<?= $item->getUrl('agenda') ?>">
+													
+						<div class="my-agenda-nav">
+							<div class="checkbox">
+								<label>
+									<input class="ch_agenda" type="checkbox"> Show only my agenda
+								</label>
+							</div>
 						</div>
-					</div>
-					
-					<div class="my-agenda-info">
-						<p>Create your own personal agenda by selecting sessions and workshops you want to attend.</p>
-					</div>
-					
-					<div class="tab-content">
-						<?php foreach($sessions as $sessions_date => $sessions_items) { ?>
-						<div class="tab-pane fade in<?php if( $sessions_date == $date_active ) {?> active<?php } ?>" id="<?php echo $sessions_date; ?>">
-							<ul class="program">
-								<?php
-									foreach( $sessions_items as $session ) {
-								?>
-								<li class="session<? if($session->isSubscribable()) {?> subscribable<? } ?>" data-id="<?= $session->id ?>">
-									<div class="session_header">
-										<p class="tools"><? if( $session->isSubscribable() ) {?><input class="ch" type="checkbox" ><? } ?></p>
-										<p class="time"><?php echo $session->time->format('G:i'); ?></p>
-										<p class="title"><?php echo $session->title; ?></p>
-									</div>
-
-									<? if( $session->events_subsessions ) {?>
-									<ul class="subsessions">
-										<? foreach( $session->events_subsessions as $subsession ) { ?>
-										<li class="subsession" data-id="<?= $subsession->id ?>">
-											<label>
-												<input class="chr" type="checkbox" name="session_<?= $session->id ?>" value="<?= $subsession->id ?>"><div class="text"><?php echo $subsession->title; ?></div>
-											</label>
-										</li>
+						
+						<div class="my-agenda-info">
+							<p>Create your own personal agenda by selecting sessions and workshops you want to attend.</p>
+						</div>
+						
+						
+						<div class="tab-content">
+							<?php foreach($sessions as $sessions_date => $sessions_items) { ?>
+							<div class="tab-pane fade in<?php if( $sessions_date == $date_active ) {?> active<?php } ?>" id="<?php echo $sessions_date; ?>">
+								<ul class="program">
+									<?php
+										foreach( $sessions_items as $session ) {
+									?>
+									<li class="session<? if($session->isSubscribable()) {?> subscribable<? } ?>" data-id="<?= $session->id ?>">
+										<div class="session_header">
+											<p class="tools"><? if( $session->isSubscribable() ) {?><input name="sessions[]" value="<?= $session->id ?>" class="ch" type="checkbox" ><? } ?></p>
+											<p class="time"><?php echo $session->time->format('G:i'); ?></p>
+											<p class="title"><?php echo $session->title; ?></p>
+										</div>
+	
+										<? if( $session->events_subsessions ) {?>
+										<ul class="subsessions">
+											<? foreach( $session->events_subsessions as $subsession ) { ?>
+											
+											<? if( $subsession->pre_text ) {?>
+											<li class="subsession_text"><?= $subsession->pre_text ?></li>
+											<? } ?>
+											
+											<li class="subsession" data-id="<?= $subsession->id ?>">
+												<label>
+													<input class="chr" type="checkbox" name="subsessions[]" value="<?= $subsession->id ?>"><div class="text"><?php echo $subsession->title; ?></div>
+												</label>
+											</li>
+											<? } ?>
+										</ul>
 										<? } ?>
-									</ul>
-									<? } ?>
-
-									<?php if( $session->description ) {?><div class="description"><?php echo $session->description; ?></div><?php } ?>
-
-								</li>
-								<?php
-									}
-								?>
-							</ul>
+	
+										<?php if( $session->description ) {?><div class="description"><?php echo $session->description; ?></div><?php } ?>
+	
+									</li>
+									<?php
+										}
+									?>
+								</ul>
+							</div>
+							<?php } ?>
 						</div>
-						<?php } ?>
-					</div>
-					
+						
+					</
+											
 				</div>
 				<? } ?>
 		
