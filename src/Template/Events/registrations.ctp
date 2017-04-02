@@ -112,8 +112,16 @@
 <div class="row">
 	<div class="col-md-12">
 		
-		<header class="item_header">
-			<h1>Registrations (<?= $registrations->count() ?>)</h1>
+		<header class="item_header overflow-auto">
+			<h1 class="pull-left">Registrations (<?= $registrations->count() ?>)</h1>
+			<div class="pull-right"><a href="<?= $this->Url->build([
+				'controller' => 'Events',
+				'action' => 'registrations',
+				'slug' => $item->slug,
+				'?' => [
+					'download' => 'csv',
+				],
+			]) ?>" class="btn btn-default"><span class="glyphicon glyphicon-download"></span></a></div>
 		</header>
 		
 		<div class="block">

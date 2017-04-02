@@ -632,9 +632,7 @@ class EventsController extends AppController
 	    	( $this->Auth->user('role')=='admin' )
 	    ) {
 		    
-		    $this->generateMenu($item, 'registrations');
-		    
-		    $registrations = TableRegistry::get('Registrations')->find('all', [
+		    $query = [
 			    'conditions' => [
 				    'Registrations.event_id' => $item->id,
 				    'Registrations.status !=' => -1,
@@ -642,14 +640,49 @@ class EventsController extends AppController
 			    'contain' => [
 				    'Users' => [],
 			    ],
-			    'limit' => 1000,
-			    'order' => [
-				    'Registrations.created' => 'DESC',
-			    ],
-		    ]);
+		    ];
 		    
-		    $this->set('item', $item);
-		    $this->set('registrations', $registrations);
+		    if( isset( $this->request->query['download'] ) ) {
+			    
+			    $query['order'] = [
+				    'Users.last_name' => 'ASC',
+				    'Users.first_name' => 'ASC',
+			    ];
+			    $registrations = TableRegistry::get('Registrations')->find('all', $query);
+			    
+			    if( $this->request->query['download'] == 'csv' ) {
+					
+					
+					$file_id = uniqid();
+					$file = ROOT . DS . 'tmp' . DS . $file_id . '.csv';
+					
+					$fp = fopen($file, 'w');
+					
+					foreach ($registrations as $r) {
+					    fputcsv($fp, [$r->user->first_name, $r->user->last_name, $r->user->organization_name]);
+					}
+					
+					fclose($fp);
+					
+					header('Content-Type: text/csv; charset=UTF-8');
+					$this->response->file($file, array('download'=> true, 'name'=> 'registrations.csv'));
+					return $this->response;
+				    
+			    }
+			    
+		    } else {
+		    
+			    $this->generateMenu($item, 'registrations');
+			    
+			    $query['order'] = [
+				    'Registrations.created' => 'DESC',
+			    ];
+			    $registrations = TableRegistry::get('Registrations')->find('all', $query);
+			    
+			    $this->set('item', $item);
+			    $this->set('registrations', $registrations);
+		    
+		    }
 		    
 		} else {
 			
