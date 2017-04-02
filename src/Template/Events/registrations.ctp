@@ -119,7 +119,7 @@
 				'action' => 'registrations',
 				'slug' => $item->slug,
 				'?' => [
-					'download' => 'csv',
+					'download' => 'json',
 				],
 			]) ?>" class="btn btn-default"><span class="glyphicon glyphicon-download"></span></a></div>
 		</header>

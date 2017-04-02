@@ -649,13 +649,13 @@ class EventsController extends AppController
 				    'Users.first_name' => 'ASC',
 			    ];
 			    $registrations = TableRegistry::get('Registrations')->find('all', $query);
+				$file_id = uniqid();
 			    
 			    if( $this->request->query['download'] == 'csv' ) {
 					
-					
-					$file_id = uniqid();
 					$file = ROOT . DS . 'tmp' . DS . $file_id . '.csv';
 					
+					@unlink($file);
 					$fp = fopen($file, 'w');
 					
 					foreach ($registrations as $r) {
@@ -668,8 +668,27 @@ class EventsController extends AppController
 					$this->response->file($file, array('download'=> true, 'name'=> 'registrations.csv'));
 					return $this->response;
 				    
-			    }
-			    
+			    } elseif( $this->request->query['download'] == 'json' ) {
+									
+					$data = [];
+					foreach ($registrations as $r) {
+					    $data[] = [
+					    	'first_name' => $r->user->first_name,
+					    	'last_name' => $r->user->last_name,
+					    	'organization_name' => $r->user->organization_name
+				    	];
+					}
+					
+					$file = ROOT . DS . 'tmp' . DS . $file_id . '.json';
+					@unlink($file);
+					file_put_contents($file, json_encode($data));
+					
+					header('Content-Type: text/csv; charset=UTF-8');
+					$this->response->file($file, array('download'=> true, 'name'=> 'registrations.json'));
+					return $this->response;
+				    
+				}
+							    
 		    } else {
 		    
 			    $this->generateMenu($item, 'registrations');
