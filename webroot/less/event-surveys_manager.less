@@ -5,7 +5,7 @@
 		padding: 0 0 20px;
 		
 		.block-question {
-			
+						
 			.presenter_toolbar {
 				font-size: 2em;
 			    margin-right: 24px;
@@ -156,6 +156,21 @@
 				
 			}
 			
+			&.others-enabled {
+				.buttons {
+					button {
+						
+					}
+					._enabled {
+						display: inline;
+					}
+					
+					._disabled {
+						display: none;
+					}
+				}
+			}
+			
 			.buttons {
 				margin: -5px 21px 0;
 				padding: 0 0 15px;
@@ -164,7 +179,29 @@
 					border: none;
 					color: #2196f3;
 					font-size: 0.9em;
+					margin: 0 7px;
+					&:first-child {
+						margin-left: 0;
+					}
+					&:last-child {
+						margin-right: 0;
+					}
+					.glyphicon {
+						font-size: 0.85em;
+						&._disabled {
+							color: #CCC;
+						}
+					}
 				}
+				
+				._enabled {
+					display: none;
+				}
+				
+				._disabled {
+					display: inline;
+				}
+				
 			}
 			
 			.progress {

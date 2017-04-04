@@ -155,4 +155,42 @@ class UsersTable extends Table
 		
 	}
 	
+	public function sendInfopackMails()
+	{
+		
+		$users = $this->find('all', [
+			'conditions' => [
+				'infopack_mail' => false,
+			],
+		]);
+		
+		foreach( $users as $user ) {
+			
+			$email = new Email('default');
+			
+			debug('Sending mail to ' . $user->name . ' [' . $user->email . ']');
+			
+			$msg = '';
+			if( $user->first_name )
+				$msg .= 'Hi ' . $user->first_name . ",";
+			
+			$pdf_file = ROOT . '/webroot/resources/PDF_CEE_2017_Infopack.pdf';
+			
+			$status = $email->from(['events@themovement.io' => 'The Movement Events'])
+			    ->to([$user->email => $user->name])
+			    ->subject('PDF CEE 2017 - Infopack')
+			    ->template('infopack')
+			    ->addAttachments(['PDF_CEE_2017_Infopack.pdf' => [
+					'data' => file_get_contents($pdf_file),
+					'mimetype' => 'application/pdf'
+				]])
+			    ->send([$msg]);
+			
+			$user->infopack_mail = true;
+			$this->save($user);
+			
+		}
+		
+	}
+	
 }

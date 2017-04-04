@@ -21,4 +21,9 @@ class UsersShell extends Shell
 	    $this->Users->sendRegistrationMails();
     }
     
+    public function sendInfopackMails()
+    {
+	    $this->Users->sendInfopackMails();
+    }
+    
 }
