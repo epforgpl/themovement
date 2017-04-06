@@ -183,6 +183,12 @@ class EventsController extends AppController
 		    	];
 		    }
 		    
+		    if( $item->coc )
+			    $menu[] = [
+			    	'href' => 'coc',
+			    	'label' => 'Code of Conduct',
+		    	];
+		    
 		    /*
 		    if( $item->surveys ) {
 			    $menu[] = [
@@ -619,6 +625,23 @@ class EventsController extends AppController
 	
 	}
     
+    public function coc($slug)
+    {
+	    
+	    if(
+		    ( $slug ) && 
+		    ( $item = TableRegistry::get('Events')->find()->where([
+			    'Events.slug' => $slug
+		    ])->limit(1)->first() )
+	    ) {
+			
+			$this->generateMenu($item, 'coc');
+		    $this->set('item', $item);
+		    
+		}
+	    
+    }
+    
     public function registrations($slug)
     {
 	 		 	   
@@ -871,6 +894,12 @@ class EventsController extends AppController
 	    	$menu[] = [
 		    	'href' => 'people',
 		    	'label' => 'People',
+	    	];	
+	    	
+	    if( $item->coc )
+		    $menu[] = [
+		    	'href' => 'coc',
+		    	'label' => 'Code of Conduct',
 	    	];	    
 	    
 	    /*
