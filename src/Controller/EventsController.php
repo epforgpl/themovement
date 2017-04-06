@@ -648,7 +648,7 @@ class EventsController extends AppController
 				    'Users.last_name' => 'ASC',
 				    'Users.first_name' => 'ASC',
 			    ];
-			    $registrations = TableRegistry::get('Registrations')->find('all', $query);
+			    $registrations = TableRegistry::get('Users')->find('all');
 				$file_id = uniqid();
 			    
 			    if( $this->request->query['download'] == 'csv' ) {
@@ -659,7 +659,7 @@ class EventsController extends AppController
 					$fp = fopen($file, 'w');
 					
 					foreach ($registrations as $r) {
-					    fputcsv($fp, [$r->user->first_name, $r->user->last_name, $r->user->organization_name]);
+					    fputcsv($fp, [$r->first_name, $r->last_name, $r->organization_name]);
 					}
 					
 					fclose($fp);
@@ -673,9 +673,9 @@ class EventsController extends AppController
 					$data = [];
 					foreach ($registrations as $r) {
 					    $data[] = [
-					    	'first_name' => $r->user->first_name,
-					    	'last_name' => $r->user->last_name,
-					    	'organization_name' => $r->user->organization_name
+					    	'first_name' => $r->first_name,
+					    	'last_name' => $r->last_name,
+					    	'organization_name' => $r->organization_name
 				    	];
 					}
 					

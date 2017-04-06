@@ -168,7 +168,8 @@ class UsersTable extends Table
 			
 			$email = new Email('default');
 			
-			debug('Sending mail to ' . $user->name . ' [' . $user->email . ']');
+			echo "\n";
+			var_export('Sending mail to ' . $user->name . ' [' . $user->email . ']');
 			
 			$msg = '';
 			if( $user->first_name )
@@ -188,7 +189,7 @@ class UsersTable extends Table
 			
 			$user->infopack_mail = true;
 			$this->save($user);
-			
+						
 		}
 		
 	}
