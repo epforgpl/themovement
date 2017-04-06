@@ -119,7 +119,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 	$routes->connect('/events/:slug/:action', [
     	'controller' => 'Events', 
 	], [
-		'action' => 'finish-registration|registrations|coupons|follow|unfollow|following|agenda|people|surveys|surveys_manager|surveys_present',
+		'action' => 'finish-registration|registrations|coupons|follow|unfollow|following|agenda|people|surveys|surveys_manager|surveys_present|coc',
 		'pass' => ['slug']		
 	]);
 	

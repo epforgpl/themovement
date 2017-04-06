@@ -456,6 +456,15 @@
 					</div>
 				</li>
 				<? } ?>
+				
+				<? if( $item->coc ) {?>
+				<li class="nopadding">
+					<div class="icon"><span class="glyphicon glyphicon-align-justify"></span></div>
+					<div class="content">
+						<p><a href="<?= $item->getUrl('coc') ?>">See Code of Conduct</a></p>
+					</div>
+				</li>
+				<? } ?>
 									
 			</ul>
 		</div>
