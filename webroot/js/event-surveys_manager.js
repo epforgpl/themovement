@@ -143,10 +143,12 @@ _SURVEYS_MANAGER.prototype = {
 		
 		var that = this;
 		
-		var question_div = $('<div class="block block-question"><div class="presenter_toolbar"><button class="button btn-play"><span class="glyphicon glyphicon-play"></span></button></div><header><div class="toolbar"><p class="button btn-drag"><span class="glyphicon glyphicon-move"></span></p><button class="button btn-remove"><span class="glyphicon glyphicon-remove"></span></button></div><h2 class="placeholder" contentEditable="true">Enter question...</h2></header><div class="block-inner"><ul class="answers"></ul><div class="buttons"><button class="btn-add-answer">Add answer</button><button class="btn-toogle-others"><span class="_enabled glyphicon glyphicon-ok"></span><span class="_disabled glyphicon glyphicon-remove"></span> Enable "Other"</button></div></div><div class="progress progress-striped active"><div class="progress-bar" style="width: 100%"></div></div></div>').hide();
+		var question_div = $('<div class="block block-question"><div class="presenter_toolbar"><button class="button btn-play"><span class="glyphicon glyphicon-play"></span></button></div><header><div class="toolbar"><p class="button btn-drag"><span class="glyphicon glyphicon-move"></span></p><button class="button btn-remove"><span class="glyphicon glyphicon-remove"></span></button></div><h2 class="placeholder" contentEditable="true">Enter question...</h2></header><div class="block-inner"><ul class="answers"></ul><div class="buttons"><button class="btn-add-answer">Add answer</button><button class="btn-toogle-others"><span class="_enabled glyphicon glyphicon-ok"></span><span class="_disabled glyphicon glyphicon-remove"></span> Enable "Other"</button><a class="a-others" target="_blank" href="#">See others &raquo;</a></div></div><div class="progress progress-striped active"><div class="progress-bar" style="width: 100%"></div></div></div>').hide();
 				
 		if( question ) {
 			question_div.data('id', question.id).find('h2').data('content', question.text).removeClass('placeholder').text(question.text);
+			
+			question_div.find('.a-others').attr('href', '?others=' + question.id);
 			
 			if( question.others )
 				question_div.addClass('others-enabled');

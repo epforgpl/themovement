@@ -569,7 +569,20 @@ class EventsController extends AppController
 			    ],
 		    ])->limit(1)->first() )
 	    ) {
-		    		    
+		    		
+		    if( @$this->request->query['others'] ) {
+			    
+			    $others = TableRegistry::get('SurveyResults')->find('all', [
+				    'conditions' => [
+					    'question_id' => $this->request->query['others'],
+					    'answer_id' => 0,
+				    ],
+			    ]);
+			    
+			    $this->set('others', $others);
+			    
+		    }
+		        
 		    $this->generateMenu($item, 'surveys');
 		    $this->set('item', $item);
 		
@@ -1035,7 +1048,6 @@ class EventsController extends AppController
 			    		'count' => $query->func()->count('*')
 			    	])->where([
 				    	'question_id' => $question->id,
-				    	'answer_id !=' => 0,
 			    	])->group('answer_id');
 			    	
 			    	$data = [];
@@ -1046,6 +1058,8 @@ class EventsController extends AppController
 			    	foreach ($question->surveys_answers as $a ) {
 				    	$a->count = array_key_exists($a->id, $data) ? $data[ $a->id ] : 0;
 			    	}
+			    	
+			    	$question->others_count = isset($data[0]) ? $data[0] : 0;
 			    	
 		    	}
 		    			    	

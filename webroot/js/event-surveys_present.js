@@ -296,6 +296,12 @@ _SURVEYS_PRESENTER.prototype = {
 					}
 				}
 				
+				if( data.others_count )
+					chart_data.push({
+						name: 'Other',
+						y: data.others_count 
+					});
+				
 				that.chart.update({
 					title: {
 						text: data.text
