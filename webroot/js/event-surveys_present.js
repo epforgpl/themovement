@@ -284,25 +284,27 @@ _SURVEYS_PRESENTER.prototype = {
 				
 		$.get('/events/' + this.event_id + '/getActiveQuestion.json?results').always(function(data){
 			
-			var chart_data = [];
-			for( var i=0; i<data.surveys_answers.length; i++ ) {
-				var d = data.surveys_answers[i];
-				if( d.count ) {
-					chart_data.push({
-						name: d.text,
-						y: d.count,
-					});
+			if( data ) {
+				var chart_data = [];
+				for( var i=0; i<data.surveys_answers.length; i++ ) {
+					var d = data.surveys_answers[i];
+					if( d.count ) {
+						chart_data.push({
+							name: d.text,
+							y: d.count,
+						});
+					}
 				}
-			}
-			
-			that.chart.update({
-				title: {
-					text: data.text
-				},
-		        series: {
-		            data: chart_data
-		        }
-		    });
+				
+				that.chart.update({
+					title: {
+						text: data.text
+					},
+			        series: {
+			            data: chart_data
+			        }
+			    });
+		    }
 								
 			setTimeout(function(){
 				that.checkQuestion();

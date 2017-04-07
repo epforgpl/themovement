@@ -7,5 +7,6 @@
 ?>
 
 <div id="surveys_presenter" data-event_id="<?= $item->id ?>">
+	<div id="url">pdfcee17.pl/survey</div>
 	<div id="chart"></div>
 </div>
