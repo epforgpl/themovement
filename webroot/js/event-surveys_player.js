@@ -25,8 +25,16 @@ _SURVEYS_PLAYER.prototype = {
 		
 		var that = this;
 		this.div = $(div);
+		this.action = this.div.data('action');
 		this.block = this.div.find('.block');
+		this.status = this.div.find('.status');
 		this.event_id = this.div.data('event_id');
+		this.vote_button = this.div.find('.btn-vote').removeClass('disable').prop('disabled', null);
+		this.progress = this.div.find('.progress');
+		
+		this.vote_button.click(function(){
+			that.save();
+		});
 		
 		this.checkQuestion();
 				
@@ -46,6 +54,7 @@ _SURVEYS_PLAYER.prototype = {
 					that.current_answer = null;
 				}
 				
+				that.block.data('id', data.id);
 				that.block.removeClass('empty');
 				that.block.find('h2').html( data.text );
 				
@@ -56,7 +65,17 @@ _SURVEYS_PLAYER.prototype = {
 					var ans = data.surveys_answers[i];
 					var li = $('<li><label><input type="radio" name="ans" value="' + ans.id + '" />' + ans.text + '</label></li>');
 					
-					var inp = li.find('input');
+					var inp = li.find('input').prop('checked', false);
+					
+					if( data.result ) {
+						
+						inp.addClass('disabled').prop('disabled', 'disabled');
+						
+						if( data.result.answer_id == ans.id ) {
+							inp.prop('checked', true);
+						}
+						
+					}
 					
 					inp.change(function(event){
 						var _inp = $(event.target).closest('input');
@@ -69,6 +88,14 @@ _SURVEYS_PLAYER.prototype = {
 					
 					answers_ul.append(li);
 					
+				}
+				
+				if( data.result ) {
+					that.vote_button.addClass('disable').prop('disabled', 'disabled');
+					that.status.show();
+				} else {
+					that.vote_button.removeClass('disable').prop('disabled', false);
+					that.status.hide();
 				}
 				
 				current_question = data;
@@ -84,6 +111,39 @@ _SURVEYS_PLAYER.prototype = {
 			}, that.timeout);
 			
 		});
+		
+	},
+	
+	save: function() {
+		
+		var that = this;
+		
+		var answer = false;
+		this.div.find('.answers input').each(function(){
+			var inp = $(this);
+			if( inp.prop('checked') ) {
+				answer = inp.val();
+			}
+		});
+		
+		if( answer !== false ) {
+		
+			this.vote_button.addClass('disable').prop('disabled', 'disabled');
+			this.div.find('.answers input').addClass('disable').prop('disabled', 'disabled');
+			this.progress.css({visibility: 'visible'});
+			
+						
+			$.post(this.action + '.json', {
+				question_id: that.block.data('id'),
+				answer_id: answer
+			}, function(data){
+				
+				that.status.slideDown();
+				that.progress.css({visibility: 'hidden'});
+				
+			});
+		
+		}
 		
 	}
 	

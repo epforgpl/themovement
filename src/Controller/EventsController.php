@@ -183,20 +183,19 @@ class EventsController extends AppController
 		    	];
 		    }
 		    
-		    if( $item->coc )
-			    $menu[] = [
-			    	'href' => 'coc',
-			    	'label' => 'Code of Conduct',
-		    	];
-		    
-		    /*
 		    if( $item->surveys ) {
 			    $menu[] = [
 				    'href' => 'surveys',
 				    'label' => 'Surveys',
 			    ];
 		    }
-		    */
+		    
+		    if( $item->coc )
+			    $menu[] = [
+			    	'href' => 'coc',
+			    	'label' => 'Code of Conduct',
+		    	];
+		    
 		    		    
 		    if( $item->registration ) {
 			    $followers_label = 'Who is going';
@@ -506,17 +505,45 @@ class EventsController extends AppController
     
     public function surveys($slug)
     {
-	 		 	   
-	    if(
-		    ( $slug ) && 
-		    ( $item = TableRegistry::get('Events')->find()->where([
-			    'Events.slug' => $slug
-		    ])->limit(1)->first() )
-	    ) {
+	 		
+	 	if(
+	    	$this->request->is('post') && 
+	    	isset( $this->request->data['question_id'] ) && 
+	    	isset( $this->request->data['answer_id'] ) 
+    	) {
 		    
-		    $this->generateMenu($item, 'surveys');
-		    $this->set('item', $item);
+		    $table = TableRegistry::get('SurveyResults');
 		    
+		    $result = $table->newEntity([
+			    'question_id' => $this->request->data['question_id'],
+			    'answer_id' => $this->request->data['answer_id'],
+		    ]);
+		    
+		    $table->save($result);
+		    
+		    $session = $this->request->session();
+		    $session->write('Events.Surveys.Questions.' . $this->request->data['question_id'], [
+			    'answer_id' => $this->request->data['answer_id'],
+		    ]);
+		    
+		    $this->set('message', 'OK');
+		    $this->set('_serialize', 'message');
+		    		    
+	    } else {
+	 	 	   
+		    if(
+			    ( $slug ) && 
+			    ( $item = TableRegistry::get('Events')->find()->where([
+				    'Events.slug' => $slug
+			    ])->limit(1)->first() )
+		    ) {
+			    
+			    
+			    $this->generateMenu($item, 'surveys');
+			    $this->set('item', $item);
+			    
+			}
+		
 		}
 		
 	}
@@ -558,6 +585,8 @@ class EventsController extends AppController
 			    'Events.slug' => $slug
 		    ])->limit(1)->first() )
 	    ) {
+		    
+		    $this->viewBuilder()->layout('survey_presenter');
 		    
 		    $this->generateMenu($item, 'surveys');
 		    $this->set('item', $item);
@@ -895,14 +924,7 @@ class EventsController extends AppController
 		    	'href' => 'people',
 		    	'label' => 'People',
 	    	];	
-	    	
-	    if( $item->coc )
-		    $menu[] = [
-		    	'href' => 'coc',
-		    	'label' => 'Code of Conduct',
-	    	];	    
 	    
-	    /*
 	    if( $item->surveys ) {
 		    
 		    $menu[] = [
@@ -911,7 +933,14 @@ class EventsController extends AppController
 		    ];
 		    		    
 	    }
-	    */
+	    
+	    if( $item->coc )
+		    $menu[] = [
+		    	'href' => 'coc',
+		    	'label' => 'Code of Conduct',
+	    	];	    
+	    
+	    
 	    	
 	    if( $this->Auth->user('role') == 'admin' ) {
 		    
@@ -990,6 +1019,33 @@ class EventsController extends AppController
 					    ],
 			    	],
 		    	]);
+		    	
+		    	$session = $this->request->session();
+		    	
+		    	$question->result = $session->read('Events.Surveys.Questions.' . $question->id);
+		    	
+		    	if( isset($this->request->query['results']) ) {
+			    	
+			    	$table = TableRegistry::get('SurveyResults');
+			    	$query = $table->find('all');
+			    	
+			    	$results = $table->find()->select([
+			    		'answer_id', 
+			    		'count' => $query->func()->count('*')
+			    	])->where([
+				    	'question_id' => $question->id,
+			    	])->group('answer_id');
+			    	
+			    	$data = [];
+			    	foreach( $results as $r ) {
+				    	$data[ $r->answer_id ] = $r->count;
+			    	}
+			    	
+			    	foreach ($question->surveys_answers as $a ) {
+				    	$a->count = array_key_exists($a->id, $data) ? $data[ $a->id ] : 0;
+			    	}
+			    	
+		    	}
 		    			    	
 	    	}
 

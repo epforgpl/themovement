@@ -12,12 +12,13 @@
 	echo $this->element('Items/Events/header', [
 		'item' => $item
 	]);
+		
 ?>
 
 <div class="row">
 	<div class="col-md-12">
 		
-		<div id="surveys_manager" data-event_id="<?= $item->id ?>" data-questions="<? echo $this->Layout->data_encode($item->surveys_questions) ?>" class="surveys_manager">
+		<div id="surveys_manager" data-event_id="<?= $item->id ?>" data-questions="<? echo $this->Layout->data_encode($item->surveys_questions) ?>" data-question_id="<?= $item->surveys_question_id ?>" class="surveys_manager">
 		
 			<header class="item_header" style="overflow: auto;">
 				<h1 class="pull-left">Surveys Managment</h1>

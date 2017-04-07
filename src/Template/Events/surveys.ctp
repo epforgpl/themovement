@@ -19,7 +19,7 @@
 			<h1 class="pull-left">Surveys</h1>			
 		</header>
 
-		<div id="surveys_player" class="surveys_player" data-event_id="<?= $item->id ?>">
+		<div id="surveys_player" class="surveys_player" data-event_id="<?= $item->id ?>" data-action="<?= $item->getUrl('surveys') ?>">
 			
 			<div class="block loading">
 				<header>
@@ -36,8 +36,14 @@
 				</ul>
 				
 				<div class="buttons">
-					<button class="btn btn-themovement">Vote</button>
+					<button class="btn btn-themovement btn-vote">Vote</button>
 				</div>
+				
+				<div class="status" style="display: none;">
+					<p>Thanks for voting!</p>
+				</div>
+				
+				<div class="progress progress-striped active" style="visibility: hidden;"><div class="progress-bar" style="width: 100%"></div></div>
 				
 			</div>
 			
