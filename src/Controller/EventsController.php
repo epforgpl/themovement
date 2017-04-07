@@ -517,6 +517,7 @@ class EventsController extends AppController
 		    $result = $table->newEntity([
 			    'question_id' => $this->request->data['question_id'],
 			    'answer_id' => $this->request->data['answer_id'],
+			    'other' => $this->request->data['other']
 		    ]);
 		    
 		    $table->save($result);
@@ -1009,7 +1010,7 @@ class EventsController extends AppController
 	    	if( $event && $event->surveys_question_id ) {
 		    	
 		    	$question = TableRegistry::get('SurveysQuestions')->get($event->surveys_question_id, [
-			    	'fields' => ['id', 'text'],
+			    	'fields' => ['id', 'text', 'others'],
 			    	'contain' => [
 				    	'SurveysAnswers' => [
 					    	'fields' => ['id', 'text', 'question_id'],
@@ -1034,6 +1035,7 @@ class EventsController extends AppController
 			    		'count' => $query->func()->count('*')
 			    	])->where([
 				    	'question_id' => $question->id,
+				    	'answer_id !=' => 0,
 			    	])->group('answer_id');
 			    	
 			    	$data = [];
